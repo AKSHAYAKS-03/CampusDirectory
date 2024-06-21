@@ -245,7 +245,7 @@
                     <input type="radio" name='treat' value="yes">Yes
                     <input type="radio" name="treat" value="no">No
                     <br>
-                    
+
                 </div>           
         </section>
 
@@ -274,3 +274,4 @@
     </div>
 </body>
 </html>
+
