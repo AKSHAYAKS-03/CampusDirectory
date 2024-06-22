@@ -5,214 +5,187 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        /* Reset default margin and padding */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif; /* Set a fallback font */
-            background-color: #f2f2f2; /* Light gray background */
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* Header styles */
-        header {
-            background-color: lightcyan; /* Green header background */
-            color: coralblack; /* White text */
-            padding: 10px 0;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: normal;
-        }
-
-        header img {
-            vertical-align: middle; /* Align the logo vertically with text */
-            margin-left: 10px; /* Add space between text and logo */
-            border-radius: 50%;
-        }
-
-        /* Main content container */
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-            border-radius: 5px; /* Rounded corners */
-        }
-
-        /* Responsive design for smaller screens */
-        @media (max-width: 600px) {
-            header {
-                padding: 15px 0;
-            }
-            header h1 {
-                font-size: 20px;
-            }
-        }
-
-        .details{
-            padding: 20px;
-            text-align: center;
-            background-color: black ;
-            border: 2px solid white;
-            color: white;
-            cursor: pointer;
-            width: 850px;
-            border-radius: 10px;
-        }
-
-        .det{
-            padding: 10px;
-        }
-
-        label{
-            padding: 20px;
-        }
-
-    </style>
+    <link rel="stylesheet" href="Personal.css">
 </head>
 <body>
     <header>
         <h1>Velammal College of Engineering & Technology <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
     </header>
-
+   
     <div class="container">
         <section>
-                <div class="details">Personal Details</div>
-                <div class="det">
+            <div class="details">Personal Details</div>
+            <div class="det">
+                <div class="input-group">
                     <label for="name">Name:</label>
                     <input type="text" name="name" placeholder="initials at last">
+                </div>
 
+                <div class="input-group">
                     <label for="aadhar">Aadhar:</label>
-                    <input type="text" name='aadhar' placeholder='ex. 1000 2000 3000'>
+                    <input type="text" name="aadhar" placeholder="ex. 1000 2000 3000">
+                </div>
 
+                <div class="input-group">
                     <label for="email">Email:</label>
                     <input type="email" name="email" placeholder="Email">
-                    <br>
-                    
-                    <label for="name">Phone number:</label>
+                </div>
+                
+                <div class="input-group">
+                    <label for="ph">Phone number:</label>
                     <input type="tel" name="ph" placeholder="ex. 9123456789">
+                </div>
 
+                <div class="input-group">
                     <label for="dob">Date of Birth:</label>
-                    <input type="date" name="dob" min="" max="" >
-                    <br>
+                    <input type="date" name="dob" min="" max="">
+                </div>
 
-                    <label for="name">Gender:</label>
-                    <input type="radio" name="gender" value="female">Female
-                    <input type="radio" name="gender" value="male">Male
-                    
-                    <label for="name">Register number:</label>
+                <div class="input-group">
+                    <label for="gender">Gender:</label>
+                    <input type="radio" name="gender" value="female">
+                    <label class="bold-label" for="gender">Female</label>
+                    <input type="radio" name="gender" value="male">
+                    <label class="bold-label" for="gender">Male</label>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg">Register number:</label>
                     <input type="text" name="reg" placeholder="ex. 9131122100100">
-                    <br>
-                    <hr>
+                </div>
 
+                <div class="input-group">
                     <label for="m_name">Mother Name:</label>
-                    <input type="text" name="m_name" placeholder="ex. AAAA S"> 
+                    <input type="text" name="m_name" placeholder="ex. AAAA S">
+                </div>
 
+                <div class="input-group">
                     <label for="m_ph">Phone number:</label>
                     <input type="tel" name="m_ph" placeholder="ex. 9123456789">
-                    <br>
+                </div>
 
-                    <label for="m_occ">Mother's Ocuupation:</label>
+                <div class="input-group">
+                    <label for="m_occ">Mother's Occupation:</label>
                     <select name="m_occ">
                         <option selected disabled>Select any one</option>
                         <option value="govt">Government</option>
-                        <option value="bussiness">Business</option>
+                        <option value="business">Business</option>
                         <option value="private">Private</option>
                         <option value="self">Self-Employed</option>
                         <option value="other">Other</option>
                         <option value="nil">NA</option>
-                    </select>    
-                    <br>
+                    </select>
+                </div>
 
+                <div class="input-group">
                     <label for="f_name">Father Name:</label>
-                    <input type="text" name="f_name" placeholder="ex. AAAA S"> 
+                    <input type="text" name="f_name" placeholder="ex. AAAA S">
+                </div>
 
+                <div class="input-group">
                     <label for="f_ph">Phone number:</label>
                     <input type="tel" name="f_ph" placeholder="ex. 9123456789">
-                    <br>
+                </div>
 
-                    <label for="f_occ">Father's Ocuupation:</label>
+                <div class="input-group">
+                    <label for="f_occ">Father's Occupation:</label>
                     <select name="f_occ">
                         <option selected disabled>Select any one</option>
                         <option value="govt">Government</option>
-                        <option value="bussiness">Business</option>
+                        <option value="business">Business</option>
                         <option value="private">Private</option>
                         <option value="self">Self-Employed</option>
                         <option value="other">Other</option>
                         <option value="nil">NA</option>
-                    </select>    
-                    <br>
+                    </select>
+                </div>
 
+                <div class="input-group">
                     <label for="income">Income:</label>
-                    <input type="number" name="income" placeholder="" min=0>
-                    <br>
+                    <input type="number" name="income" placeholder="" min="0">
+                </div>
 
+                <div class="input-group">
                     <label for="tongue">Mother Tongue:</label>
                     <select name="tongue">
                         <option value="tamil">Tamil</option>
                         <option value="hindi">Hindi</option>
                         <option value="malayalam">Malayalam</option>
-                        <option value="telegu">Telegu</option>
-                        <option value="kannadam">Kannadam</option>
+                        <option value="telugu">Telugu</option>
+                        <option value="kannada">Kannada</option>
                         <option value="english">English</option>
                         <option value="other">Other</option>
-                    </select>    
+                    </select>
+                </div>
 
+                <div class="input-group">
                     <label for="lang">Languages Known:</label>
+                    <br>
                     <option selected disabled>Select any one</option>
-                    Tamil<input type="checkbox" name="lang" value="tamil">
-                    English<input type="checkbox" name="lang" value="english">
-                    Hindi<input type="checkbox" name="lang" value="hindi">
-                    Malayalam<input type="checkbox" name="lang" value="malayalam">
-                    Telugu<input type="checkbox" name="lang" value="telugu">
-                    Kannadam<input type="checkbox" name="lang" value="kannadam">
-                    <br>
+                    <label class="bold-label">Tamil<input type="checkbox" name="lang" value="tamil"></label>
+                    <label class="bold-label">English<input type="checkbox" name="lang" value="english"></label>
+                    <label class="bold-label">Hindi<input type="checkbox" name="lang" value="hindi"></label>
+                    <label class="bold-label">Malayalam<input type="checkbox" name="lang" value="malayalam"></label>
+                    <label class="bold-label">Telugu<input type="checkbox" name="lang" value="telugu"></label>
+                    <label class="bold-label">Kannada<input type="checkbox" name="lang" value="kannada"></label>
+                </div>
 
+                <div class="input-group">
                     <label for="addr">Address:</label>
-                    <textarea name="addr" rows=4 cols=50></textarea>
-                    <br>
+                    <textarea name="addr" rows="4" cols="50"></textarea>
+                </div>
 
+                <div class="input-group">
                     <label for="native">Native:</label>
-                    <input type="text" name='native'>
-                    <label for="pin">Pin code:</label>
-                    <input type="text" name='pin' placeholder='ex. 600001'>
-                    <br>
+                    <input type="text" name="native">
+                   
+                </div>
+                <div class="input-group">
 
+                <label for="pin">Pin code:</label>
+                <input type="text" name="pin" placeholder="ex. 600001">
+               </div>
+
+                <div class="input-group">
                     <label for="doj">Date of Join:</label>
-                    <input type="date" name='doj'>
+                    <input type="date" name="doj">
+                </div>
 
+                <div class="input-group">
                     <label for="mode">Mode of Study:</label>
-                    <input type="radio" name='mode' value="day_schlr">Day-Scholar
-                    <input type="radio" name="mode" value="hostel">Hostelite
-                    <br>
+                    <input type="radio" name="mode" value="day_schlr">
+                    <label class="bold-label" for="mode">Day-Scholar</label>
+                    <input type="radio" name="mode" value="hostel">
+                    <label class="bold-label" for="mode">Hostelite</label>
+                </div>
 
-                    <label for="trans">Transport</label>
+                <div class="input-group">
+                    <label for="trans">Transport:</label>
                     <select name="trans">
                         <option selected disabled>Select any one</option>
                         <option value="c_bus">College Bus</option>
                         <option value="self">Self</option>
                         <option value="other">Others</option>
-                    </select> 
-                    <br>
-                    
+                    </select>
+                </div>
+
+                <div class="input-group">
                     <label for="grad">First Graduate:</label>
-                    <input type="radio" name='grad' value="yes">Yes
-                    <input type="radio" name="grad" value="no">No
+                    <input type="radio" name="grad" value="yes">
+                    <label class="bold-label" for="grad">Yes</label>
+                    <input type="radio" name="grad" value="no">
+                    <label class="bold-label" for="grad">No</label>
+                </div>
 
-                    <label for="quota">Quota</label>
-                    <input type="radio" name='grad' value="gq">General 
-                    <input type="radio" name="grad" value="mq">Management
-                    <br>
+                <div class="input-group">
+                    <label for="quota">Quota:</label>
+                    <input type="radio" name="quota" value="gq">
+                    <label class="bold-label" for="quota">General</label>
+                    <input type="radio" name="quota" value="mq">
+                    <label class="bold-label" for="quota">Management</label>
+                </div>
 
+                <div class="input-group">
                     <label for="community">Community:</label>
                     <select name="community">
                         <option selected disabled>Select any one</option>
@@ -224,53 +197,72 @@
                         <option value="DNC">DNC</option>
                         <option value="other">Others</option>
                     </select>
+                </div>
 
+                <div class="input-group">
                     <label for="caste">Caste:</label>
-                    <input type="text" name='caste'>
-                    <br>
+                    <input type="text" name="caste">
+                </div>
 
+                <div class="input-group">
                     <label for="schlr">Scholarship Name:</label>
                     <input type="text" name="schlr" value="nil" placeholder="if applied for any external scholarship, mention">
+                </div>
 
+                <div class="input-group">
                     <label for="p_chl">Physically Challenged:</label>
-                    <input type="radio" name='p_chl' value="yes">Yes
-                    <input type="radio" name="p_chl" value="no">No
-                    <br>
+                    <input type="radio" name="p_chl" value="yes">
+                    <label class="bold-label" for="p_chl">Yes</label>
+                    <input type="radio" name="p_chl" value="no">
+                    <label class="bold-label" for="p_chl">No</label>
+                </div>
 
+                <div class="input-group">
                     <label for="vacc">Double Vaccinated:</label>
-                    <input type="radio" name='vacc' value="yes">Yes
-                    <input type="radio" name="vacc" value="no">No
-                    
+                    <input type="radio" name="vacc" value="yes">
+                    <label class="bold-label" for="vacc">Yes</label>
+                    <input type="radio" name="vacc" value="no">
+                    <label class="bold-label" for="vacc">No</label>
+                </div>
+
+                <div class="input-group">
                     <label for="treat">Under any Treatment?</label>
-                    <input type="radio" name='treat' value="yes">Yes
-                    <input type="radio" name="treat" value="no">No
-                    <br>
-                    
-                </div>           
+                    <input type="radio" name="treat" value="yes">
+                    <label class="bold-label" for="treat">Yes</label>
+                    <input type="radio" name="treat" value="no">
+                    <label class="bold-label" for="treat">No</label>
+                </div>
+            </div>
         </section>
 
         <section>
-                <div class="details">Academic</div>
-                <div class="det">
-                    <input type="text" name="name" placeholder="Name">
+            <div class="details">Academic</div>
+            <div class="det">
+                <div class="input-group">
+                    <label for="acad_name">Name:</label>
+                    <input type="text" name="acad_name" placeholder="Name">
                 </div>
+            </div>
         </section>
 
         <section>
-                <div class="details">Extra - Curricular</div>
-                <div class="det">
-                    <input type="text" name="name" placeholder="Name">
+            <div class="details">Extra - Curricular</div>
+            <div class="det">
+                <div class="input-group">
+                    <label for="extra_name">Name:</label>
+                    <input type="text" name="extra_name" placeholder="Name">
                 </div>
+            </div>
         </section>
+    </div>
 
-        <script>
-           $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
             $(".details").click(function() {
                 // Toggle the corresponding details-content
-                $(this).next(".det").slideToggle();
+                $(this).next(".det").slideToggle("slow");
             });
         });
-        </script>
-    </div>
+    </script>
 </body>
 </html>
