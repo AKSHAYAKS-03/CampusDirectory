@@ -73,13 +73,12 @@
         margin-top: 20px;
     }
     .input-group {
-  
         margin-bottom: 10px; 
         transition:  all 1.5s;
     }
 
     .input-group:active {
-        transform: scale(1.2);
+        transform: translateX(20px);;
     }
 
     input[type="text"], input[type="tel"], input[type="email"], input[type="date"], input[type="number"], select, textarea {
