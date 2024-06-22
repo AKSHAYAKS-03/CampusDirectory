@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <h1>Velammal College of Engineering & Technology <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
+       <b><h1>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
     </header>
    
     <div class="container">
@@ -40,9 +40,9 @@
                 <div class="input-group">
                     <label for="gender">Gender:</label>
                     <input type="radio" name="gender" value="female">
-                    <label class="bold-label" for="gender">Female</label>
+                    <label class="radio-label" for="gender">Female</label>
                     <input type="radio" name="gender" value="male">
-                    <label class="bold-label" for="gender">Male</label>
+                    <label class="radio-label" for="gender">Male</label>
                 </div>
                 <br>
 
@@ -93,13 +93,15 @@
                 </div>
                 <br>
                 <div class="input-group">
-                    <label for="income">Income:</label><br>
+                    <label for="income">Annual Income:</label><br>
                     <input type="number" name="income" placeholder="" min="0" style="width: 250px ;">
                 </div>
                 <br>
                 <div class="input-group">
                     <label for="tongue">Mother Tongue:</label><br>
                     <select name="tongue" style="width: 250px ;">
+                        <option selected disabled style="">Select any one</option>
+
                         <option value="tamil">Tamil</option>
                         <option value="hindi">Hindi</option>
                         <option value="malayalam">Malayalam</option>
@@ -113,13 +115,18 @@
                 <div class="input-group">
                     <label for="lang">Languages Known:</label>
                     <br>
-                   <!-- <option selected disabled>Select any one</option>-->
-                    <label class="bold-label" >Tamil<input type="checkbox" name="lang" value="tamil"></label>
-                    <label class="bold-label" style="margin-left: -30px;">English<input type="checkbox" name="lang" value="english"></label>
-                    <label class="bold-label" style="margin-left: -30px;">Hindi<input type="checkbox" name="lang" value="hindi"></label>
-                    <label class="bold-label" style="margin-left: -30px;">Malayalam<input type="checkbox" name="lang" value="malayalam"></label>
-                    <label class="bold-label" style="margin-left: -30px;">Telugu<input type="checkbox" name="lang" value="telugu"></label>
-                    <label class="bold-label" style="margin-left: -30px;">Kannada<input type="checkbox" name="lang" value="kannada"></label>
+                    <div class="row1" style="display: flex; flex-direction: row" >
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="tamil">Tamil</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="english">English</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="hindi">Hindi</label>
+                    </div>
+                    <div class="row2" style="display: flex; flex-direction: row" >
+
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="malayalam">Malayalam</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="telugu">Telugu</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="kannada">Kannada</label>
+                    </div>
+
                 </div>
                 <br>
 
@@ -144,9 +151,9 @@
                 <div class="input-group">
                     <label for="mode">Mode of Study:</label>
                     <input type="radio" name="mode" value="day_schlr">
-                    <label class="bold-label" for="mode">Day-Scholar</label>
+                    <label class="radio-label" for="mode">Day-Scholar</label>
                     <input type="radio" name="mode" value="hostel">
-                    <label class="bold-label" for="mode">Hostelite</label>
+                    <label class="radio-label" for="mode">Hostelite</label>
                 </div>
                 <br>
 
@@ -164,18 +171,18 @@
                 <div class="input-group">
                     <label for="grad">First Graduate:</label>
                     <input type="radio" name="grad" value="yes">
-                    <label class="bold-label" for="grad">Yes</label>
+                    <label class="radio-label" for="grad">Yes</label>
                     <input type="radio" name="grad" value="no">
-                    <label class="bold-label" for="grad">No</label>
+                    <label class="radio-label" for="grad">No</label>
                 </div>
                 <br>
 
                 <div class="input-group">
                     <label for="quota">Quota:</label>
                     <input type="radio" name="quota" value="gq">
-                    <label class="bold-label" for="quota">General</label>
+                    <label class="radio-label" for="quota">General</label>
                     <input type="radio" name="quota" value="mq">
-                    <label class="bold-label" for="quota">Management</label>
+                    <label class="radio-label" for="quota">Management</label>
                 </div>
                 <br>
                 <div class="input-group">
@@ -204,34 +211,32 @@
                 <div class="input-group">
                     <label for="p_chl" style="width: 250px;">Physically Challenged:</label>
                     <input type="radio" name="p_chl" value="yes">
-                    <label class="bold-label" for="p_chl">Yes</label>
+                    <label class="radio-label" for="p_chl">Yes</label>
                     <input type="radio" name="p_chl" value="no">
-                    <label class="bold-label" for="p_chl">No</label>
+                    <label class="radio-label" for="p_chl">No</label>
                 </div>
                 <br>
 
                 <div class="input-group">
                     <label for="vacc" style="width: 250px;">Double Vaccinated:</label>
                     <input type="radio" name="vacc" value="yes">
-                    <label class="bold-label" for="vacc">Yes</label>
+                    <label class="radio-label" for="vacc">Yes</label>
                     <input type="radio" name="vacc" value="no">
-                    <label class="bold-label" for="vacc">No</label>
+                    <label class="radio-label" for="vacc">No</label>
                 </div>
                 <br>
 
                 <div class="input-group" >
                     <label for="treat" style="width: 250px;">Under any Treatment?</label>
                     <input type="radio" name="treat" value="yes">
-                    <label class="bold-label" for="treat">Yes</label>
+                    <label class="radio-label" for="treat">Yes</label>
                     <input type="radio" name="treat" value="no">
-                    <label class="bold-label" for="treat">No</label>
+                    <label class="radio-label" for="treat">No</label>
                 </div>
                 <br>
             </div>
         </section>
-
-
-
+        <br>
 
         <section>
             <div class="details">Academic</div>
@@ -246,63 +251,56 @@
                     </select>   
                 </div>
                 <div class="input-group">
-                    <label for="Institution_Name">Institution Name:</label>
+                    <label for="inst_name">Institution Name:</label>
                     <input type="text" name="inst_name" placeholder="Name">
                 </div>
                 <div class="input-group">
-                    <label for="Acdemic_Register_Number">Register Number:</label>
-                    <input type="text" name="acd_reg_no" placeholder="Reg">
+                    <label for="acd_reg_no">Register Number:</label>
+                    <input type="text" name="acd_reg_no" placeholder="" style="width: 250px">
                 </div>
                 <div class="input-group">
-                    <label for="Mode_Of_Study">Mode Of Study:</label>
-                    <select name="mode_of_study" style="width: 250px">
+                    <label for="mode_of_study">Mode Of Study:</label>
+                    <select name="mode_of_study" style="width: 180px">
                         <option selected disabled>Select any one</option>
                         <option value="SSLC">SSLC</option>
                         <option value="HSC">HSC</option>                       
                     </select>                      
+              
+                    <label for="mode_of_medium" style="margin-left: 60px;">Mode Of Medium:</label>
+                    <select name="mode_of_medium" style="width: 180px">
+                        <option selected disabled>Select any one</option>
+                        <option value="English">English</option>
+                        <option value="Tamil">Tamil</option>                       
+                    </select>                      
                 </div>
+                <div class="input-group">
+                    <label for="board">Board:</label>
+                    <select name="board" style="width: 200px">
+                        <option selected disabled>Select any one</option>
+                        <option value="SSLC">CBSE</option>
+                        <option value="State_Board">State Board</option>                       
+                        <option value="Matric">Matric</option>                       
+                        <option value="ICSE">ICSE</option>                       
 
-                <div class="input-group">
-                    <label for="Mode_Of_Medium">Mode Of Medium:</label>
-                    <select name="mode_of_medium" style="width: 250px">
-                        <option selected disabled>Select any one</option>
-                        <option value="SSLC">SSLC</option>
-                        <option value="HSC">HSC</option>                       
                     </select>                      
                 </div>
                 <div class="input-group">
-                    <label for="Board">Board:</label>
-                    <select name="board" style="width: 250px">
-                        <option selected disabled>Select any one</option>
-                        <option value="SSLC">SSLC</option>
-                        <option value="HSC">HSC</option>                       
-                    </select>                      
-                </div>
-                <div class="input-group">
-                   <label for="Total_Marks">Total Marks:</label>   <label for="Total_Obtained"  style="width: 250px ;margin-left: 295px;">Marks Obtained:</label>
-                    <input type="number" name="total_marks" placeholder="" style="width: 250px" >
-                    <input type="number" name="marks_obtained" placeholder="" style="width: 250px;margin-left: 180px;">
-                                        
+                   <label for="Total_Marks">Total Marks:</label>
+                    <input type="number" name="total_marks" placeholder="ex.400" style="width: 90px" min=0 > /
+                    <input type="number" name="marks_obtained" placeholder="ex.500" style="width: 90px;" min=0 >                                        
                 </div>
 
                 
                 <div class="input-group">
-                    <label for="Percentage">Percentage:</label>   
-                     <input type="number" name="percentage" placeholder="" style="width: 250px" >                                         
-                 </div>
-                 <div class="input-group">
-                    <label for="CutOff">Cut-Off:</label>   
-                     <input type="number" name="Cut-Off" placeholder="" style="width: 250px" >                                         
+                    <label for="Percentage">Percentage:</label>  <label for="CutOff" style="margin-left: 250px;">Cut-Off:</label>   
+                    <br>
+                     <input type="number" name="percentage" placeholder="ex.90.05" style="width: 250px" min=0 max=100>                                         
+               
+                     <input type="number" name="Cut-Off" value="-" placeholder="ex.150.7" style="width: 250px;margin-left: 135px;" min=0 max=200 >                                         
                  </div>
             </div>
         </section>
-        <br>
-
-
-
-
-
-
+        <br>    
         <section>
             <div class="details">Extra - Curricular</div>
             <div class="det">
@@ -311,8 +309,19 @@
                     <textarea name="hobbies" rows="4" cols="50"></textarea>
                 </div>
                 <div class="input-group">
-                    <label for="Certification_Courses" style="width: 250px">Certification Courses: </label>
-                    <textarea name="certification_courses" rows="4" cols="50"></textarea>
+                    <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
+                    <select name="Languages" class="certification_courses" style="width: 200px">
+                        <option selected disabled>Select any one</option>
+                        <option value="English">English</option>
+                        <option value="Tamil">Tamil</option>                       
+                    </select> 
+                    <select name="Domain" class="certification_courses" style="width: 200px;margin-left: 30px;" >
+                        <option selected disabled>Select any one</option>
+                        <option value="English">English</option>
+                        <option value="Tamil">Tamil</option>                       
+                    </select> 
+                    <textarea name="hobbies" rows="4" cols="50"></textarea>
+
                 </div>
                 <div class="input-group">
                     <label for="Interests" style="width: 250px"> Interests: </label>
@@ -327,12 +336,15 @@
                     <textarea name="ambition" rows="4" cols="50"></textarea>
                 </div>
             </div>
-        </section>
+        </section><br>
+        <center><input type="submit" value="Submit" class="submit-button"></center>
+
         <br>
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function() {            
+
             $(".details").click(function() {
                 // Toggle the corresponding details-content
                 $(this).next(".det").slideToggle("slow");
