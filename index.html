@@ -230,22 +230,101 @@
             </div>
         </section>
 
+
+
+
         <section>
             <div class="details">Academic</div>
             <div class="det">
                 <div class="input-group">
-                    <label for="acad_name">Name:</label>
-                    <input type="text" name="acad_name" placeholder="Name">
+                    <label for="acad_type">Academic Type:</label>
+                    <select name="acad_type" style="width: 250px">
+                        <option selected disabled>Select any one</option>
+                        <option value="SSLC">SSLC</option>
+                        <option value="HSC">HSC</option>
+                       
+                    </select>   
                 </div>
+                <div class="input-group">
+                    <label for="Institution_Name">Institution Name:</label>
+                    <input type="text" name="inst_name" placeholder="Name">
+                </div>
+                <div class="input-group">
+                    <label for="Acdemic_Register_Number">Register Number:</label>
+                    <input type="text" name="acd_reg_no" placeholder="Reg">
+                </div>
+                <div class="input-group">
+                    <label for="Mode_Of_Study">Mode Of Study:</label>
+                    <select name="mode_of_study" style="width: 250px">
+                        <option selected disabled>Select any one</option>
+                        <option value="SSLC">SSLC</option>
+                        <option value="HSC">HSC</option>                       
+                    </select>                      
+                </div>
+
+                <div class="input-group">
+                    <label for="Mode_Of_Medium">Mode Of Medium:</label>
+                    <select name="mode_of_medium" style="width: 250px">
+                        <option selected disabled>Select any one</option>
+                        <option value="SSLC">SSLC</option>
+                        <option value="HSC">HSC</option>                       
+                    </select>                      
+                </div>
+                <div class="input-group">
+                    <label for="Board">Board:</label>
+                    <select name="board" style="width: 250px">
+                        <option selected disabled>Select any one</option>
+                        <option value="SSLC">SSLC</option>
+                        <option value="HSC">HSC</option>                       
+                    </select>                      
+                </div>
+                <div class="input-group">
+                   <label for="Total_Marks">Total Marks:</label>   <label for="Total_Obtained"  style="width: 250px ;margin-left: 295px;">Marks Obtained:</label>
+                    <input type="number" name="total_marks" placeholder="" style="width: 250px" >
+                    <input type="number" name="marks_obtained" placeholder="" style="width: 250px;margin-left: 180px;">
+                                        
+                </div>
+
+                
+                <div class="input-group">
+                    <label for="Percentage">Percentage:</label>   
+                     <input type="number" name="percentage" placeholder="" style="width: 250px" >                                         
+                 </div>
+                 <div class="input-group">
+                    <label for="CutOff">Cut-Off:</label>   
+                     <input type="number" name="Cut-Off" placeholder="" style="width: 250px" >                                         
+                 </div>
             </div>
         </section>
         <br>
+
+
+
+
+
+
         <section>
             <div class="details">Extra - Curricular</div>
             <div class="det">
                 <div class="input-group">
-                    <label for="extra_name">Name:</label>
-                    <input type="text" name="extra_name" placeholder="Name">
+                    <label for="Hobbies" style="width: 250px">Hobbies: </label>
+                    <textarea name="hobbies" rows="4" cols="50"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="Certification_Courses" style="width: 250px">Certification Courses: </label>
+                    <textarea name="certification_courses" rows="4" cols="50"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="Interests" style="width: 250px"> Interests: </label>
+                    <textarea name="interests" rows="4" cols="50"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="Dream_Company" style="width: 250px"> Dream Company: </label>
+                    <textarea name="dream_company" rows="4" cols="50"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="Ambition" style="width: 250px">Ambition: </label>
+                    <textarea name="ambition" rows="4" cols="50"></textarea>
                 </div>
             </div>
         </section>
