@@ -36,7 +36,7 @@
         max-width: 900px;
         width: auto;
         margin: 40px auto;
-        padding: 50px;
+        padding: 20px;
         background-color: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
         border-radius: 10px; /* Rounded corners */
@@ -46,7 +46,7 @@
     .details {
         padding: 15px;
         text-align: center;
-        background-color: rgb(230, 230, 230);
+        background-color: rgb(220, 220, 220);
         border: 2px solid white;
         color: rgb(0, 0, 0);
         cursor: pointer;
@@ -59,61 +59,35 @@
     }
 
     .det {
-        padding: 60px;
+        padding: 50px;
         background-color: #f9f9f9; /* Light background for content */
         border-radius: 10px;
         margin-top: 10px;
     }
 
-
     label {
         display: inline-block;
         width: 150px;
         margin-top: 20px;
-        font-weight: bold;
-        font-size: 15px;
-        padding: 20px;
     }
 
     input[type="text"], input[type="tel"], input[type="email"], input[type="date"], input[type="number"], select, textarea {
-        width: 250px;
+        width: calc(100% - 170px);
         padding: 8px;
         margin-top: 10px;
         margin-bottom: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         display: inline-block;
-        font-weight: bold;
-
-    }
-    .input-group {
-        width: auto;
-        transition: 0.3s ease;
-    }
-    
-   /* input[type="radio"]:hover,input[type="checkbox"]:hover,input[type="text"]:hover, input[type="tel"]:hover, input[type="email"]:hover, input[type="date"]:hover, input[type="number"]:hover, select:hover, textarea:hover {
-        transform: translateY(-10px);
-    }    
-    */
-
-    .input-group:hover{
-        transform: translateY(-10px);
-
     }
 
     input[type="radio"], input[type="checkbox"] {
-        margin-left: 20px;
-        font-weight: bold;
-    }
-    .bold-label {
-        font-weight: bold;
+        margin-left: 10px;
     }
 
     textarea {
         width: calc(100% - 170px);
         resize: vertical; /* Allow vertical resizing only */
-        font-weight: bold;
-
     }
 
     @media (max-width: 600px) {
@@ -127,7 +101,5 @@
             width: 100%;
             display: block;
             margin: 5px 0;
-            font-weight: bold;
-
         }
     }
