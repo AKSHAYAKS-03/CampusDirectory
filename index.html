@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="Student.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="student.js"></script>
 </head>
 <body>
     <header>
@@ -19,7 +20,7 @@
                 <div class="input-group">
                     <label for="name">Name:</label><label for="aadhar" style="margin-left: 300px;">Aadhar:</label>
                     <br> 
-                    <input type="text" name="name" placeholder="initials at last" style="width: 300px;" required>            
+                    <input type="text" name="name" placeholder="initials at last ex. Aaaa S or Aaaa S.B" style="width: 300px;" required>            
                     <input type="text" name="aadhar" placeholder="ex. 1000 2000 3000" style="width: 250px ; margin-left: 125px;" required>
                 </div>
                 <br>
@@ -58,7 +59,7 @@
                 <div class="input-group">
                     <label for="m_name">Mother Name:</label>  <label for="m_ph" style="margin-left: 295px;">Phone number:</label>
                     <br>
-                    <input type="text" name="m_name" placeholder="ex. AAAA S" style="width: 250px ;" required>
+                    <input type="text" name="m_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width: 250px ;" required>
                 
                     <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;" required>
                 </div>
@@ -79,7 +80,7 @@
                 <div class="input-group" required>
                     <label for="f_name">Father Name:</label>  <label for="f_ph" style="width: 250px ;margin-left: 295px;">Phone number:</label>
                     <br>
-                    <input type="text" name="f_name" placeholder="ex. AAAA S" style="width: 250px" required>
+                    <input type="text" name="f_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width: 250px" required>
                     <input type="tel" name="f_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;" required>
                 </div>
                 <br>
@@ -313,29 +314,22 @@
                     <label for="Hobbies" style="width: 250px">Hobbies: </label>
                     <textarea name="hobbies" rows="4" cols="50" required></textarea>
                 </div>
+
                 <div class="input-group">
                     <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
-                    <select name="Languages" class="certification_courses" style="width: 200px" required>
-                        <option selected disabled>Select any one</option>
-                        <option value="English">English</option>
-                        <option value="Tamil">Tamil</option>                       
-                    </select> 
-                    <select name="Domain" class="certification_courses" style="width: 200px;margin-left: 30px;" required>
-                        <option selected disabled>Select any one</option>
-                        <option value="English">English</option>
-                        <option value="Tamil">Tamil</option>                       
-                    </select> 
-                    <textarea name="hobbies" rows="4" cols="50" required></textarea>
-
+                    <input type="text" name="Certification_Courses" placeholder="" style="width: 250px"> 
                 </div>
+
                 <div class="input-group">
                     <label for="Interests" style="width: 250px"> Interests: </label>
                     <textarea name="interests" rows="4" cols="50" required></textarea>
                 </div>
+
                 <div class="input-group">
                     <label for="Dream_Company" style="width: 250px"> Dream Company: </label>
                     <textarea name="dream_company" rows="4" cols="50" required></textarea>
                 </div>
+
                 <div class="input-group">
                     <label for="Ambition" style="width: 250px">Ambition: </label>
                     <textarea name="ambition" rows="4" cols="50" required></textarea>
