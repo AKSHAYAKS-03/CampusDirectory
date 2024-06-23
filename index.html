@@ -304,7 +304,7 @@
                         <label for="Programming_Language" style="width: 250px;font-size: 14px;margin-top: 40px;">Programming Language: </label>
                         <div class="input-Programming_Language">
                             <input type="text" id="Programming_Language" name="Programming_Language" placeholder="" style="width: 200px">
-                            <i id="addProgrammingLanguage" class="fas fa-plus icon" ></i>
+                            <i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left: 10px" ></i>
                     </div>
                     </div>
                     
@@ -312,7 +312,7 @@
                         <label for="Other_Courses" style="width: 250px;font-size: 14px;margin-left: 20px;margin-top: 40px;">Other Courses: </label>
                         <div class="input-Other_Courses">
                             <input type="text" id="Other_Courses" name="Other_Courses" placeholder="" style="width: 200px;margin-left: 20px;">
-                            <i id="addOtherCourses" class="fas fa-plus icon"></i>
+                            <i id="addOtherCourses" class="fas fa-plus icon" style="margin-left: 10px"></i>
                         </div>
                     </div>
                 </div>
@@ -350,11 +350,11 @@
         });
     
         $('#addProgrammingLanguage').click(function() {
-            $(this).parent().after('<div class="input-Programming_Language"><input type="text" name="Programming_Language" placeholder="" style="width: 200px; margin-top: 5px;"><i class="fas fa-minus icon removeProgrammingLanguage" style="margin-left: 5px;"></i></div>');
+            $(this).parent().after('<div class="input-Programming_Language"><input type="text" name="Programming_Language" placeholder="" style="width: 200px; margin-top: 5px;"><i class="fas fa-minus icon removeProgrammingLanguage" style="margin-left: 10px;"></i></div>');
         });
         
         $('#addOtherCourses').click(function() {
-            $(this).parent().after('<div class="input-Other_Courses"><input type="text" name="Other_Courses" placeholder="" style="width: 200px; margin-top: 5px;margin-left:20px"><i class="fas fa-minus icon removeOtherCourses" style="margin-left:5px;"></i></div>');
+            $(this).parent().after('<div class="input-Other_Courses"><input type="text" name="Other_Courses" placeholder="" style="width: 200px; margin-top: 5px;margin-left:20px"><i class="fas fa-minus icon removeOtherCourses" style="margin-left:10px;"></i></div>');
         });
     
         $('#addDream_Company').click(function() {

@@ -14,6 +14,7 @@
     /* Header styles */
     header {
         background-color: rgb(95, 158, 164); /* Green header background */
+        box-shadow: 5px 5px 20px #a7a5a5;
         color:  rgb(255, 255, 255); /* White text */
         padding: 10px 0;
         position:sticky;
