@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
     <link rel="stylesheet" href="Student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="student.js"></script>
 </head>
@@ -319,7 +321,22 @@
 
                 <div class="input-group">
                     <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
-                    <input type="text" name="Certification_Courses" placeholder="" style="width: 250px"> 
+            
+                    <div class="input-row">
+                        <label for="Programming_Language" style="width: 250px;font-size: 14px;">Programming Language: </label>
+                        <div class="input-container">
+                            <input type="text" id="Programming_Language" name="Programming_Language" placeholder="" style="width: 250px">
+                            <i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left: 10px"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="input-row">
+                        <label for="Other_Courses" style="width: 250px;font-size: 14px;">Other Courses: </label>
+                        <div class="input-container">
+                            <input type="text" id="Other_Courses" name="Other_Courses" placeholder="" style="width: 250px">
+                            <i id="addOtherCourses" class="fas fa-plus icon"  style="margin-left: 10px"></i>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="input-group">
@@ -328,9 +345,9 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="Dream_Company" style="width: 250px"> Dream Company: </label>
-                    <textarea name="dream_company" rows="4" cols="50" required></textarea>
-                </div>
+                    <label for="Dream_Company" style="width: 250px"> Dream Company: </label><br>
+                    <input type="text" id="Dream_Company" name="Dream_Company" placeholder="" style="width: 250px">
+                    <i id="addDream_Company" class="fas fa-plus icon" style="margin-left: 10px"></i>                </div>
 
                 <div class="input-group">
                     <label for="Ambition" style="width: 250px">Ambition: </label>
@@ -349,6 +366,20 @@
             $(".details").click(function() {
                 // Toggle the corresponding details-content
                 $(this).next(".det").slideToggle("slow");
+            });
+            $('#addProgrammingLanguage').click(function() {
+                $(this).parent().after('<div class="input-container"><input type="text" name="Programming_Language" placeholder="" style="width: 250px; margin-top: 5px;"></div>');
+            });
+
+            $('#addOtherCourses').click(function() {
+                $(this).parent().after('<div class="input-container"><input type="text" name="Other_Courses" placeholder="" style="width: 250px; margin-top: 5px;"></div>');
+            });
+            $('#addDream_Company').click(function() {
+                $(this).parent().after('<div class="input-container"><input type="text" id="Dream_Company" name="Dream_Company" placeholder="" style="width: 250px"></div>');
+            });
+            // Delegate event handling for dynamically added elements
+            $('.input-group').on('click', '.addMore', function() {
+                $(this).parent().after('<div class="input-container"><input type="text" name="' + $(this).siblings('input').attr('name') + '" placeholder="" style="width: 250px; margin-top: 5px;"></div>');
             });
         });
     </script>

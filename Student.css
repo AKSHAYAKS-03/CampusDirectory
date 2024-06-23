@@ -212,7 +212,16 @@
         outline: none; /* Remove default focus outline */
         box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Custom focus outline */
     }
-
+    .input-group .icon {
+        box-shadow: 1px 1px 10px rgb(190, 188, 188);
+        border-radius: 50px;
+    }
+    .input-group .icon:hover{
+        cursor: pointer;
+        box-shadow: 1px 1px 10px rgb(190, 188, 188);
+    }
+    
+    
     @media (max-width: 300px) {
         header {
             padding: 15px 0;
