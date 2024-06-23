@@ -36,15 +36,13 @@
                 </div>
                 <br>
                 <div class="input-group">
-                    <label for="dob">Date of Birth:</label><br>
-                    <input type="date" name="dob" min="" max="" style="width: 250px ;" required> 
-                </div>
-                <br>
-                <div class="input-group">
-                    <label for="gender">Gender:</label>
-                    <input type="radio" name="gender" value="female">
+                    <label for="dob">Date of Birth:</label> <label for="gender" style="margin-left: 295px;">Gender:</label><br>
+                    <input type="date" name="dob" min="" max="" style="width: 200px;" required> 
+                
+                  
+                    <input type="radio" name="gender" value="female"  id="gender-female" style="margin-left: 228px;">
                     <label class="radio-label" for="gender">Female</label>
-                    <input type="radio" name="gender" value="male">
+                    <input type="radio" name="gender" value="male" id="gender-male" style="margin-left: -30px;">
                     <label class="radio-label" for="gender">Male</label>
                 </div>
                 <br>
@@ -59,16 +57,12 @@
                 <br>
 
                 <div class="input-group">
-                    <label for="m_name">Mother Name:</label>  <label for="m_ph" style="margin-left: 295px;">Phone number:</label>
+                    <label for="m_name">Mother Name:</label>  <label for="m_ph" style="margin-left: 130px;">Phone number:</label><label for="m_occ" style="width: 250px;margin-left: 120px;">Mother's Occupation:</label>
                     <br>
-                    <input type="text" name="m_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width: 250px ;" required>
+                    <input type="text" name="m_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width:200px;" required>
                 
-                    <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;" required>
-                </div>
-                <br>
-                <div class="input-group">
-                    <label for="m_occ" style="width: 250px ;">Mother's Occupation:</label>
-                    <select name="m_occ" style="width: 250px ;" required>
+                    <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 200px ;margin-left: 60px;" required>
+                    <select name="m_occ" style="width: 200px;margin-left: 50px;" required>
                         <option selected disabled>Select any one</option>
                         <option value="govt">Government</option>
                         <option value="business">Business</option>
@@ -78,17 +72,17 @@
                         <option value="nil">NA</option>
                     </select>
                 </div>
+                <br>
+             
                 <br>
                 <div class="input-group" required>
-                    <label for="f_name">Father Name:</label>  <label for="f_ph" style="width: 250px ;margin-left: 295px;">Phone number:</label>
+                    <label for="f_name">Father Name:</label>  <label for="f_ph" style="margin-left: 130px;">Phone number:</label> <label for="f_occ" style="width: 250px;margin-left: 120px;">Father's Occupation:</label>
+
                     <br>
-                    <input type="text" name="f_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width: 250px" required>
-                    <input type="tel" name="f_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;" required>
-                </div>
-                <br>
-                <div class="input-group">
-                    <label for="f_occ" style="width: 250px ;">Father's Occupation:</label>
-                    <select name="f_occ" style="width: 250px ;" required>
+                    <input type="text" name="f_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width:200px;" required>
+                    <input type="tel" name="f_ph" placeholder="ex. 9123456789" style="width: 200px ;margin-left: 60px;" required>
+              
+                    <select name="f_occ" style="width: 200px;margin-left: 50px;" required>
                         <option selected disabled>Select any one</option>
                         <option value="govt">Government</option>
                         <option value="business">Business</option>
@@ -100,13 +94,11 @@
                 </div>
                 <br>
                 <div class="input-group">
-                    <label for="income">Annual Income:</label><br>
-                    <input type="number" name="income" placeholder="" min=0 style="width: 250px ;" required>
-                </div>
-                <br>
-                <div class="input-group">
-                    <label for="tongue">Mother Tongue:</label><br>
-                    <select name="tongue" style="width: 250px ;">
+                    <label for="income">Annual Income:</label><label for="tongue"  style="margin-left: 130px;">Mother Tongue:</label><br>
+
+                    <input type="number" name="income" placeholder="" min=0 style="width: 150px ;" required>
+               
+                    <select name="tongue" style="width: 200px ;margin-left: 110px;">
                         <option selected disabled>Select any one</option>
 
                         <option value="tamil">Tamil</option>
@@ -123,15 +115,15 @@
                     <label for="lang">Languages Known: </label> <span id="errr"></span>
                     <br>
                     <div class="row1" style="display: flex; flex-direction: row" >
-                    <label class="bold-label" ><input type="checkbox" name="lang" value="tamil">Tamil</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang" value="english">English</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang" value="hindi">Hindi</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="tamil" >Tamil</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="english" style="margin-left: -40px;">English</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="hindi" style="margin-left: -80px;">Hindi</label>
                     </div>
                     <div class="row2" style="display: flex; flex-direction: row" >
 
-                    <label class="bold-label" ><input type="checkbox" name="lang" value="malayalam">Malayalam</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang" value="telugu">Telugu</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang" value="kannada">Kannada</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="malayalam" >Malayalam</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="telugu" style="margin-left: -40px;">Telugu</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang" value="kannada" style="margin-left: -80px;">Kannada</label>
                     </div>
 
                 </div>
@@ -146,20 +138,18 @@
                     <label for="native">Native:</label><label for="pin" style="width: 250px ;margin-left: 295px;">Pin code:</label>
                     <br>
                     <input type="text" name="native" style="width: 250px">
-                    <input type="text" name="pin" placeholder="ex. 600001" style="width: 250px ;margin-left: 175px;">
+                    <input type="text" name="pin" placeholder="ex. 600001" style="width: 150px ;margin-left: 175px;">
                 </div>
                 
                 <br>
                 <div class="input-group">
-                    <label for="doj">Date of Join:</label><br>
-                    <input type="date" name="doj" style="width: 250px;" required>
-                </div>
-                <br>
-                <div class="input-group">
-                    <label for="mode">Mode of Study:</label>
-                    <input type="radio" name="mode" value="day_schlr" required>
+                    <label for="doj">Date of Join:</label><label for="mode" style="margin-left: 295px;">Mode of Study:</label><br>
+
+                    <input type="date" name="doj" style="width: 150px;" required>
+           
+                    <input type="radio" name="mode" value="day_schlr" required style="margin-left: 270px;">
                     <label class="radio-label" for="mode">Day-Scholar</label>
-                    <input type="radio" name="mode" value="hostel" required>
+                    <input type="radio" name="mode" value="hostel" required style="margin-left: -30px;">
                     <label class="radio-label" for="mode">Hostelite</label>
                 </div>
                 <br>
@@ -177,24 +167,21 @@
                 <br>
 
                 <div class="input-group">
-                    <label for="grad">First Graduate:</label>
-                    <input type="radio" name="grad" value="yes">
-                    <label class="radio-label" for="grad">Yes</label>
-                    <input type="radio" name="grad" value="no">
-                    <label class="radio-label" for="grad">No</label>
-                </div>
-                <br>
+                    <label for="grad">First Graduate:</label><label for="quota" style="margin-left: 295px;">Quota:</label><br>
 
-                <div class="input-group">
-                    <label for="quota">Quota:</label>
-                    <input type="radio" name="quota" value="gq">
+                    <input type="radio" name="grad" value="yes" style="margin-left: -1px;">
+                    <label class="radio-label" for="grad">Yes</label>
+                    <input type="radio" name="grad" value="no" style="margin-left: -80px;">
+                    <label class="radio-label" for="grad">No</label>
+              
+                    <input type="radio" name="quota" value="gq" style="margin-left: 180px;">
                     <label class="radio-label" for="quota">General</label>
-                    <input type="radio" name="quota" value="mq">
+                    <input type="radio" name="quota" value="mq" style="margin-left: -50px;">
                     <label class="radio-label" for="quota">Management</label>
                 </div>
                 <br>
                 <div class="input-group">
-                    <label for="community">Community:</label>  <label for="caste"  style="width: 250px ;margin-left: 275px;">Caste:</label>
+                    <label for="community">Community:</label>  <label for="caste"  style="width: 250px ;margin-left: 295px;">Caste:</label>
                      <br>
                     <select name="community" style="width: 250px" required>
                         <option selected disabled>Select any one</option>
@@ -207,38 +194,32 @@
                         <option value="other">Others</option>
                     </select>
 
-                    <input type="text" name="caste"  style="width: 250px ;margin-left: 175px;" required>
+                    <input type="text" name="caste"  style="width: 200px ;margin-left: 195px;" required>
                 </div>
                 <br>
 
                 <div class="input-group">
-                    <label for="schlr">Scholarship Name:</label>
-                    <input type="text" name="schlr" value="nil" placeholder="if applied for any external scholarship, mention">
+                    <label for="schlr">Scholarship Name:</label><br>
+                    <input type="text" name="schlr" placeholder="if applied for any external scholarship, mention" style="width: 500px;">
                 </div>
                 <br>
                 <div class="input-group">
-                    <label for="p_chl" style="width: 250px;">Physically Challenged:</label>
-                    <input type="radio" name="p_chl" value="yes">
+                    <label for="p_chl" style="width: 250px;">Physically Challenged:</label><label for="vacc" style="width: 250px;">Double Vaccinated:</label><label for="treat" style="width: 250px;">Under any Treatment?</label>
+
+                    <br>
+                    <input type="radio" name="p_chl" value="yes" style="margin-left: -1px;">
                     <label class="radio-label" for="p_chl">Yes</label>
-                    <input type="radio" name="p_chl" value="no">
+                    <input type="radio" name="p_chl" value="no" style="margin-left: -70px;">
                     <label class="radio-label" for="p_chl">No</label>
-                </div>
-                <br>
-
-                <div class="input-group">
-                    <label for="vacc" style="width: 250px;">Double Vaccinated:</label>
-                    <input type="radio" name="vacc" value="yes">
-                    <label class="radio-label" for="vacc">Yes</label>
-                    <input type="radio" name="vacc" value="no">
+       
+                    <input type="radio" name="vacc" value="yes" style="margin-left: -30px;">
+                    <label class="radio-label" for="vacc" >Yes</label>
+                    <input type="radio" name="vacc" value="no" style="margin-left: -70px;">
                     <label class="radio-label" for="vacc">No</label>
-                </div>
-                <br>
-
-                <div class="input-group" >
-                    <label for="treat" style="width: 250px;">Under any Treatment?</label>
-                    <input type="radio" name="treat" value="yes">
+   
+                    <input type="radio" name="treat" value="yes" style="margin-left: -30px;">
                     <label class="radio-label" for="treat">Yes</label>
-                    <input type="radio" name="treat" value="no">
+                    <input type="radio" name="treat" value="no" style="margin-left: -70px;">
                     <label class="radio-label" for="treat">No</label>
                 </div>
                 <br>
@@ -262,10 +243,7 @@
                         <label for="inst_name">Institution Name:</label>
                         <input type="text" id="inst_name" name="inst_name" placeholder="Name" disabled required>
                     </div>
-                    <div class="input-group">
-                        <label for="acd_reg_no">Register Number:</label>
-                        <input type="text" id="acd_reg_no" name="acd_reg_no" placeholder="" style="width: 250px" disabled required>
-                    </div>
+                  
                     <div class="input-group">
                         <label for="mode_of_study">Mode Of Study:</label>
                         <select id="mode_of_study" name="mode_of_study" style="width: 180px" disabled required>
@@ -300,8 +278,8 @@
                         <label for="percentage">Percentage:</label>
                         <label for="cut_off" style="margin-left: 250px;">Cut-Off:</label>
                         <br>
-                        <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 250px" min="0" max="100" step="0.01" disabled required>
-                        <input type="number" id="cut_off" name="cut_off" value="-" placeholder="ex.150.7" style="width: 250px;margin-left: 135px;" min="0" max="200" disabled required>
+                        <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01" disabled required>
+                        <input type="number" id="cut_off" name="cut_off" value="-" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
                     </div>
                     <input type="hidden" id="storedData" name="storedData">
                     <button id="submitBtn" type="button">Done</button>
@@ -315,32 +293,33 @@
             <div class="details"><h3>Extra - Curricular</h3></div>
             <div class="det">
                 <div class="input-group">
-                    <label for="Hobbies" style="width: 250px">Hobbies: </label>
-                    <textarea name="hobbies" rows="4" cols="50" required></textarea>
+                    <label for="Hobbies" style="width: 250px">Hobbies: </label><br>
+                    <textarea name="hobbies" rows="2" cols="30"  style="width:450px"></textarea>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group" style="display:-webkit-flex">
                     <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
             
-                    <div class="input-row">
-                        <label for="Programming_Language" style="width: 250px;font-size: 14px;">Programming Language: </label>
+                    <div class="input-row" >
+                        <label for="Programming_Language" style="width: 250px;font-size: 14px;margin-top: 40px;">Programming Language: </label>
                         <div class="input-Programming_Language">
-                            <input type="text" id="Programming_Language" name="Programming_Language" placeholder="" style="width: 250px">
-                            <i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left: 10px"></i>
+                            <input type="text" id="Programming_Language" name="Programming_Language" placeholder="" style="width: 200px">
+                            <i id="addProgrammingLanguage" class="fas fa-plus icon" ></i>
+                    </div>
                     </div>
                     
                     <div class="input-row">
-                        <label for="Other_Courses" style="width: 250px;font-size: 14px;">Other Courses: </label>
+                        <label for="Other_Courses" style="width: 250px;font-size: 14px;margin-left: 20px;margin-top: 40px;">Other Courses: </label>
                         <div class="input-Other_Courses">
-                            <input type="text" id="Other_Courses" name="Other_Courses" placeholder="" style="width: 250px">
-                            <i id="addOtherCourses" class="fas fa-plus icon"  style="margin-left: 10px"></i>
+                            <input type="text" id="Other_Courses" name="Other_Courses" placeholder="" style="width: 200px;margin-left: 20px;">
+                            <i id="addOtherCourses" class="fas fa-plus icon"></i>
                         </div>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label for="Interests" style="width: 250px"> Interests: </label>
-                    <textarea name="interests" rows="4" cols="50" required></textarea>
+                    <label for="Interests" style="width: 250px"> Interests: </label><br>
+                    <textarea name="interests" rows="4" cols="30" style="width: 450px" required></textarea>
                 </div>
 
                 <div class="input-group">
@@ -350,8 +329,8 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="Ambition" style="width: 250px">Ambition: </label>
-                    <textarea name="ambition" rows="4" cols="50" required></textarea>
+                    <label for="Ambition" style="width: 250px">Ambition: </label><br>
+                    <textarea name="ambition" rows="4" cols="30" style="width: 450px" required></textarea>
                 </div>
             </div>
         </section><br>
@@ -371,11 +350,11 @@
         });
     
         $('#addProgrammingLanguage').click(function() {
-            $(this).parent().after('<div class="input-Programming_Language"><input type="text" name="Programming_Language" placeholder="" style="width: 250px; margin-top: 5px;"><i class="fas fa-minus icon removeProgrammingLanguage" style="margin-left: 10px;"></i></div>');
+            $(this).parent().after('<div class="input-Programming_Language"><input type="text" name="Programming_Language" placeholder="" style="width: 200px; margin-top: 5px;"><i class="fas fa-minus icon removeProgrammingLanguage" style="margin-left: 10px;"></i></div>');
         });
         
         $('#addOtherCourses').click(function() {
-            $(this).parent().after('<div class="input-Other_Courses"><input type="text" name="Other_Courses" placeholder="" style="width: 250px; margin-top: 5px;"><i class="fas fa-minus icon removeOtherCourses" style="margin-left: 10px;"></i></div>');
+            $(this).parent().after('<div class="input-Other_Courses"><input type="text" name="Other_Courses" placeholder="" style="width: 200px; margin-top: 5px;margin-left:20px"><i class="fas fa-minus icon removeOtherCourses" style="margin-left: 10px;"></i></div>');
         });
     
         $('#addDream_Company').click(function() {

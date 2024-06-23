@@ -14,13 +14,14 @@
     /* Header styles */
     header {
         background-color: rgb(95, 158, 164); /* Green header background */
-        color: white; /* White text */
+        color:  rgb(255, 255, 255); /* White text */
         padding: 10px 0;
         position:sticky;
         top:0;
         text-align: center;
         z-index: 1;
-        box-shadow: 5px 5px 20px #7f7b7b; /* Light gray background */
+        /*box-shadow: 5px 5px 20px #7f7b7b; */
+
 /* Add a subtle shadow */
     }
 
@@ -34,7 +35,7 @@
     header img {
         vertical-align: middle; /* Align the logo vertically with text */
         margin-left: 10px; /* Add space between text and logo */
-        border-radius: 50%;
+        border-radius: 70px;
     }
 
     /* Main content container */
@@ -111,11 +112,14 @@
     input[type="radio"] {
         margin-left: 30px;
     }
+    .input-group:hover{
+
+    }
    
 
     input[type="text"]:focus, input[type="tel"]:focus, input[type="email"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
         outline: none;
-        border-color: #3498db;
+        border-color:rgb(95, 158, 164);;
     }   
     textarea {
         width: calc(100% - 170px);
@@ -219,7 +223,11 @@
         color: rgb(95, 158, 164);
         cursor: pointer;
     }
-    
+ 
+    .icon {
+        font-size: 18px;
+        cursor: pointer;
+    }
     
     @media (max-width: 300px) {
         header {
