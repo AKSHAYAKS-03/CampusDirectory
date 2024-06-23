@@ -20,6 +20,8 @@
         top:0;
         text-align: center;
         z-index: 1;
+        box-shadow: 5px 5px 20px #7f7b7b; /* Light gray background */
+/* Add a subtle shadow */
     }
 
 
@@ -212,13 +214,10 @@
         outline: none; /* Remove default focus outline */
         box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Custom focus outline */
     }
-    .input-group .icon {
-        box-shadow: 1px 1px 10px rgb(190, 188, 188);
-        border-radius: 50px;
-    }
+  
     .input-group .icon:hover{
+        color: rgb(95, 158, 164);
         cursor: pointer;
-        box-shadow: 1px 1px 10px rgb(190, 188, 188);
     }
     
     

@@ -247,7 +247,7 @@
         <br>
 
         <section>
-            <div class="details">Academic</div>
+            <div class="details"><h3>Academic</h3></div>
             <div class="det">
                 <!--<form id="academicForm" method="post" action="Academic.php">-->
                     <div class="input-group">
@@ -312,7 +312,7 @@
         </section>
         <br>    
         <section>
-            <div class="details">Extra - Curricular</div>
+            <div class="details"><h3>Extra - Curricular</h3></div>
             <div class="det">
                 <div class="input-group">
                     <label for="Hobbies" style="width: 250px">Hobbies: </label>
@@ -324,15 +324,14 @@
             
                     <div class="input-row">
                         <label for="Programming_Language" style="width: 250px;font-size: 14px;">Programming Language: </label>
-                        <div class="input-container">
+                        <div class="input-Programming_Language">
                             <input type="text" id="Programming_Language" name="Programming_Language" placeholder="" style="width: 250px">
                             <i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left: 10px"></i>
-                        </div>
                     </div>
                     
                     <div class="input-row">
                         <label for="Other_Courses" style="width: 250px;font-size: 14px;">Other Courses: </label>
-                        <div class="input-container">
+                        <div class="input-Other_Courses">
                             <input type="text" id="Other_Courses" name="Other_Courses" placeholder="" style="width: 250px">
                             <i id="addOtherCourses" class="fas fa-plus icon"  style="margin-left: 10px"></i>
                         </div>
@@ -347,7 +346,8 @@
                 <div class="input-group">
                     <label for="Dream_Company" style="width: 250px"> Dream Company: </label><br>
                     <input type="text" id="Dream_Company" name="Dream_Company" placeholder="" style="width: 250px">
-                    <i id="addDream_Company" class="fas fa-plus icon" style="margin-left: 10px"></i>                </div>
+                    <i id="addDream_Company" class="fas fa-plus icon" style="margin-left: 10px"></i>              
+                </div>
 
                 <div class="input-group">
                     <label for="Ambition" style="width: 250px">Ambition: </label>
@@ -360,28 +360,45 @@
         <br>
     </div>
 
-    <script>
-        $(document).ready(function() {            
+    <script>$(document).ready(function() {    
 
-            $(".details").click(function() {
-                // Toggle the corresponding details-content
-                $(this).next(".det").slideToggle("slow");
-            });
-            $('#addProgrammingLanguage').click(function() {
-                $(this).parent().after('<div class="input-container"><input type="text" name="Programming_Language" placeholder="" style="width: 250px; margin-top: 5px;"></div>');
-            });
-
-            $('#addOtherCourses').click(function() {
-                $(this).parent().after('<div class="input-container"><input type="text" name="Other_Courses" placeholder="" style="width: 250px; margin-top: 5px;"></div>');
-            });
-            $('#addDream_Company').click(function() {
-                $(this).parent().after('<div class="input-container"><input type="text" id="Dream_Company" name="Dream_Company" placeholder="" style="width: 250px"></div>');
-            });
-            // Delegate event handling for dynamically added elements
-            $('.input-group').on('click', '.addMore', function() {
-                $(this).parent().after('<div class="input-container"><input type="text" name="' + $(this).siblings('input').attr('name') + '" placeholder="" style="width: 250px; margin-top: 5px;"></div>');
-            });
+        let DreamCompanyCount = 1;
+        const MaxDreamCompanyCount = 3;
+    
+        $(".details").click(function() {
+            // Toggle the corresponding details-content
+            $(this).next(".det").slideToggle("slow");
         });
+    
+        $('#addProgrammingLanguage').click(function() {
+            $(this).parent().after('<div class="input-Programming_Language"><input type="text" name="Programming_Language" placeholder="" style="width: 250px; margin-top: 5px;"><i class="fas fa-minus icon removeProgrammingLanguage" style="margin-left: 10px;"></i></div>');
+        });
+        
+        $('#addOtherCourses').click(function() {
+            $(this).parent().after('<div class="input-Other_Courses"><input type="text" name="Other_Courses" placeholder="" style="width: 250px; margin-top: 5px;"><i class="fas fa-minus icon removeOtherCourses" style="margin-left: 10px;"></i></div>');
+        });
+    
+        $('#addDream_Company').click(function() {
+            if (DreamCompanyCount < MaxDreamCompanyCount) {
+                $(this).parent().after('<div class="input-Dream_Company"><input type="text" id="Dream_Company" name="Dream_Company" placeholder="" style="width: 250px;"><i class="fas fa-minus icon removeDreamCompany" style="margin-left: 10px;"></i></div>');
+                DreamCompanyCount++;
+            }
+        });
+    
+        $('.det').on('click', '.removeProgrammingLanguage', function() {
+            $(this).parent().remove();
+        });
+    
+        $('.det').on('click', '.removeOtherCourses', function() {
+            $(this).parent().remove();
+        });
+    
+        $('.det').on('click', '.removeDreamCompany', function() {
+            $(this).parent().remove();
+            DreamCompanyCount--;
+        });
+    });
+    
     </script>
 </body>
 </html>
