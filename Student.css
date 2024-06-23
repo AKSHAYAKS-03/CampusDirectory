@@ -19,6 +19,7 @@
         position:sticky;
         top:0;
         text-align: center;
+        z-index: 1;
     }
 
 
@@ -80,6 +81,7 @@
         display: inline-block;
         width: 150px;
         margin-top: 20px;
+        font-size: 18px;
     }
     input[type="text"]:active, input[type="tel"]:active, input[type="email"]:active, input[type="date"]:active, input[type="number"]:active, textarea:active{
         transform: scale(1.2);
@@ -98,14 +100,14 @@
     }
     .bold-label{
         margin-left: 50px;
-        font-size: 15px;
+        font-size: 16px;
         display: block;
     }
     input[type="checkbox"] {
         margin-right: 10px;
     }
     input[type="radio"] {
-        margin-left: -20px;
+        margin-left: 30px;
     }
    
 
@@ -116,6 +118,39 @@
     textarea {
         width: calc(100% - 170px);
         resize: vertical; /* Allow vertical resizing only */
+    }
+
+    .fixed-input {
+        position: relative;
+        display: inline-block;
+        width: 200px; 
+    }
+    .fixed-text {
+        position: absolute;
+        left: 20px;
+        top: 19px;
+        width: 20px; 
+        text-align: center; 
+        pointer-events: none; 
+        color: black;
+        font-family: Arial, sans-serif; 
+        font-size: 13.5px; 
+    }
+    .fixed-input input {
+        width: calc(100% - 50px); 
+        padding-left: 50px; 
+        box-sizing: border-box; 
+    }
+
+    .input-group label.required::before {
+        content: '*';
+        color: red;
+        margin-left: 5px;
+        padding: 2px;
+    }
+
+    #errr{
+        color:red;      
     }
 
     /* Submit Button Styles */

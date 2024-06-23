@@ -4,37 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
+    <link rel="stylesheet" href="Student.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="Personal.css">
+    <script src="student.js"></script>
 </head>
 <body>
     <header>
-       <b><h1>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
+        <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
     </header>
    
     <div class="container">
         <section>
-            <div class="details">Personal Details</div>
+            <div class="details"><h3>Personal Details</h3></div>
             <div class="det">
                 <div class="input-group">
                     <label for="name">Name:</label><label for="aadhar" style="margin-left: 300px;">Aadhar:</label>
                     <br> 
-                    <input type="text" name="name" placeholder="initials at last" style="width: 300px;">            
-                    <input type="text" name="aadhar" placeholder="ex. 1000 2000 3000" style="width: 250px ; margin-left: 125px;">
+                    <input type="text" name="name" placeholder="initials at last ex. Aaaa S or Aaaa S.B" style="width: 300px;" required>            
+                    <input type="text" name="aadhar" placeholder="ex. 1000 2000 3000" style="width: 250px ; margin-left: 125px;" required>
                 </div>
                 <br>
 
                 <div class="input-group">
                     <label for="email">Email:</label> <label for="ph" style="margin-left: 295px;">Phone number:</label>
                     <br>
-                    <input type="email" name="email" placeholder="Email" style="width: 250px ;">
+                    <input type="email" name="email" placeholder="Email" style="width: 250px ;" required>
               
-                    <input type="tel" name="ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;">
+                    <input type="tel" name="ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;" required>
                 </div>
                 <br>
                 <div class="input-group">
                     <label for="dob">Date of Birth:</label><br>
-                    <input type="date" name="dob" min="" max="" style="width: 250px ;">
+                    <input type="date" name="dob" min="" max="" style="width: 250px ;" required> 
                 </div>
                 <br>
                 <div class="input-group">
@@ -48,20 +49,24 @@
 
                 <div class="input-group">
                     <label for="reg">Register number:</label><br>
-                    <input type="text" name="reg" placeholder="ex. 9131122100100" style="width: 250px ;">
+                    <div class="fixed-input">
+                        <span class="fixed-text">9131</span>
+                        <input type="text" id="reg" name="reg" placeholder="ex. 22100100">
+                    </div>
                 </div>
                 <br>
+
                 <div class="input-group">
                     <label for="m_name">Mother Name:</label>  <label for="m_ph" style="margin-left: 295px;">Phone number:</label>
                     <br>
-                    <input type="text" name="m_name" placeholder="ex. AAAA S" style="width: 250px ;">
+                    <input type="text" name="m_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width: 250px ;" required>
                 
-                    <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;">
+                    <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;" required>
                 </div>
                 <br>
                 <div class="input-group">
                     <label for="m_occ" style="width: 250px ;">Mother's Occupation:</label>
-                    <select name="m_occ" style="width: 250px ;">
+                    <select name="m_occ" style="width: 250px ;" required>
                         <option selected disabled>Select any one</option>
                         <option value="govt">Government</option>
                         <option value="business">Business</option>
@@ -72,16 +77,16 @@
                     </select>
                 </div>
                 <br>
-                <div class="input-group">
+                <div class="input-group" required>
                     <label for="f_name">Father Name:</label>  <label for="f_ph" style="width: 250px ;margin-left: 295px;">Phone number:</label>
                     <br>
-                    <input type="text" name="f_name" placeholder="ex. AAAA S" style="width: 250px">
-                    <input type="tel" name="f_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;">
+                    <input type="text" name="f_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width: 250px" required>
+                    <input type="tel" name="f_ph" placeholder="ex. 9123456789" style="width: 250px ;margin-left: 175px;" required>
                 </div>
                 <br>
                 <div class="input-group">
                     <label for="f_occ" style="width: 250px ;">Father's Occupation:</label>
-                    <select name="f_occ" style="width: 250px ;">
+                    <select name="f_occ" style="width: 250px ;" required>
                         <option selected disabled>Select any one</option>
                         <option value="govt">Government</option>
                         <option value="business">Business</option>
@@ -94,13 +99,13 @@
                 <br>
                 <div class="input-group">
                     <label for="income">Annual Income:</label><br>
-                    <input type="number" name="income" placeholder="" min="0" style="width: 250px ;">
+                    <input type="number" name="income" placeholder="" min=0 style="width: 250px ;" required>
                 </div>
                 <br>
                 <div class="input-group">
                     <label for="tongue">Mother Tongue:</label><br>
                     <select name="tongue" style="width: 250px ;">
-                        <option selected disabled style="">Select any one</option>
+                        <option selected disabled>Select any one</option>
 
                         <option value="tamil">Tamil</option>
                         <option value="hindi">Hindi</option>
@@ -113,7 +118,7 @@
                 </div>
                 <br>
                 <div class="input-group">
-                    <label for="lang">Languages Known:</label>
+                    <label for="lang">Languages Known: </label> <span id="errr"></span>
                     <br>
                     <div class="row1" style="display: flex; flex-direction: row" >
                     <label class="bold-label" ><input type="checkbox" name="lang" value="tamil">Tamil</label>
@@ -132,7 +137,7 @@
 
                 <div class="input-group">
                     <label for="addr">Address:</label>
-                    <textarea name="addr" rows="4" cols="50"></textarea>
+                    <textarea name="addr" rows="4" cols="50" required></textarea>
                 </div>
                 <br>
                 <div class="input-group">
@@ -145,25 +150,26 @@
                 <br>
                 <div class="input-group">
                     <label for="doj">Date of Join:</label><br>
-                    <input type="date" name="doj" style="width: 250px;">
+                    <input type="date" name="doj" style="width: 250px;" required>
                 </div>
                 <br>
                 <div class="input-group">
                     <label for="mode">Mode of Study:</label>
-                    <input type="radio" name="mode" value="day_schlr">
+                    <input type="radio" name="mode" value="day_schlr" required>
                     <label class="radio-label" for="mode">Day-Scholar</label>
-                    <input type="radio" name="mode" value="hostel">
+                    <input type="radio" name="mode" value="hostel" required>
                     <label class="radio-label" for="mode">Hostelite</label>
                 </div>
                 <br>
 
                 <div class="input-group">
                     <label for="trans">Transport:</label>
-                    <select name="trans" style="width: 250px ;">
+                    <select name="trans" style="width: 250px ;" required>
                         <option selected disabled>Select any one</option>
                         <option value="c_bus">College Bus</option>
                         <option value="self">Self</option>
                         <option value="other">Others</option>
+                        <option value="NA">NA (if hostel)</option>
                     </select>
                 </div>
                 <br>
@@ -188,7 +194,7 @@
                 <div class="input-group">
                     <label for="community">Community:</label>  <label for="caste"  style="width: 250px ;margin-left: 275px;">Caste:</label>
                      <br>
-                    <select name="community" style="width: 250px">
+                    <select name="community" style="width: 250px" required>
                         <option selected disabled>Select any one</option>
                         <option value="OC">OC</option>
                         <option value="BC">BC</option>
@@ -199,7 +205,7 @@
                         <option value="other">Others</option>
                     </select>
 
-                    <input type="text" name="caste"  style="width: 250px ;margin-left: 175px;">
+                    <input type="text" name="caste"  style="width: 250px ;margin-left: 175px;" required>
                 </div>
                 <br>
 
@@ -306,34 +312,27 @@
             <div class="det">
                 <div class="input-group">
                     <label for="Hobbies" style="width: 250px">Hobbies: </label>
-                    <textarea name="hobbies" rows="4" cols="50"></textarea>
+                    <textarea name="hobbies" rows="4" cols="50" required></textarea>
                 </div>
+
                 <div class="input-group">
                     <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
-                    <select name="Languages" class="certification_courses" style="width: 200px">
-                        <option selected disabled>Select any one</option>
-                        <option value="English">English</option>
-                        <option value="Tamil">Tamil</option>                       
-                    </select> 
-                    <select name="Domain" class="certification_courses" style="width: 200px;margin-left: 30px;" >
-                        <option selected disabled>Select any one</option>
-                        <option value="English">English</option>
-                        <option value="Tamil">Tamil</option>                       
-                    </select> 
-                    <textarea name="hobbies" rows="4" cols="50"></textarea>
-
+                    <input type="text" name="Certification_Courses" placeholder="" style="width: 250px"> 
                 </div>
+
                 <div class="input-group">
                     <label for="Interests" style="width: 250px"> Interests: </label>
-                    <textarea name="interests" rows="4" cols="50"></textarea>
+                    <textarea name="interests" rows="4" cols="50" required></textarea>
                 </div>
+
                 <div class="input-group">
                     <label for="Dream_Company" style="width: 250px"> Dream Company: </label>
-                    <textarea name="dream_company" rows="4" cols="50"></textarea>
+                    <textarea name="dream_company" rows="4" cols="50" required></textarea>
                 </div>
+
                 <div class="input-group">
                     <label for="Ambition" style="width: 250px">Ambition: </label>
-                    <textarea name="ambition" rows="4" cols="50"></textarea>
+                    <textarea name="ambition" rows="4" cols="50" required></textarea>
                 </div>
             </div>
         </section><br>
