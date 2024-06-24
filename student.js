@@ -572,19 +572,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Validate each field
             const hobbies = document.getElementById('Hobbies');
-            if (hobbies && !validateField(hobbies)) isValid = false;
+            if (hobbies && !validateField(hobbies)) 
+                isValid = false;
             else if (hobbies) {
                 console.log("Hobbies: " + hobbies.value);
             }
 
             const interest = document.getElementById('Interest');
-            if (interest && !validateField(interest)) isValid = false;
+            if (interest && !validateField(interest)) 
+                isValid = false;
             else if (interest) {
                 console.log("Interest: " + interest.value);
             }
 
             const ambition = document.getElementById('Ambition');
-            if (ambition && !validateField(ambition)) isValid = false;
+            if (ambition && !validateField(ambition)) 
+                isValid = false;
             else if (ambition) {
                 console.log("Ambition: " + ambition.value);
             }
@@ -664,9 +667,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
 
-
-
-// final check
+        // final check
 
         finalSubmitBtn.addEventListener("click", function(event) {
             event.preventDefault();
@@ -678,8 +679,12 @@ document.addEventListener("DOMContentLoaded", function() {
     
             if (isPersonalValid && isExtraValid) {
                 form.submit();
-            } else {
+            } 
+            else if(!isPersonalValid) {
                 document.getElementById('personal-info').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            else {
+                document.getElementById('extra-curr').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });    
 });
