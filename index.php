@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // personal
-    $roll_no = '22CSEB109';
+    $roll_no = $_POST['roll_no'];;
     $name = $_POST['name'];
     $aadhar = $_POST['aadhar'];
     $email = $_POST['email'];
@@ -186,7 +186,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Execute the statement
         if ($stmt->execute()) {
-            echo("New record created successfully");
+            header("Location: Student_View.php?value=" . urlencode($roll_no)); 
+            exit();
         } else {
             echo "Error: " . $stmt->error;
         }

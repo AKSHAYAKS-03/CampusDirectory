@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const r_no = params.get('value');
+
+            if (r_no) {
+                // Display the value on the page
+                document.getElementById('roll_no').innerText = r_no;
+                document.getElementById('roll_no').value = r_no;
+            } else {
+                document.getElementById('roll_no').innerText = 'No value received.';
+            }
+        });
+    </script>
     <script src="student.js"></script>
 </head>
 <body>
@@ -38,7 +52,7 @@
                 <br>
                 <div class="input-group">
                     <label for="dob">Date of Birth:</label> <label for="gender" style="margin-left: 295px;">Gender:</label><br>
-                    <input type="date" name="dob" min="" max="" style="width: 200px;" required> 
+                    <input type="date" name="dob" style="width: 200px;" required> 
                 
                   
                     <input type="radio" name="gender" value="2"  id="gender-female" style="margin-left: 228px;" required>
@@ -290,7 +304,7 @@
                         <label for="cut_off" style="margin-left: 250px;">Cut-Off:</label>
                         <br>
                         <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01" disabled required>
-                        <input type="number" id="cut_off" name="cut_off" value="-" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
+                        <input type="number" id="cut_off" name="cut_off" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
                     </div>
                     <input type="hidden" id="storedData" name="storedData">
                     <button id="submitBtn" type="button">Done</button>
@@ -343,11 +357,11 @@
                 </div>
             </div>
         </section><br>
-        <center><button class="submit-button" id="FinalSubmit" type="button">Submit</button></center>
-
-        <br>
+        <center><button class="submit-button" id="FinalSubmit" type="button">Submit</button></center>        
+        <input type="hidden" id="roll_no" name="roll_no" value="">
     </div>
     </form>
+
     
     <script>$(document).ready(function() {    
         $(".details").click(function() {
