@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate PDF from HTML</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #content {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    
+</head>
+<body>
+    <div id="content">
+        <h1>PDF Content</h1>
+        <p>This is the content that will be included in the PDF.</p>
+    </div>
+
+    <button id="generate-pdf" onclick="generatePDF()">Generate PDF</button>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('content');
+
+            html2pdf()
+                .from(element)
+                .save();
+        }
+    </script>
+</body>
+</html>
