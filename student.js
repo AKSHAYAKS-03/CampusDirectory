@@ -152,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Date of Join changed:", doj.value);
     });
 
+<<<<<<< HEAD
 
     caste.addEventListener("change", function() {
         var caste_value = caste.value.trim();
@@ -165,6 +166,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
 
 
+=======
+>>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
     function validate_personal() {
         var flag = true;
 
@@ -273,8 +276,20 @@ document.addEventListener("DOMContentLoaded", function() {
             doj.style.borderColor = "";
         }
     
+<<<<<<< HEAD
         var caste_value = caste.value.trim();
         if (caste_value === '') {
+=======
+        var addr_value = addr.value.trim();
+        if (addr_value==='') {
+            addr.style.borderColor = "red";
+            flag = false;
+        } else {
+            addr.style.borderColor = "";
+        }
+    
+        if (caste.value==='') {
+>>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
             caste.style.borderColor = "red";
             flag = false;
         } else {
@@ -556,6 +571,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
 
+<<<<<<< HEAD
         
         
         
@@ -664,10 +680,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     
         // Final check before form submission
+=======
+        // final check
+        
+>>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
         finalSubmitBtn.addEventListener("click", function(event) {
             event.preventDefault();
             storeData();
             storedDataField.value = JSON.stringify(academicData);
+<<<<<<< HEAD
     
             var isPersonalValid = validate_personal();
             var isExtraValid = validate_extracurricular();
@@ -679,3 +700,15 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+=======
+            
+            var f = validate_personal();
+            console.log(f);
+
+            if(f == true)
+                form.submit();
+            else
+                document.getElementById('personal-info').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+});
+>>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
