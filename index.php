@@ -1,23 +1,12 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Database connection
-<<<<<<< HEAD
    // $host = "localhost:3307";
     $host = "localhost:3307";
     $username = "root";
     $password = "";
     $dbname = "student_profile";
         
-=======
-    $host = "localhost:3390";
-   // $host = "localhost:3307";
-    $username = "root";
-    $password = "";
-    $dbname = "student_profile";
-    
-    //$dbname = "harsha";
-    
->>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
     $conn = new mysqli($host, $username, $password, $dbname);
 
     if ($conn->connect_error) {
@@ -25,11 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // personal
-<<<<<<< HEAD
-    $roll_no = '22CSEB01';
-=======
-    $roll_no = '22CSEB13';
->>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
+    $roll_no = '22CSEB103';
     $name = $_POST['name'];
     $aadhar = $_POST['aadhar'];
     $email = $_POST['email'];
@@ -62,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $under_treatment = $_POST['under_any_treatment'];
 
     $currentDate = date('Y-m-d');
-<<<<<<< HEAD
     //echo $currentDate;
 
   
@@ -102,52 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $mentor=1;
 
-=======
-    echo $currentDate;
-
-    $hobbies = $_POST['hobbies'];
-    $certification_courses = $_POST['Certification_Courses'];
-    $interests = $_POST['interests'];
-    $dream_company = $_POST['dream_company'];
-    $ambition = $_POST['ambition'];
-
-    function getLookupId($mysqli, $category, $value) {
-        $stmt = $mysqli->prepare("SELECT LookUpId FROM lookUp WHERE LookUpTypeName like ? AND LookUpTypeId = ?");
-        if (!$stmt) {
-            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-            return null;
-        }
-    
-        if (!$stmt->bind_param("ss", $category, $value)) {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->execute()) {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $lookupid = null;
-        if (!$stmt->bind_result($lookupid)) {
-            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->fetch()) {
-            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            // If fetch fails, it could mean no result was found.
-            // You might want to handle this case differently depending on your needs.
-            return null;
-        }
-    
-        $stmt->close();
-        return $lookupid;
-    }
-    
-    $mentor=1;
-
->>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
     // Get lookupids
     $first_graduate_id = getLookupId($conn, 'Yes or No', $first_graduate);
     $physically_challenged_id = getLookupId($conn, 'Yes or No', $physically_challenged);
@@ -172,13 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     Student_PhysicallyChallenged_ID, Student_Treatment_ID, Student_Vaccinated_ID, Student_Created_By, Student_Modified_By)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-<<<<<<< HEAD
     //echo $caste;
-=======
-    echo $caste;
->>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
 
-    $stmt->bind_param("sssiisssiissssiisssssiisiiiisiiiss", $roll_no, $email, $name, $mentor, $gender_id, $dob, $f_name, $f_phone, $f_occupation_id,
+    $stmt->bind_param("sssiisssiissssiisssssiisiisisiiiss", $roll_no, $email, $name, $mentor, $gender_id, $dob, $f_name, $f_phone, $f_occupation_id,
     $income, $phone, $reg_number, $m_name, $m_phone, $m_occupation_id, $mother_tongue_id, $languages, $address,  $pin_code,  $native, $date_of_join,
     $mode_of_study_id, $transport_id, $aadhar, $first_graduate_id, $community_id, $caste, $quota_id, $scholarship_name, $physically_challenged_id,
     $under_treatment_id, $double_vaccinated_id, $roll_no, $roll_no);
@@ -227,7 +161,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-<<<<<<< HEAD
     //extracurriculars
         $hobbies = $_POST['hobbies'];
         $Programming_Languages = implode(', ', $_POST['Programming_Language']); // Convert array to string
@@ -253,16 +186,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Execute the statement
         if ($stmt->execute()) {
-             console.log("New record created successfully");
-             
+            echo("New record created successfully");
         } else {
             echo "Error: " . $stmt->error;
         }
 
 
-=======
-    
->>>>>>> be28220003f59c64b1359c6dff3a6f43b86e0c13
     $stmt->close();
     $conn->close();
 
