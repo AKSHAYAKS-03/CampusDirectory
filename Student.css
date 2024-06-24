@@ -149,13 +149,6 @@
         box-sizing: border-box; 
     }
 
-    .input-group label.required::before {
-        content: '*';
-        color: red;
-        margin-left: 5px;
-        padding: 2px;
-    }
-
     #errr{
         color:red;      
     }

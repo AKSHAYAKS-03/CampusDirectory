@@ -1,277 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Profile</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        /* Reset default margin and padding */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif; /* Set a fallback font */
-            background-color: #f2f2f2; /* Light gray background */
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Database connection
+    $host = "localhost:3390";
+   // $host = "localhost:3307";
+    $username = "root";
+    $password = "";
+    $dbname = "student_profile";
+    
+    //$dbname = "harsha";
+    
+    $conn = new mysqli($host, $username, $password, $dbname);
 
-        /* Header styles */
-        header {
-            background-color: lightcyan; /* Green header background */
-            color: coralblack; /* White text */
-            padding: 10px 0;
-            text-align: center;
-        }
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: normal;
-        }
+    // personal
+    $roll_no = '22CSEB13';
+    $name = $_POST['name'];
+    $aadhar = $_POST['aadhar'];
+    $email = $_POST['email'];
+    $phone = $_POST['ph'];
+    $dob = $_POST['dob'];
+    $gender = $_POST['gender'];
+    $reg_number = $_POST['reg'];
+    $m_name = $_POST['m_name'];
+    $m_phone = $_POST['m_ph'];
+    $m_occupation = $_POST['m_occ'];
+    $f_name = $_POST['f_name'];
+    $f_phone = $_POST['f_ph'];
+    $f_occupation = $_POST['f_occ'];
+    $income = $_POST['income'];
+    $mother_tongue = $_POST['tongue'];
+    $languages = implode(", ", $_POST['lang']); // Assuming languages are submitted as an array
+    $address = $_POST['addr'];
+    $native = $_POST['native'];
+    $pin_code = $_POST['pin'];
+    $date_of_join = $_POST['doj'];
+    $mode_of_study = $_POST['mode'];
+    $transport = $_POST['trans'];
+    $first_graduate = $_POST['first_graduate'];
+    $quota = $_POST['quota'];
+    $community = $_POST['community'];
+    $caste = $_POST['caste'];
+    $scholarship_name = $_POST['schlr'];
+    $physically_challenged = $_POST['physically_challenged'];
+    $double_vaccinated = $_POST['vaccinated'];
+    $under_treatment = $_POST['under_any_treatment'];
 
-        header img {
-            vertical-align: middle; /* Align the logo vertically with text */
-            margin-left: 10px; /* Add space between text and logo */
-            border-radius: 50%;
-        }
+    $currentDate = date('Y-m-d');
+    echo $currentDate;
 
-        /* Main content container */
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-            border-radius: 5px; /* Rounded corners */
-        }
+    $hobbies = $_POST['hobbies'];
+    $certification_courses = $_POST['Certification_Courses'];
+    $interests = $_POST['interests'];
+    $dream_company = $_POST['dream_company'];
+    $ambition = $_POST['ambition'];
 
-        /* Responsive design for smaller screens */
-        @media (max-width: 600px) {
-            header {
-                padding: 15px 0;
+    function getLookupId($mysqli, $category, $value) {
+        $stmt = $mysqli->prepare("SELECT LookUpId FROM lookUp WHERE LookUpTypeName like ? AND LookUpTypeId = ?");
+        if (!$stmt) {
+            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+            return null;
+        }
+    
+        if (!$stmt->bind_param("ss", $category, $value)) {
+            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        if (!$stmt->execute()) {
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        $lookupid = null;
+        if (!$stmt->bind_result($lookupid)) {
+            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        if (!$stmt->fetch()) {
+            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
+            // If fetch fails, it could mean no result was found.
+            // You might want to handle this case differently depending on your needs.
+            return null;
+        }
+    
+        $stmt->close();
+        return $lookupid;
+    }
+    
+    $mentor=1;
+
+    // Get lookupids
+    $first_graduate_id = getLookupId($conn, 'Yes or No', $first_graduate);
+    $physically_challenged_id = getLookupId($conn, 'Yes or No', $physically_challenged);
+    $double_vaccinated_id = getLookupId($conn, 'Yes or No', $double_vaccinated);
+    $under_treatment_id = getLookupId($conn, 'Yes or No', $under_treatment);
+    $community_id = getLookupId($conn, 'Community', $community);
+    $gender_id = getLookupId($conn, 'Gender', $gender);
+    $m_occupation_id = getLookupId($conn, 'Occupation', $m_occupation);
+    $f_occupation_id = getLookupId($conn, 'Occupation', $f_occupation);
+    $mother_tongue_id = getLookupId($conn, 'Mother Tongue', $mother_tongue);
+    $mode_of_study_id = getLookupId($conn, 'Mode of Study', $mode_of_study);
+    $transport_id = getLookupId($conn, 'Transport', $transport);
+    $quota_id = getLookupId($conn, 'Quota', $quota);
+
+    
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO student_personal (Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
+    Student_Gender_ID,Student_DOB, Student_FatherName, Student_Father_PH, Student_Father_Occupation_ID, Student_Father_AnnualIncome, 
+    Student_PH, Student_Register_Numbe, Student_MotherName, Student_Mother_PH, Student_Mother_Occupation_ID, Student_Mother_Tongue_ID, 
+    Student_Languages_Known, Student_Address, Student_Pincode, Student_Native, Student_Date_Of_Join, Student_Mode_ID, Student_Transport_ID,
+    Student_Aadhar, Student_First_Graduate_ID, Student_Community_ID, Student_Caste, Student_Quota_ID, Student_Scholarship_Name, 
+    Student_PhysicallyChallenged_ID, Student_Treatment_ID, Student_Vaccinated_ID, Student_Created_By, Student_Modified_By)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    echo $caste;
+
+    $stmt->bind_param("sssiisssiissssiisssssiisiiiisiiiss", $roll_no, $email, $name, $mentor, $gender_id, $dob, $f_name, $f_phone, $f_occupation_id,
+    $income, $phone, $reg_number, $m_name, $m_phone, $m_occupation_id, $mother_tongue_id, $languages, $address,  $pin_code,  $native, $date_of_join,
+    $mode_of_study_id, $transport_id, $aadhar, $first_graduate_id, $community_id, $caste, $quota_id, $scholarship_name, $physically_challenged_id,
+    $under_treatment_id, $double_vaccinated_id, $roll_no, $roll_no);
+
+    if ($stmt->execute()) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+
+    // academic
+
+    // Get JSON data
+    $storedData = $_POST['storedData'];
+    $academicData = json_decode($storedData, true);
+
+    foreach ($academicData as $acad_type => $data) {
+        if (!empty($data)) {
+            $institution = $data['institution'];
+            $regno = $data['regno'];
+            $modeOfStudy = $data['modeOfStudy'];
+            $modeOfMedium = $data['modeOfMedium'];
+            $board = $data['board'];
+            $marksObtained = $data['marksObtained'];
+            $totalMarks = $data['totalMarks'];
+            $percentage = $data['percentage'];
+            $cutOff = $data['cutOff'];
+    
+            $acad_type_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $modeOfStudy_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $modeOfMedium_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $board_id = getLookupId($conn, 'Yes or No', $first_graduate);
+
+
+            // Insert data into database
+            $sql = "INSERT INTO student_academics (Student_Rollno, Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID, Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark,
+            Academics_Created_By, Academics_Modified_By)
+                    VALUES ('$roll_no',$acad_type_id, '$institution', '$regno', $modeOfStudy_id, $modeOfMedium_id, $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, '$roll_no', '$roll_no')";
+    
+            if ($conn->query($sql) === TRUE) {
+                echo "<center><p>Data inserted successfully for $acad_type.</p><br><br></center>";
+            } else {
+                echo "<p>Error: " . $sql . "<br>" . $conn->error . "</p><br>";
             }
-            header h1 {
-                font-size: 20px;
-            }
         }
+    }
 
-        .details{
-            padding: 20px;
-            text-align: center;
-            background-color: black ;
-            border: 2px solid white;
-            color: white;
-            cursor: pointer;
-            width: 850px;
-            border-radius: 10px;
-        }
+    
+    $stmt->close();
+    $conn->close();
 
-        .det{
-            padding: 10px;
-        }
-
-        label{
-            padding: 20px;
-        }
-
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Velammal College of Engineering & Technology <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
-    </header>
-
-    <div class="container">
-        <section>
-                <div class="details">Personal Details</div>
-                <div class="det">
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" placeholder="initials at last">
-
-                    <label for="aadhar">Aadhar:</label>
-                    <input type="text" name='aadhar' placeholder='ex. 1000 2000 3000'>
-
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" placeholder="Email">
-                    <br>
-                    
-                    <label for="name">Phone number:</label>
-                    <input type="tel" name="ph" placeholder="ex. 9123456789">
-
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" name="dob" min="" max="" >
-                    <br>
-
-                    <label for="name">Gender:</label>
-                    <input type="radio" name="gender" value="female">Female
-                    <input type="radio" name="gender" value="male">Male
-                    
-                    <label for="name">Register number:</label>
-                    <input type="text" name="reg" placeholder="ex. 9131122100100">
-                    <br>
-                    <hr>
-
-                    <label for="m_name">Mother Name:</label>
-                    <input type="text" name="m_name" placeholder="ex. AAAA S"> 
-
-                    <label for="m_ph">Phone number:</label>
-                    <input type="tel" name="m_ph" placeholder="ex. 9123456789">
-                    <br>
-
-                    <label for="m_occ">Mother's Ocuupation:</label>
-                    <select name="m_occ">
-                        <option selected disabled>Select any one</option>
-                        <option value="govt">Government</option>
-                        <option value="bussiness">Business</option>
-                        <option value="private">Private</option>
-                        <option value="self">Self-Employed</option>
-                        <option value="other">Other</option>
-                        <option value="nil">NA</option>
-                    </select>    
-                    <br>
-
-                    <label for="f_name">Father Name:</label>
-                    <input type="text" name="f_name" placeholder="ex. AAAA S"> 
-
-                    <label for="f_ph">Phone number:</label>
-                    <input type="tel" name="f_ph" placeholder="ex. 9123456789">
-                    <br>
-
-                    <label for="f_occ">Father's Ocuupation:</label>
-                    <select name="f_occ">
-                        <option selected disabled>Select any one</option>
-                        <option value="govt">Government</option>
-                        <option value="bussiness">Business</option>
-                        <option value="private">Private</option>
-                        <option value="self">Self-Employed</option>
-                        <option value="other">Other</option>
-                        <option value="nil">NA</option>
-                    </select>    
-                    <br>
-
-                    <label for="income">Income:</label>
-                    <input type="number" name="income" placeholder="" min=0>
-                    <br>
-
-                    <label for="tongue">Mother Tongue:</label>
-                    <select name="tongue">
-                        <option value="tamil">Tamil</option>
-                        <option value="hindi">Hindi</option>
-                        <option value="malayalam">Malayalam</option>
-                        <option value="telegu">Telegu</option>
-                        <option value="kannadam">Kannadam</option>
-                        <option value="english">English</option>
-                        <option value="other">Other</option>
-                    </select>    
-
-                    <label for="lang">Languages Known:</label>
-                    <option selected disabled>Select any one</option>
-                    Tamil<input type="checkbox" name="lang" value="tamil">
-                    English<input type="checkbox" name="lang" value="english">
-                    Hindi<input type="checkbox" name="lang" value="hindi">
-                    Malayalam<input type="checkbox" name="lang" value="malayalam">
-                    Telugu<input type="checkbox" name="lang" value="telugu">
-                    Kannadam<input type="checkbox" name="lang" value="kannadam">
-                    <br>
-
-                    <label for="addr">Address:</label>
-                    <textarea name="addr" rows=4 cols=50></textarea>
-                    <br>
-
-                    <label for="native">Native:</label>
-                    <input type="text" name='native'>
-                    <label for="pin">Pin code:</label>
-                    <input type="text" name='pin' placeholder='ex. 600001'>
-                    <br>
-
-                    <label for="doj">Date of Join:</label>
-                    <input type="date" name='doj'>
-
-                    <label for="mode">Mode of Study:</label>
-                    <input type="radio" name='mode' value="day_schlr">Day-Scholar
-                    <input type="radio" name="mode" value="hostel">Hostelite
-                    <br>
-
-                    <label for="trans">Transport</label>
-                    <select name="trans">
-                        <option selected disabled>Select any one</option>
-                        <option value="c_bus">College Bus</option>
-                        <option value="self">Self</option>
-                        <option value="other">Others</option>
-                    </select> 
-                    <br>
-                    
-                    <label for="grad">First Graduate:</label>
-                    <input type="radio" name='grad' value="yes">Yes
-                    <input type="radio" name="grad" value="no">No
-
-                    <label for="quota">Quota</label>
-                    <input type="radio" name='grad' value="gq">General 
-                    <input type="radio" name="grad" value="mq">Management
-                    <br>
-
-                    <label for="community">Community:</label>
-                    <select name="community">
-                        <option selected disabled>Select any one</option>
-                        <option value="OC">OC</option>
-                        <option value="BC">BC</option>
-                        <option value="MBC">MBC</option>
-                        <option value="SC">SC</option>
-                        <option value="ST">ST</option>
-                        <option value="DNC">DNC</option>
-                        <option value="other">Others</option>
-                    </select>
-
-                    <label for="caste">Caste:</label>
-                    <input type="text" name='caste'>
-                    <br>
-
-                    <label for="schlr">Scholarship Name:</label>
-                    <input type="text" name="schlr" value="nil" placeholder="if applied for any external scholarship, mention">
-
-                    <label for="p_chl">Physically Challenged:</label>
-                    <input type="radio" name='p_chl' value="yes">Yes
-                    <input type="radio" name="p_chl" value="no">No
-                    <br>
-
-                    <label for="vacc">Double Vaccinated:</label>
-                    <input type="radio" name='vacc' value="yes">Yes
-                    <input type="radio" name="vacc" value="no">No
-                    
-                    <label for="treat">Under any Treatment?</label>
-                    <input type="radio" name='treat' value="yes">Yes
-                    <input type="radio" name="treat" value="no">No
-                    <br>
-
-                </div>           
-        </section>
-
-        <section>
-                <div class="details">Academic</div>
-                <div class="det">
-                    <input type="text" name="name" placeholder="Name">
-                </div>
-        </section>
-
-        <section>
-                <div class="details">Extra - Curricular</div>
-                <div class="det">
-                    <input type="text" name="name" placeholder="Name">
-                </div>
-        </section>
-
-        <script>
-           $(document).ready(function() {
-            $(".details").click(function() {
-                // Toggle the corresponding details-content
-                $(this).next(".det").slideToggle();
-            });
-        });
-        </script>
-    </div>
-</body>
-</html>
-
+}
+?>
