@@ -146,6 +146,54 @@ $stmt->bind_param("sssiissiiiiisiiississiiiiisisiii", $roll_no, $email, $name, $
 $under_treatment_id, $double_vaccinated_id);     
 
 
+
+
+
+$storedData = $_POST['storedData'];
+    $academicData = json_decode($storedData, true);
+
+    foreach ($academicData as $acad_type => $data) {
+        if (!empty($data)) {
+            $institution = $data['institution'];
+            $regno = $data['regno'];
+            $modeOfStudy = $data['modeOfStudy'];
+            $modeOfMedium = $data['modeOfMedium'];
+            $board = $data['board'];
+            $marksObtained = $data['marksObtained'];
+            $totalMarks = $data['totalMarks'];
+            $percentage = $data['percentage'];
+            $cutOff = $data['cutOff'];
+    
+            $acad_type_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $modeOfStudy_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $modeOfMedium_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $board_id = getLookupId($conn, 'Yes or No', $first_graduate);
+
+
+            // Insert data into database
+            $sql = "UPDATE student_academics SET  Academic_Type_ID =?, Institution_Name=?,
+             Register_Number=?, Mode_Of_Study_ID=?,
+             Mode_Of_Medium_ID=?, Board_ID=?, Mark=?, Mark_Total=?, Mark_Percentage=?, Cut_Of_Mark=?,
+            Academics_Created_By=?, Academics_Modified_By=? WHERE Student_Rollno = ?";  
+        }
+
+
+      $hobbies = $_POST['hobbies'];
+        $Programming_Languages = implode(', ', $_POST['Programming_Language']); // Convert array to string
+        $Other_Courses = implode(', ', $_POST['Other_Courses']); // Convert array to string
+        $interests = $_POST['interests'];
+        $Dream_Companies = implode(', ', $_POST['Dream_Company']); // Convert array to string
+        $ambition = $_POST['ambition'];
+        $created_by = $roll_no;
+        $created_on = date('Y-m-d H:i:s');
+        $modified_by = $roll_no;
+        $modified_on = date('Y-m-d H:i:s');
+
+        // Prepare SQL statement
+        $stmt = $conn->prepare("UPDATE student_extracurriculars SET  Student_Hobbies =?, Student_Programming_Language =?, Student_Others=?, Student_Interest=?, Student_DreamCompany=?, Student_Ambition=? WHERE Student_Rollno = ?");
+
+        $stmt->bind_param("sssssssssss", $roll_no, $hobbies, $Programming_Languages, $Other_Courses, $interests, $Dream_Companies, $ambition, $created_by, $created_on, $modified_by, $modified_on);
+
     if ($stmt->execute()) {
         header("Location: Student_View.php?value=$roll_no");
         exit();
