@@ -36,8 +36,8 @@
         }
 
         #generate-pdf:active, #edit:active {
-            background-color: #1a5a79; /* Even darker background on click */
-            transform: translateY(0); /* Remove lift on click */
+            background-color: #1a5a79; 
+            transform: translateY(0); 
         }
 
         #generate-pdf:focus, #edit:focus {
@@ -61,7 +61,7 @@
 
 // Database connection parameters
       // $host = "localhost:3307";
-      $host = "localhost:3390";
+    $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -133,8 +133,6 @@
     
         if (!$stmt->fetch()) {
             echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            // If fetch fails, it could mean no result was found.
-            // You might want to handle this case differently depending on your needs.
             return null;
         }
     
@@ -142,6 +140,11 @@
         return $lookupValue;
     }
 
+    function isChecked($lang, $languages) {
+        return in_array($lang, $languages) ? 'checked' : '';
+    }
+
+    
     // Retrieve data from the database
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
@@ -179,7 +182,7 @@
             $mph = $row['Student_Mother_PH'];
             $moccup = $row['Student_Mother_Occupation_ID'];
             $mtongue = $row['Student_Mother_Tongue_ID'];
-            $langid = $row['Student_Languages_Known'];
+            $languages = explode(", ", $row['Student_Languages_Known']);              // modified
             $addr = $row['Student_Address'];
             $pin = $row['Student_Pincode'];
             $native = $row['Student_Native'];
@@ -234,9 +237,9 @@
                     'acdtype' => $acdtype,
                     'instname' => $instname,
                     'acd_regno' => $acd_regno,
-                    'modeOfStudy' => $modeOfStudy,
-                    'modeOfMedium' => $modeOfMedium,
-                    'board' => $board,
+                    'modeOfStudy' => getLookupValue($conn,$modeOfStudy),
+                    'modeOfMedium' => getLookupValue($conn,$modeOfMedium),
+                    'board' => getLookupValue($conn,$board),
                     'Mark' => $marksObtained,
                     'totalMarks' => $totalMarks,
                     'percentage' => $percentage,
@@ -284,7 +287,7 @@
     ?>
 
 
-    <form id="editform" action="Update_Student.php" method="post">
+    <form id="form" action="Update_Student.php" method="post">                                  <!--      // modified -->
     <div class="container">
         <section id="personal-info">
             <div class="details"><h3>Personal Details</h3></div>
@@ -332,7 +335,7 @@
                     <input type="text" name="m_name" placeholder="essx. Aaaa S or Aaaa S.B" style="width:200px;" value="<?php echo htmlspecialchars($mname); ?>" required >
                 
                     <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 200px ;margin-left: 60px;" value="<?php echo htmlspecialchars($mph); ?>" required> 
-                    <select name="moccup" style="width: 200px;margin-left: 50px;" required>
+                    <select name="m_occ" style="width: 200px;margin-left: 50px;" required>
                         <?php $m_occ_val = getLookupValue($conn,htmlspecialchars($moccup))?>
                         <option value="1" <?php echo ($m_occ_val == '1') ? 'selected' : ''; ?>>Government</option>
                         <option value="2" <?php echo ($m_occ_val == '2') ? 'selected' : ''; ?>>Business</option>
@@ -375,7 +378,7 @@
                         <option value="2" <?php echo ($m_value == '2') ? 'selected' : ''; ?>>Hindi</option>
                         <option value="3" <?php echo ($m_value == '3') ? 'selected' : ''; ?>>Malayalam</option>
                         <option value="4" <?php echo ($m_value == '4') ? 'selected' : ''; ?>>Telugu</option>
-                        <option value="5" <?php echo ($m_value == '5') ? 'selected' : ''; ?>>Kannada</option>
+                        <option value="5" <?php echo ($m_value == '5') ? 'selected' : ''; ?>>Kannadam</option>
                         <option value="6" <?php echo ($m_value == '6') ? 'selected' : ''; ?>>English</option>
                         <option value="7" <?php echo ($m_value == '7') ? 'selected' : ''; ?>>Other</option>
                     </select>
@@ -385,15 +388,15 @@
                     <label for="lang">Languages Known: </label> <span id="errr"></span>
                     <br>
                     <div class="row1" style="display: flex; flex-direction: row" >
-                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="tamil" >Tamil</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="english" style="margin-left: -40px;">English</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="hindi" style="margin-left: -80px;">Hindi</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="Tamil" <?php echo isChecked('Tamil', $languages); ?> >Tamil</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="English" style="margin-left: -40px;" <?php echo isChecked('English', $languages); ?>>English</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="Hindi" style="margin-left: -80px;" <?php echo isChecked('Hindi', $languages); ?>>Hindi</label>
                     </div>
                     <div class="row2" style="display: flex; flex-direction: row" >
 
-                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="malayalam" >Malayalam</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="telugu" style="margin-left: -40px;">Telugu</label>
-                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="kannada" style="margin-left: -80px;">Kannada</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="Malayalam" <?php echo isChecked('Malayalam', $languages); ?>>Malayalam</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="Telugu" style="margin-left: -40px;" <?php echo isChecked('Telugu', $languages); ?>>Telugu</label>
+                    <label class="bold-label" ><input type="checkbox" name="lang[]" value="Kannadam" style="margin-left: -80px;" <?php echo isChecked('Kannadam', $languages); ?>>Kannadam</label>
                     </div>
 
                 </div>
@@ -401,7 +404,7 @@
 
                 <div class="input-group">
                     <label for="addr">Address:</label>
-                    <textarea name="addr" rows="4" cols="50" value="<?php echo htmlspecialchars($addr); ?>" required></textarea>
+                    <textarea name="addr" rows="4" cols="50" required><?php echo htmlspecialchars($addr); ?></textarea>
                 </div>
                 <br>
                 <div class="input-group">
@@ -414,8 +417,7 @@
                 <br>
                 <div class="input-group">
                     <label for="doj">Date of Join:</label><label for="mode" style="margin-left: 295px;">Mode of Study:</label><br>
-                    
-                    <input type="date" name="doj" style="width: 150px;" required>
+                     <input type="date" name="doj" style="width: 150px;" value="<?php echo htmlspecialchars($dob); ?>" required>              <!--        //modified -->
            
                     <?php $mode_value = getLookupValue($conn,htmlspecialchars($modeid))?>
                     <input type="radio" name="mode" value="1" required style="margin-left: 270px;" <?php echo ($mode_value == '1') ? 'checked' : '';?>>
@@ -514,14 +516,16 @@
             <div class="det">
                     <div class="input-group">
                         <label for="acad_type">Academic Type:</label>
-                        <select id="acad_type" name="acad_type" style="width: 250px">" required>
+                        <select id="acad_type" name="acad_type" style="width: 250px" required>
                         <?php 
                              $i=0;
-                             foreach ($data as $index => $item) { ?>
-                            <option value="<?php echo $index; ?>"><?php echo getLookup($conn,htmlspecialchars($item['acdtype'])); ?></option>
-                            <?php } ?>
-                            
-                        </select>
+                            foreach ($data as $index => $item) { 
+                                $lookupValue = getLookup($conn, $item['acdtype']);
+                                $lookupId = getLookupValue($conn, $item['acdtype']);
+                            ?>
+                            <option value="<?php echo $lookupId; ?>"><?php echo $lookupValue; ?></option>
+                        <?php } ?>        
+                    </select>
                     </div>
                     <div class="input-group">
                         <label for="inst_name">Institution Name:</label>
@@ -537,25 +541,25 @@
                         <label for="mode_of_study">Mode Of Study:</label>
                         <select id="mode_of_study" name="mode_of_study" style="width: 180px" value="<?php echo htmlspecialchars($modeOfStudy); ?>" required>
                         <?php $a_mode_value = getLookupValue($conn,htmlspecialchars($data[$i]['modeOfStudy']))?>
-                            <option value="43" <?php echo ($a_mode_value == '1') ? 'selected' : '';?>>Full-Time</option>
-                            <option value="44" <?php echo ($a_mode_value == '2') ? 'selected' : '';?>>Part-Time</option>
+                            <option value="1" <?php echo ($a_mode_value == '1') ? 'selected' : '';?>>Full-Time</option>
+                            <option value="2" <?php echo ($a_mode_value == '2') ? 'selected' : '';?>>Part-Time</option>
                         </select>
                         <label for="mode_of_medium" style="margin-left: 60px;">Mode Of Medium:</label>
                         <select id="mode_of_medium" name="mode_of_medium" style="width: 180px" value="<?php echo htmlspecialchars($modeOfMedium); ?>" required>
                         <?php $medium_value = getLookupValue($conn,htmlspecialchars($data[$i]['modeOfMedium']))?>
-                            <option value="36" >English</option>
-                            <option value="37" >Tamil</option>
+                            <option value="1" <?php echo ($medium_value == '1') ? 'selected' : '';?>>English</option>
+                            <option value="2" <?php echo ($medium_value == '2') ? 'selected' : '';?>>Tamil</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="board">Board:</label>
                         <select id="board" name="board" style="width: 200px" value="<?php echo htmlspecialchars($board); ?>" required>
                             <?php $board_value = getLookupValue($conn,htmlspecialchars($data[$i]['board']))?>
-                            <option value="38">State Board</option>
-                            <option value="39">Matric</option>
-                            <option value="40">CBSE</option>
-                            <option value="41">ICSE</option>
-                            <option value="42">Others</option>
+                            <option value="1" <?php echo ($board_value == '1') ? 'selected' : '';?>>State Board</option>
+                            <option value="2" <?php echo ($board_value == '2') ? 'selected' : '';?>>Matric</option>
+                            <option value="3" <?php echo ($board_value == '3') ? 'selected' : '';?>>CBSE</option>
+                            <option value="4" <?php echo ($board_value == '4') ? 'selected' : '';?>>ICSE</option>
+                            <option value="5" <?php echo ($board_value == '5') ? 'selected' : '';?>>Others</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -583,7 +587,7 @@
             <div class="det">
                 <div class="input-group">
                     <label for="Hobbies">Hobbies:</label><br>
-                    <textarea id="Hobbies" name="hobbies" rows="2" cols="30" style="width: 450px" <?php echo htmlspecialchars($hobbies); ?>></textarea>
+                    <textarea id="Hobbies" name="hobbies" rows="2" cols="30" style="width: 450px" ><?php echo htmlspecialchars($hobbies); ?></textarea>
                 </div>
                 <div class="input-group" style="display: -webkit-flex;">
                     <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
@@ -607,7 +611,7 @@
 
                 <div class="input-group">
                     <label for="Interest">Interests:</label><br>
-                    <textarea id="Interest" name="interests" rows="4" cols="30" style="width: 450px" value="<?php echo htmlspecialchars($interest); ?>"required></textarea>
+                    <textarea id="Interest" name="interests" rows="4" cols="30" style="width: 450px"  required><?php echo htmlspecialchars($interest); ?></textarea>
                 </div>
                 <div class="input-group">
                     <label for="Dream_Company" style="width: 200px"> Dream Company: </label><br>
@@ -618,12 +622,12 @@
 
                 <div class="input-group">
                     <label for="Ambition">Ambition:</label><br>
-                    <textarea id="Ambition" name="ambition" rows="4" cols="30" style="width: 450px" value="<?php echo htmlspecialchars($ambition); ?>" required></textarea>
+                    <textarea id="Ambition" name="ambition" rows="4" cols="30" style="width: 450px" required><?php echo htmlspecialchars($ambition); ?></textarea>
                 </div>
             </div>
         </section><br>
-        <center><input type="submit" value="Update" class="submit-button"></center>
-        <input type="hidden" id="roll_no" name="roll_no" value="">
+        <center><input type="submit" value="Update" id="FinalSubmit" class="submit-button"></center>                <!--      // modified -->
+         <input type="hidden" id="roll_no" name="roll_no" value="<?php echo htmlspecialchars($rollno);?>">           <!--      // modified -->
     </div>
     </form>
 
@@ -634,13 +638,15 @@
 
             // Event listener for acad_type select change
             acadTypeSelect.addEventListener('change', function() {
-                var selectedIndex = this.value; // Get selected index
+                var selectedIndex = acadTypeSelect.selectedIndex;
+                console.log("Selected index:", selectedIndex); // Get selected index
                 updateFormFields(selectedIndex); // Call update function
             });
 
             // Function to update form fields based on index
             function updateFormFields(index) {
-                var selectedData = <?php echo json_encode($data); ?>[index]; // Get selected data from PHP array
+                var data = <?php echo json_encode($data); ?>;
+                var selectedData = data[index]; // Get data for the selected index
 
                 // Update Institution Name
                 document.getElementById('inst_name').value = selectedData['instname'];
