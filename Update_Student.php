@@ -5,7 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ini_set('display_errors', 1);
 
     // Database connection parameters
-    $host = "localhost:3307";
+    // $host = "localhost:3307";
+    $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -100,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $transport_id = getLookupId($conn, 'Transport', $transport);
     $quota_id = getLookupId($conn, 'Quota', $quota);
 
-    // Update personal information in the database
+    // Update personal information in the database                                                                   // modified
     $stmt = $conn->prepare("UPDATE student_personal SET 
-        Student_Rollno = ?, Student_Mailid = ?, Student_Name = ?, Student_Mentor_ID = ?, Student_Gender_ID = ?, Student_DOB = ?, 
+        Student_Mailid = ?, Student_Name = ?, Student_Mentor_ID = ?, Student_Gender_ID = ?, Student_DOB = ?, 
         Student_FatherName = ?, Student_Father_PH = ?, Student_Father_Occupation_ID = ?, Student_Father_AnnualIncome = ?, 
         Student_PH = ?, Student_Register_Numbe = ?, Student_MotherName = ?, Student_Mother_PH = ?, Student_Mother_Occupation_ID = ?,
         Student_Mother_Tongue_ID = ?, Student_Languages_Known = ?, Student_Address = ?, Student_Pincode = ?, 
@@ -110,8 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         Student_Community_ID = ?, Student_Caste = ?, Student_Quota_ID = ?, Student_Scholarship_Name = ?, Student_PhysicallyChallenged_ID = ?, 
         Student_Treatment_ID = ?, Student_Vaccinated_ID = ?, Student_Modified_By = ? WHERE Student_Rollno = ?");
 
-    $stmt->bind_param("sisiissiiiiisiiississiiiiisisiiiss", 
-        $roll_no, $email, $name, $mentor, $gender_id, $dob, 
+    $stmt->bind_param("ssiissiiiiisiiisssssiisiisisiiiss", 
+         $email, $name, $mentor, $gender_id, $dob, 
         $f_name, $f_phone, $f_occupation_id, $income, $phone, 
         $reg_number, $m_name, $m_phone, $m_occupation_id, 
         $mother_tongue_id, $languages, $address, $pin_code, 
@@ -146,19 +147,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $cutOff = $data['cutOff'];
     
             $acad_type_id = getLookupId($conn, 'Academic Type', $acad_type);
-            $modeOfStudy_id = getLookupId($conn, 'Mode of Study', $modeOfStudy);
-            $modeOfMedium_id = getLookupId($conn, 'Mode of Medium', $modeOfMedium);
+            $modeOfStudy_id = getLookupId($conn, 'Acad Mode', $modeOfStudy);
+            $modeOfMedium_id = getLookupId($conn, 'Medium', $modeOfMedium);
             $board_id = getLookupId($conn, 'Board', $board);
 
             // Update academic information in the database
             $stmt = $conn->prepare("UPDATE student_academics SET 
-                Academic_Type_ID = ?, Institution_Name = ?, Register_Number = ?, Mode_Of_Study_ID = ?, 
+                 Institution_Name = ?, Register_Number = ?, Mode_Of_Study_ID = ?, 
                 Mode_Of_Medium_ID = ?, Board_ID = ?, Mark = ?, Mark_Total = ?, Mark_Percentage = ?, Cut_Of_Mark = ?, 
-                Academics_Modified_By = ? WHERE Student_Rollno = ?");
+                Academics_Modified_By = ? WHERE Student_Rollno = ? and Academic_Type_ID = ?" );
 
-            $stmt->bind_param("isiiiiiiiiss", 
-                $acad_type_id, $institution, $regno, $modeOfStudy_id, $modeOfMedium_id, 
-                $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, $roll_no, $roll_no
+            $stmt->bind_param("siiiiiiiissi", 
+                 $institution, $regno, $modeOfStudy_id, $modeOfMedium_id, 
+                $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, $roll_no, $roll_no, $acad_type_id,
             );
 
             if ($stmt->execute()) {
@@ -193,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         echo "successfully updated";
-        header("Location: Student_View.php?value=$roll_no");
+        header("Location: Student_View.php?value=" . urlencode($roll_no));
         exit();
     } else {
         echo "Error: " . $stmt->error;
