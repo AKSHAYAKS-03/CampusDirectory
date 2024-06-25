@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Fetching data from POST request
+    // Personal Information
     $roll_no = $_POST['roll_no'];
     $name = $_POST['name'];
     $aadhar = $_POST['aadhar'];
@@ -51,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $double_vaccinated = $_POST['vaccinated'];
     $under_treatment = $_POST['under_any_treatment'];
     $currentDate = date('Y-m-d');
-    //echo $currentDate;
 
     function getLookupId($mysqli, $category, $value) {
         $stmt = $mysqli->prepare("SELECT LookUpId FROM lookUp WHERE LookUpTypeName = ? AND LookUpTypeId = ?");
@@ -78,8 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
         if (!$stmt->fetch()) {
             echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            // If fetch fails, it could mean no result was found.
-            // You might want to handle this case differently depending on your needs.
             return null;
         }
     
@@ -103,53 +100,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $transport_id = getLookupId($conn, 'Transport', $transport);
     $quota_id = getLookupId($conn, 'Quota', $quota);
 
-    // Update data in the database
+    // Update personal information in the database
     $stmt = $conn->prepare("UPDATE student_personal SET 
-        Student_Rollno = ?, 
-        Student_Mailid = ?, 
-        Student_Name = ?, 
-        Student_Mentor_ID = ?, 
-        Student_Gender_ID = ?, 
-        Student_DOB = ?, 
-        Student_FatherName = ?, 
-        Student_Father_PH = ?, 
-        Student_Father_Occupation_ID = ?, 
-        Student_Father_AnnualIncome = ?, 
-        Student_PH = ?, 
-        Student_Register_Numbe = ?, 
-        Student_MotherName = ?, 
-        Student_Mother_PH = ?, 
-        Student_Mother_Occupation_ID = ?, 
-        Student_Mother_Tongue_ID = ?, 
-        Student_Languages_Known = ?, 
-        Student_Address = ?, 
-        Student_Pincode = ?, 
-        Student_Native = ?, 
-        Student_Date_Of_Join = ?, 
-        Student_Mode_ID = ?, 
-        Student_Transport_ID = ?, 
-        Student_Aadhar = ?, 
-        Student_First_Graduate_ID = ?, 
-        Student_Community_ID = ?, 
-        Student_Caste = ?, 
-        Student_Quota_ID = ?, 
-        Student_Scholarship_Name = ?, 
-        Student_PhysicallyChallenged_ID = ?, 
-        Student_Treatment_ID = ?, 
-        Student_Vaccinated_ID = ? 
-        WHERE Student_Rollno = ?");
+        Student_Rollno = ?, Student_Mailid = ?, Student_Name = ?, Student_Mentor_ID = ?, Student_Gender_ID = ?, Student_DOB = ?, 
+        Student_FatherName = ?, Student_Father_PH = ?, Student_Father_Occupation_ID = ?, Student_Father_AnnualIncome = ?, 
+        Student_PH = ?, Student_Register_Numbe = ?, Student_MotherName = ?, Student_Mother_PH = ?, Student_Mother_Occupation_ID = ?,
+        Student_Mother_Tongue_ID = ?, Student_Languages_Known = ?, Student_Address = ?, Student_Pincode = ?, 
+        Student_Native = ?, Student_Date_Of_Join = ?, Student_Mode_ID = ?, Student_Transport_ID = ?, Student_Aadhar = ?, Student_First_Graduate_ID = ?, 
+        Student_Community_ID = ?, Student_Caste = ?, Student_Quota_ID = ?, Student_Scholarship_Name = ?, Student_PhysicallyChallenged_ID = ?, 
+        Student_Treatment_ID = ?, Student_Vaccinated_ID = ?, Student_Modified_By = ? WHERE Student_Rollno = ?");
 
-$stmt->bind_param("sssiissiiiiisiiississiiiiisisiii", $roll_no, $email, $name, $mentor, $gender_id,
- $dob, $f_name, $f_phone, $f_occupation_id,$income, $phone, $reg_number, $m_name, $m_phone, $m_occupation_id,
-  $mother_tongue_id, $languages, $address,  $pin_code,  $native, $date_of_join,$mode_of_study_id, $transport_id, 
-  $aadhar, $first_graduate_id, $community_id, $caste, $quota_id, $scholarship_name, $physically_challenged_id,
-$under_treatment_id, $double_vaccinated_id);     
+    $stmt->bind_param("sisiissiiiiisiiississiiiiisisiiiss", 
+        $roll_no, $email, $name, $mentor, $gender_id, $dob, 
+        $f_name, $f_phone, $f_occupation_id, $income, $phone, 
+        $reg_number, $m_name, $m_phone, $m_occupation_id, 
+        $mother_tongue_id, $languages, $address, $pin_code, 
+        $native, $date_of_join, $mode_of_study_id, $transport_id, 
+        $aadhar, $first_graduate_id, $community_id, $caste, $quota_id, 
+        $scholarship_name, $physically_challenged_id, $under_treatment_id, 
+        $double_vaccinated_id, $roll_no, $roll_no
+    );
 
+    if ($stmt->execute()) {
+        echo "<center><p>Personal information updated successfully for $roll_no.</p><br><br></center>";
+    } else {
+        echo "<p>Error: " . $stmt->error . "</p><br>";
+    }
 
+    $stmt->close();
 
-
-
-$storedData = $_POST['storedData'];
+    // Academic Information
+    $storedData = $_POST['storedData'];
     $academicData = json_decode($storedData, true);
 
     foreach ($academicData as $acad_type => $data) {
@@ -164,37 +145,54 @@ $storedData = $_POST['storedData'];
             $percentage = $data['percentage'];
             $cutOff = $data['cutOff'];
     
-            $acad_type_id = getLookupId($conn, 'Yes or No', $first_graduate);
-            $modeOfStudy_id = getLookupId($conn, 'Yes or No', $first_graduate);
-            $modeOfMedium_id = getLookupId($conn, 'Yes or No', $first_graduate);
-            $board_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $acad_type_id = getLookupId($conn, 'Academic Type', $acad_type);
+            $modeOfStudy_id = getLookupId($conn, 'Mode of Study', $modeOfStudy);
+            $modeOfMedium_id = getLookupId($conn, 'Mode of Medium', $modeOfMedium);
+            $board_id = getLookupId($conn, 'Board', $board);
 
+            // Update academic information in the database
+            $stmt = $conn->prepare("UPDATE student_academics SET 
+                Academic_Type_ID = ?, Institution_Name = ?, Register_Number = ?, Mode_Of_Study_ID = ?, 
+                Mode_Of_Medium_ID = ?, Board_ID = ?, Mark = ?, Mark_Total = ?, Mark_Percentage = ?, Cut_Of_Mark = ?, 
+                Academics_Modified_By = ? WHERE Student_Rollno = ?");
 
-            // Insert data into database
-            $sql = "UPDATE student_academics SET  Academic_Type_ID =?, Institution_Name=?,
-             Register_Number=?, Mode_Of_Study_ID=?,
-             Mode_Of_Medium_ID=?, Board_ID=?, Mark=?, Mark_Total=?, Mark_Percentage=?, Cut_Of_Mark=?,
-            Academics_Created_By=?, Academics_Modified_By=? WHERE Student_Rollno = ?";  
+            $stmt->bind_param("isiiiiiiiiss", 
+                $acad_type_id, $institution, $regno, $modeOfStudy_id, $modeOfMedium_id, 
+                $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, $roll_no, $roll_no
+            );
+
+            if ($stmt->execute()) {
+                echo "<center><p>Academic information updated successfully for $acad_type.</p><br><br></center>";
+            } else {
+                echo "<p>Error: " . $stmt->error . "</p><br>";
+            }
+
+            $stmt->close();
         }
+    }
+
+    // Extracurricular Information
+    $hobbies = $_POST['hobbies'];
+    $Programming_Languages = implode(', ', $_POST['Programming_Language']); // Convert array to string
+    $Other_Courses = implode(', ', $_POST['Other_Courses']); // Convert array to string
+    $interests = $_POST['interests'];
+    $Dream_Companies = implode(', ', $_POST['Dream_Company']); // Convert array to string
+    $ambition = $_POST['ambition'];
 
 
-      $hobbies = $_POST['hobbies'];
-        $Programming_Languages = implode(', ', $_POST['Programming_Language']); // Convert array to string
-        $Other_Courses = implode(', ', $_POST['Other_Courses']); // Convert array to string
-        $interests = $_POST['interests'];
-        $Dream_Companies = implode(', ', $_POST['Dream_Company']); // Convert array to string
-        $ambition = $_POST['ambition'];
-        $created_by = $roll_no;
-        $created_on = date('Y-m-d H:i:s');
-        $modified_by = $roll_no;
-        $modified_on = date('Y-m-d H:i:s');
+    // Prepare SQL statement
+    $stmt = $conn->prepare("UPDATE student_extracurriculars SET 
+        Student_Hobbies = ?, Student_Programming_Language = ?, Student_Others = ?, 
+        Student_Interest = ?, Student_DreamCompany = ?, Student_Ambition = ?, Extracurriculars_Modified_By = ?
+        WHERE Student_Rollno = ?");
 
-        // Prepare SQL statement
-        $stmt = $conn->prepare("UPDATE student_extracurriculars SET  Student_Hobbies =?, Student_Programming_Language =?, Student_Others=?, Student_Interest=?, Student_DreamCompany=?, Student_Ambition=? WHERE Student_Rollno = ?");
-
-        $stmt->bind_param("sssssssssss", $roll_no, $hobbies, $Programming_Languages, $Other_Courses, $interests, $Dream_Companies, $ambition, $created_by, $created_on, $modified_by, $modified_on);
+    $stmt->bind_param("ssssssss", 
+        $hobbies, $Programming_Languages, $Other_Courses, $interests, 
+        $Dream_Companies, $ambition,$roll_no, $roll_no
+    );
 
     if ($stmt->execute()) {
+        echo "successfully updated";
         header("Location: Student_View.php?value=$roll_no");
         exit();
     } else {
