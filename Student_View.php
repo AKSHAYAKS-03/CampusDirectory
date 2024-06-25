@@ -355,7 +355,7 @@
              
             echo "<div id='buttons' style='text-align: center; padding: 20px;'>
                             <button id='generate-pdf' onclick='generatePDF()' style='margin-left: 20px;'>Generate PDF</button>
-                            <button id='edit' onclick=\"window.location.href='Edit_Student.php?Rollno=" . $rollno. "'\" style='margin-left: 20px;'>Edit</button>
+                            <button id='edit' onclick=\"window.location.href='Edit_Student.php?value=".$rollno."'\" style='margin-left: 20px;'>Edit</button>
                         </div>
                     </div>";
         $conn->close();

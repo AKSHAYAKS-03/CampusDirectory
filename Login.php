@@ -99,7 +99,7 @@
             $host = "localhost:3307";
             $username = "root";
             $password = "";
-            $dbname = "test";
+            $dbname = "harsha";
                         
             $conn = new mysqli($host, $username, $password, $dbname);
 
