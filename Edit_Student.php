@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student View</title>
+    <title>Student Edit</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="Student.css">
@@ -60,7 +60,8 @@
     ini_set('display_errors', 1);
 
 // Database connection parameters
-    $host = "localhost:3307";
+      // $host = "localhost:3307";
+      $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -73,14 +74,15 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-  /*  function getLookupId($mysqli, $category, $value) {
-        $stmt = $mysqli->prepare("SELECT LookUpTypeName FROM lookUp WHERE LookUpId like ? AND LookUpTypeId = ?");
+    // to fetch LookUpTypeID
+    function getLookupValue($conn,$lookUpId) {
+        $stmt = $conn->prepare("SELECT lookUpTypeId FROM lookup where LookUpId = ?");
         if (!$stmt) {
-            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+            echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
             return null;
         }
     
-        if (!$stmt->bind_param("ss", $category, $value)) {
+        if (!$stmt->bind_param("s",$lookUpId)) {
             echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
             return null;
         }
@@ -90,8 +92,41 @@
             return null;
         }
     
-        $lookupid = null;
-        if (!$stmt->bind_result($lookupid)) {
+        $lookUpTypeId = null;
+        if (!$stmt->bind_result($lookUpTypeId)) {
+            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        if (!$stmt->fetch()) {
+            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        $stmt->close();
+        return $lookUpTypeId;
+    }
+    
+    // to fetch values
+    function getLookup($conn,$lookUpId) {
+        $stmt = $conn->prepare("SELECT LookUpTypeValue FROM lookup where LookUpId = ?");
+        if (!$stmt) {
+            echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
+            return null;
+        }
+    
+        if (!$stmt->bind_param("s",$lookUpId)) {
+            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        if (!$stmt->execute()) {
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        $lookupValue = null;
+        if (!$stmt->bind_result($lookupValue)) {
             echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
             return null;
         }
@@ -102,19 +137,15 @@
             // You might want to handle this case differently depending on your needs.
             return null;
         }
+    
+        $stmt->close();
+        return $lookupValue;
     }
-    */
-
-
 
     // Retrieve data from the database
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
         echo $rollno;
-
-        
-
-        
 
         $name = $mailid = $mentorid = $genderid = $dob =$fname =$fph = $foccup = $fannum= $phn = $regno = $mname = $mph = $moccup = $mtongue = $langid = $addr = $pin = $native = $doj = $modeid = $transid = $aadhar = $firstgradid = $commid = $caste = $quotaid = $scholar = $physicid = $treatmentid = $vaccinateid = ''; // Initialize variables
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
@@ -162,25 +193,10 @@
             $quotaid = $row['Student_Quota_ID'];
             $scholar = $row['Student_Scholarship_Name'];
             $physicid = $row['Student_PhysicallyChallenged_ID'];
-            $treatmentid = $row['Student_Treatment_ID'];
+            $treatid = $row['Student_Treatment_ID'];
             $vaccinateid = $row['Student_Vaccinated_ID'];   
-
-           /* $first_graduate_id = getLookupId($conn, 'Yes or No', $firstgradid);
-            $physically_challenged_id = getLookupId($conn, 'Yes or No', $physicid);
-            $double_vaccinated_id = getLookupId($conn, 'Yes or No', $vaccinateid);
-            $under_treatment_id = getLookupId($conn, 'Yes or No', $treatmentid);
-            $community_id = getLookupId($conn, 'Community', $commid);
-            $gender_id = getLookupId($conn, 'Gender', $genderid);
-            $m_occupation_id = getLookupId($conn, 'Occupation', $moccup);
-            $f_occupation_id = getLookupId($conn, 'Occupation', $foccup);
-            $mother_tongue_id = getLookupId($conn, 'Mother Tongue', $mtongue);
-            $mode_of_study_id = getLookupId($conn, 'Mode of Study', $modeid);
-            $transport_id = getLookupId($conn, 'Transport', $transid);
-            $quota_id = getLookupId($conn, 'Quota', $quotaid);*/
          
         } 
-        
-        
         
         
         else {
@@ -192,7 +208,7 @@
 }
 
 
-         $acdtype = $instname = $acd_regno = $modeOfStudy = $modeOfMedium = $board = $marksObtained = $totalMarks = $percentage = $cutOff = ''; // Initialize variables
+        $acdtype = $instname = $acd_regno = $modeOfStudy = $modeOfMedium = $board = $marksObtained = $totalMarks = $percentage = $cutOff = ''; // Initialize variables
         $stmt = $conn->prepare("SELECT Student_Rollno, Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID,
         Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark
            FROM student_academics WHERE Student_Rollno = ?");
@@ -201,22 +217,37 @@
     if ($stmt->execute()) {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $acdtype = $row['Academic_Type_ID'];
-            $instname = $row['Institution_Name'];
-            $acd_regno = $row['Register_Number'];
-            $modeOfStudy = $row['Mode_Of_Study_ID'];
-            $modeOfMedium = $row['Mode_Of_Medium_ID'];
-            $board = $row['Board_ID'];
-            $marksObtained = $row['Mark'];
-            $totalMarks = $row['Mark_Total'];
-            $percentage = $row['Mark_Percentage'];
-            $cutOff = $row['Cut_Of_Mark'];            
-    } else {
+            $rows = $result->fetch_all(MYSQLI_ASSOC); // Fetch all rows as an associative array
+            foreach ($rows as $row) {
+                $acdtype = $row['Academic_Type_ID'];
+                $instname = $row['Institution_Name'];
+                $acd_regno = $row['Register_Number'];
+                $modeOfStudy = $row['Mode_Of_Study_ID'];
+                $modeOfMedium = $row['Mode_Of_Medium_ID'];
+                $board = $row['Board_ID'];
+                $marksObtained = $row['Mark'];
+                $totalMarks = $row['Mark_Total'];
+                $percentage = $row['Mark_Percentage'];
+                $cutOff = $row['Cut_Of_Mark']; 
+
+                $data[] = [
+                    'acdtype' => $acdtype,
+                    'instname' => $instname,
+                    'acd_regno' => $acd_regno,
+                    'modeOfStudy' => $modeOfStudy,
+                    'modeOfMedium' => $modeOfMedium,
+                    'board' => $board,
+                    'Mark' => $marksObtained,
+                    'totalMarks' => $totalMarks,
+                    'percentage' => $percentage,
+                    'cutOff' => $cutOff
+                ];
+            }           
+    } 
+    else {
         echo "Error: " . $stmt->error;
     }
 
-    // Close statement and connection
     $stmt->close();
 }
 
@@ -242,11 +273,9 @@
     echo "Error: " . $stmt->error;
     }
 
-    // Close statement and connection
     $stmt->close();
     }
 
-    $conn->close();
     }
     else {
     echo "No rollno provided.";
@@ -280,10 +309,10 @@
                     <label for="dob">Date of Birth:</label> <label for="gender" style="margin-left: 295px;">Gender:</label><br>
                     <input type="date" name="dob" style="width: 200px;" value="<?php echo htmlspecialchars($dob); ?>" required> 
                 
-                  
-                    <input type="radio" name="gender" value="2"  id="gender-female" style="margin-left: 228px;" required>
+                    <?php $gen_value = getLookupValue($conn,htmlspecialchars($genderid))?>
+                    <input type="radio" name="gender" value="2"  id="gender-female" style="margin-left: 228px;" required <?php echo ($gen_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="gender">Female</label>
-                    <input type="radio" name="gender" value="1" id="gender-male" style="margin-left: -30px;" required>
+                    <input type="radio" name="gender" value="1" id="gender-male" style="margin-left: -30px;" required <?php echo ($gen_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="gender">Male</label>
                 </div>
                 <br>
@@ -300,18 +329,19 @@
                 <div class="input-group">
                     <label for="m_name">Mother Name:</label>  <label for="m_ph" style="margin-left: 130px;">Phone number:</label><label for="m_occ" style="width: 250px;margin-left: 120px;">Mother's Occupation:</label>
                     <br>
-                    <input type="text" name="m_name" placeholder="ex. Aaaa S or Aaaa S.B" style="width:200px;" value="<?php echo htmlspecialchars($mname); ?>" required >
+                    <input type="text" name="m_name" placeholder="essx. Aaaa S or Aaaa S.B" style="width:200px;" value="<?php echo htmlspecialchars($mname); ?>" required >
                 
                     <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 200px ;margin-left: 60px;" value="<?php echo htmlspecialchars($mph); ?>" required> 
-                    <select name="m_occ" style="width: 200px;margin-left: 50px;" value="<?php echo htmlspecialchars($mocc); ?>" required>
-                        <option selected disabled>Select any one</option>
-                        <option value="1">Government</option>
-                        <option value="2">Business</option>
-                        <option value="3">Private</option>
-                        <option value="4">Self-Employed</option>
-                        <option value="5">Other</option>
-                        <option value="6">NA</option>
+                    <select name="moccup" style="width: 200px;margin-left: 50px;" required>
+                        <?php $m_occ_val = getLookupValue($conn,htmlspecialchars($moccup))?>
+                        <option value="1" <?php echo ($m_occ_val == '1') ? 'selected' : ''; ?>>Government</option>
+                        <option value="2" <?php echo ($m_occ_val == '2') ? 'selected' : ''; ?>>Business</option>
+                        <option value="3" <?php echo ($m_occ_val == '3') ? 'selected' : ''; ?>>Private</option>
+                        <option value="4" <?php echo ($m_occ_val== '4') ? 'selected' : ''; ?>>Self-Employed</option>
+                        <option value="5" <?php echo ($m_occ_val == '5') ? 'selected' : ''; ?>>Other</option>
+                        <option value="6" <?php echo ($m_occ_val == '6') ? 'selected' : ''; ?>>NA</option>
                     </select>
+
                 </div>
                 <br>
              
@@ -324,13 +354,13 @@
                     <input type="tel" name="f_ph" placeholder="ex. 9123456789" style="width: 200px ;margin-left: 60px;" value="<?php echo htmlspecialchars($fph); ?>" required>
               
                     <select name="f_occ" style="width: 200px;margin-left: 50px;" value="<?php echo htmlspecialchars($focc); ?>" required>
-                        <option selected disabled>Select any one</option>
-                        <option value="1">Government</option>
-                        <option value="2">Business</option>
-                        <option value="3">Private</option>
-                        <option value="4">Self-Employed</option>
-                        <option value="5">Other</option>
-                        <option value="6">NA</option>
+                        <?php $f_occ_val = getLookupValue($conn,htmlspecialchars($foccup))?>
+                        <option value="1" <?php echo ($f_occ_val == '1') ? 'selected' : ''; ?>>Government</option>
+                        <option value="2" <?php echo ($f_occ_val == '2') ? 'selected' : ''; ?>>Business</option>
+                        <option value="3" <?php echo ($f_occ_val == '3') ? 'selected' : ''; ?>>Private</option>
+                        <option value="4" <?php echo ($f_occ_val== '4') ? 'selected' : ''; ?>>Self-Employed</option>
+                        <option value="5" <?php echo ($f_occ_val == '5') ? 'selected' : ''; ?>>Other</option>
+                        <option value="6" <?php echo ($f_occ_val == '6') ? 'selected' : ''; ?>>NA</option>
                     </select>
                 </div>
                 <br>
@@ -340,15 +370,14 @@
                     <input type="number" name="income" placeholder="" min=0 style="width: 150px ;" value="<?php echo htmlspecialchars($fannum); ?>" required>
                
                     <select name="tongue" style="width: 200px ;margin-left: 110px;" value="<?php echo htmlspecialchars($tongue); ?>">
-                        <option selected disabled>Select any one</option>
-
-                        <option value="1">Tamil</option>
-                        <option value="2">Hindi</option>
-                        <option value="3">Malayalam</option>
-                        <option value="4">Telugu</option>
-                        <option value="5">Kannada</option>
-                        <option value="6">English</option>
-                        <option value="7">Other</option>
+                        <?php $m_value = getLookupValue($conn,htmlspecialchars($mtongue))?>
+                        <option value="1" <?php echo ($m_value == '1') ? 'selected' : ''; ?>>Tamil</option>
+                        <option value="2" <?php echo ($m_value == '2') ? 'selected' : ''; ?>>Hindi</option>
+                        <option value="3" <?php echo ($m_value == '3') ? 'selected' : ''; ?>>Malayalam</option>
+                        <option value="4" <?php echo ($m_value == '4') ? 'selected' : ''; ?>>Telugu</option>
+                        <option value="5" <?php echo ($m_value == '5') ? 'selected' : ''; ?>>Kannada</option>
+                        <option value="6" <?php echo ($m_value == '6') ? 'selected' : ''; ?>>English</option>
+                        <option value="7" <?php echo ($m_value == '7') ? 'selected' : ''; ?>>Other</option>
                     </select>
                 </div>
                 <br>
@@ -384,14 +413,14 @@
                 
                 <br>
                 <div class="input-group">
-                    <!--value="<?php echo htmlspecialchars($name); ?>"-->
                     <label for="doj">Date of Join:</label><label for="mode" style="margin-left: 295px;">Mode of Study:</label><br>
-
+                    
                     <input type="date" name="doj" style="width: 150px;" required>
            
-                    <input type="radio" name="mode" value="1" required style="margin-left: 270px;">
+                    <?php $mode_value = getLookupValue($conn,htmlspecialchars($modeid))?>
+                    <input type="radio" name="mode" value="1" required style="margin-left: 270px;" <?php echo ($mode_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="mode">Day-Scholar</label>
-                    <input type="radio" name="mode" value="2" required style="margin-left: -30px;">
+                    <input type="radio" name="mode" value="2" required style="margin-left: -30px;" <?php echo ($mode_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="mode">Hostelite</label>
                 </div>
                 <br>
@@ -399,11 +428,11 @@
                 <div class="input-group">
                     <label for="trans">Transport:</label>
                     <select name="trans" style="width: 250px ;" value="<?php echo htmlspecialchars($trans); ?>" required>
-                        <option selected disabled>Select any one</option>
-                        <option value="1">College Bus</option>
-                        <option value="2">Self</option>
-                        <option value="3">Others</option>
-                        <option value="4">NA (if hostel)</option>
+                        <?php $trans_value = getLookupValue($conn,htmlspecialchars($transid))?>
+                        <option value="1" <?php echo ($trans_value == '1') ? 'selected' : '';?>>College Bus</option>
+                        <option value="2" <?php echo ($trans_value == '2') ? 'selected' : '';?>>Self</option>
+                        <option value="3" <?php echo ($trans_value == '3') ? 'selected' : '';?>>Others</option>
+                        <option value="4" <?php echo ($trans_value == '4') ? 'selected' : '';?>>NA (if hostel)</option>
                     </select>
                 </div>
                 <br>
@@ -411,14 +440,16 @@
                 <div class="input-group">
                     <label for="first_graduate">First Graduate:</label><label for="quota" style="margin-left: 295px;">Quota:</label><br>
 
-                    <input type="radio" name="first_graduate" value="1" style="margin-left: -1px;" required>
+                    <?php $f_grad_value = getLookupValue($conn,htmlspecialchars($firstgradid))?>
+                    <input type="radio" name="first_graduate" value="1" style="margin-left: -1px;" required <?php echo ($f_grad_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="first_graduate">Yes</label>
-                    <input type="radio" name="first_graduate" value="2" style="margin-left: -80px;" required>
+                    <input type="radio" name="first_graduate" value="2" style="margin-left: -80px;" required <?php echo ($f_grad_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="first_graduate">No</label>
               
-                    <input type="radio" name="quota" value="1" style="margin-left: 180px;" required>
+                    <?php $quota_value = getLookupValue($conn,htmlspecialchars($quotaid))?>
+                    <input type="radio" name="quota" value="1" style="margin-left: 180px;" required <?php echo ($quota_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="quota">General</label>
-                    <input type="radio" name="quota" value="2" style="margin-left: -50px;" required>
+                    <input type="radio" name="quota" value="2" style="margin-left: -50px;" required <?php echo ($quota_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="quota">Management</label>
                 </div>
                 <br>
@@ -426,14 +457,14 @@
                     <label for="community">Community:</label>  <label for="caste"  style="width: 250px ;margin-left: 295px;">Caste:</label>
                      <br>
                     <select name="community" style="width: 250px" value="<?php echo htmlspecialchars($commid); ?>" required>
-                        <option selected disabled>Select any one</option>
-                        <option value="1">OC</option>
-                        <option value="2">BC</option>
-                        <option value="3">MBC</option>
-                        <option value="4">SC</option>
-                        <option value="5">ST</option>
-                        <option value="6">DNC</option>
-                        <option value="7">Others</option>
+                        <?php $comm_value = getLookupValue($conn,htmlspecialchars($commid))?>
+                        <option value="1" <?php echo ($comm_value == '1') ? 'selected' : '';?>>OC</option>
+                        <option value="2" <?php echo ($comm_value == '2') ? 'selected' : '';?>>BC</option>
+                        <option value="3" <?php echo ($comm_value == '3') ? 'selected' : '';?>>MBC</option>
+                        <option value="4" <?php echo ($comm_value == '4') ? 'selected' : '';?>>SC</option>
+                        <option value="5" <?php echo ($comm_value == '5') ? 'selected' : '';?>>ST</option>
+                        <option value="6" <?php echo ($comm_value == '6') ? 'selected' : '';?>>DNC</option>
+                        <option value="7" <?php echo ($comm_value == '7') ? 'selected' : '';?>>Others</option>
                     </select>
 
                     <input type="text" name="caste"  style="width: 200px ;margin-left: 195px;" value="<?php echo htmlspecialchars($caste); ?>" required>
@@ -447,27 +478,31 @@
                 <br>
                 <div class="input-group">
                     <label for="physically_challenged" style="width: 250px;">Physically Challenged:</label>
-                    <input type="radio" name="physically_challenged" value="1" required style="margin-left: -1px">
+                    <?php $p_chl_value = getLookupValue($conn,htmlspecialchars($physicid))?>
+
+                    <input type="radio" name="physically_challenged" value="1" required style="margin-left: -1px" <?php echo ($p_chl_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="physically_challenged">Yes</label>
-                    <input type="radio" name="physically_challenged" value="2" required style="margin-left: -50px">
+                    <input type="radio" name="physically_challenged" value="2" required style="margin-left: -50px" <?php echo ($p_chl_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="physically_challenged">No</label>
                 </div>
                 <br>
 
                 <div class="input-group">
                     <label for="vaccinated" style="width: 250px;">Double Vaccinated:</label>
-                    <input type="radio" name="vaccinated" value="1" required style="margin-left: -1px">
+                    <?php $vacc_value = getLookupValue($conn,htmlspecialchars($vaccinateid))?>
+                    <input type="radio" name="vaccinated" value="1" required style="margin-left: -1px" <?php echo ($vacc_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="vaccinated">Yes</label>
-                    <input type="radio" name="vaccinated" value="2" required style="margin-left: -50px">
+                    <input type="radio" name="vaccinated" value="2" required style="margin-left: -50px" <?php echo ($vacc_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="vaccinated">No</label>
                 </div>
                 <br>
 
                 <div class="input-group" >
                     <label for="under_any_treatment" style="width: 250px;">Under any Treatment?</label>
-                    <input type="radio" name="under_any_treatment" value="1" required style="margin-left: -1px">
+                    <?php $t_value = getLookupValue($conn,htmlspecialchars($treatid))?>
+                    <input type="radio" name="under_any_treatment" value="1" required style="margin-left: -1px" <?php echo ($t_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="under_any_treatment">Yes</label>
-                    <input type="radio" name="under_any_treatment" value="2" required style="margin-left: -50px">
+                    <input type="radio" name="under_any_treatment" value="2" required style="margin-left: -50px" <?php echo ($t_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="under_any_treatment">No</label>
                 </div>
                 <br>
@@ -479,58 +514,62 @@
             <div class="det">
                     <div class="input-group">
                         <label for="acad_type">Academic Type:</label>
-                        <select id="acad_type" name="acad_type" style="width: 250px" value="<?php echo htmlspecialchars($acad_type); ?>"   required>
-                            <option selected disabled value="">Select any one</option>
-                            <option value="SSLC">SSLC</option>
-                            <option value="HSC">HSC</option>
+                        <select id="acad_type" name="acad_type" style="width: 250px">" required>
+                        <?php 
+                             $i=0;
+                             foreach ($data as $index => $item) { ?>
+                            <option value="<?php echo $index; ?>"><?php echo getLookup($conn,htmlspecialchars($item['acdtype'])); ?></option>
+                            <?php } ?>
+                            
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="inst_name">Institution Name:</label>
-                        <input type="text" id="inst_name" name="inst_name" placeholder="Name" value="<?php echo htmlspecialchars($instname); ?>" disabled required>
+                        <input type="text" id="inst_name" name="inst_name" placeholder="Name" value="<?php echo htmlspecialchars($data[0]['instname']); ?>" required>
                     </div>
                     
                     <div class="input-group">
                         <label for="acd_reg_no">Register Number:</label>
-                        <input type="text" id="acd_reg_no" name="acd_reg_no" placeholder="" style="width: 180px" value="<?php echo htmlspecialchars($acd_regno); ?>"  disabled required>
+                        <input type="text" id="acd_reg_no" name="acd_reg_no" placeholder="" style="width: 180px" value="<?php echo htmlspecialchars($data[$i]['acd_regno']); ?>" required>
                     </div>
 
                     <div class="input-group">
                         <label for="mode_of_study">Mode Of Study:</label>
-                        <select id="mode_of_study" name="mode_of_study" style="width: 180px" value="<?php echo htmlspecialchars($modeOfStudy); ?>"  disabled required>
-                            <option selected disabled value="">Select any one</option>
-                            <option value="Full-Time">Full-Time</option>
-                            <option value="Part-Time">Part-Time</option>
+                        <select id="mode_of_study" name="mode_of_study" style="width: 180px" value="<?php echo htmlspecialchars($modeOfStudy); ?>" required>
+                        <?php $a_mode_value = getLookupValue($conn,htmlspecialchars($data[$i]['modeOfStudy']))?>
+                            <option value="43" <?php echo ($a_mode_value == '1') ? 'selected' : '';?>>Full-Time</option>
+                            <option value="44" <?php echo ($a_mode_value == '2') ? 'selected' : '';?>>Part-Time</option>
                         </select>
                         <label for="mode_of_medium" style="margin-left: 60px;">Mode Of Medium:</label>
-                        <select id="mode_of_medium" name="mode_of_medium" style="width: 180px" value="<?php echo htmlspecialchars($modeOfMedium); ?>" disabled required>
-                            <option selected disabled value="">Select any one</option>
-                            <option value="English">English</option>
-                            <option value="Tamil">Tamil</option>
+                        <select id="mode_of_medium" name="mode_of_medium" style="width: 180px" value="<?php echo htmlspecialchars($modeOfMedium); ?>" required>
+                        <?php $medium_value = getLookupValue($conn,htmlspecialchars($data[$i]['modeOfMedium']))?>
+                            <option value="36" >English</option>
+                            <option value="37" >Tamil</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="board">Board:</label>
-                        <select id="board" name="board" style="width: 200px" value="<?php echo htmlspecialchars($board); ?>" disabled required>
-                            <option selected disabled value="">Select any one</option>
-                            <option value="CBSE">CBSE</option>
-                            <option value="State_Board">State Board</option>
-                            <option value="Matric">Matric</option>
-                            <option value="ICSE">ICSE</option>
+                        <select id="board" name="board" style="width: 200px" value="<?php echo htmlspecialchars($board); ?>" required>
+                            <?php $board_value = getLookupValue($conn,htmlspecialchars($data[$i]['board']))?>
+                            <option value="38">State Board</option>
+                            <option value="39">Matric</option>
+                            <option value="40">CBSE</option>
+                            <option value="41">ICSE</option>
+                            <option value="42">Others</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="marks_obtained">Marks Obtained:</label>
-                        <input type="number" id="marks_obtained" name="marks_obtained" placeholder="ex.400" style="width: 90px" min="0" value="<?php echo htmlspecialchars($marksObtained); ?>" disabled required>
+                        <input type="number" id="marks_obtained" name="marks_obtained" placeholder="ex.400" style="width: 90px" min="0" value="<?php echo htmlspecialchars($data[$i]['Mark']); ?>"  required>
                         /
-                        <input type="number" id="total_marks" name="total_marks" placeholder="ex.500" style="width: 90px;" min="0" value="<?php echo htmlspecialchars($totalMarks); ?>" disabled required>
+                        <input type="number" id="total_marks" name="total_marks" placeholder="ex.500" style="width: 90px;" min="0" value="<?php echo htmlspecialchars($data[$i]['totalMarks']); ?>" required>
                     </div>
                     <div class="input-group">
                         <label for="percentage">Percentage:</label>
                         <label for="cut_off" style="margin-left: 250px;">Cut-Off:</label>
                         <br>
-                        <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01" value="<?php echo htmlspecialchars($percentage); ?>" disabled required>
-                        <input type="number" id="cut_off" name="cut_off" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200"  value="<?php echo htmlspecialchars($cutOff); ?>"disabled required>
+                        <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01" value="<?php echo htmlspecialchars($data[$i]['percentage']); ?>"  required>
+                        <input type="number" id="cut_off" name="cut_off" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200"  value="<?php echo htmlspecialchars($data[$i]['cutOff']); ?>" required>
                     </div>
                     <input type="hidden" id="storedData" name="storedData">
                     <button id="submitBtn" type="button">Done</button>
@@ -588,5 +627,61 @@
     </div>
     </form>
 
+    <script>
+        // JavaScript for handling dynamic form field updates
+        document.addEventListener('DOMContentLoaded', function() {
+            var acadTypeSelect = document.getElementById('acad_type');
+
+            // Event listener for acad_type select change
+            acadTypeSelect.addEventListener('change', function() {
+                var selectedIndex = this.value; // Get selected index
+                updateFormFields(selectedIndex); // Call update function
+            });
+
+            // Function to update form fields based on index
+            function updateFormFields(index) {
+                var selectedData = <?php echo json_encode($data); ?>[index]; // Get selected data from PHP array
+
+                // Update Institution Name
+                document.getElementById('inst_name').value = selectedData['instname'];
+
+                // Update Register Number
+                document.getElementById('acd_reg_no').value = selectedData['acd_regno'];
+
+                // Update Mode of Study
+                var modeOfStudySelect = document.getElementById('mode_of_study');
+                setSelectedIndexByValue(modeOfStudySelect, selectedData['modeOfStudy']);
+
+                // Update Mode of Medium
+
+                // work aagala inga.. inga irunthu php function call panni fetch pananum... but aaga maatinguthu inga..
+                var modeOfMediumSelect = document.getElementById('mode_of_medium');  
+                setSelectedIndexByValue(modeOfMediumSelect, selectedData['modeOfMedium']);
+
+                // Update Board
+                var boardSelect = document.getElementById('board');
+                setSelectedIndexByValue(boardSelect, selectedData['board']);
+
+                // Update Marks Obtained and Total Marks
+                document.getElementById('marks_obtained').value = selectedData['Mark'];
+                document.getElementById('total_marks').value = selectedData['totalMarks'];
+
+                // Update Percentage and Cut-Off
+                document.getElementById('percentage').value = selectedData['percentage'];
+                document.getElementById('cut_off').value = selectedData['cutOff'];
+            }
+
+            // Function to set selected index of a <select> element based on value
+            function setSelectedIndexByValue(selectElement, value) {
+                for (var i = 0; i < selectElement.options.length; i++) {
+                    if (selectElement.options[i].value === value.toString()) { // Ensure value comparison is correct
+                        selectElement.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+        });
+    </script>
 </body>
 </html>

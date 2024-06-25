@@ -6,7 +6,7 @@
     <title>Student View</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="Student.css">
+    <link rel="stylesheet" href="view.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- JavaScript Libraries -->
@@ -59,7 +59,8 @@
     ini_set('display_errors', 1);
 
     // Database connection parameters
-    $host = "localhost:3307";
+    // $host = "localhost:3307";
+    $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -76,8 +77,8 @@
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
         echo $rollno;
-        //$rollno = '120';
 
+        //Personal details
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
             Student_Gender_ID, Student_DOB, Student_FatherName, Student_Father_PH, Student_Father_Occupation_ID, 
             Student_Father_AnnualIncome, Student_PH, Student_Register_Numbe, Student_MotherName, 
@@ -122,11 +123,11 @@
                                 </div>
                                 <div class='input-group'>
                                     <label>Gender:</label>
-                                    <span>" . htmlspecialchars($row['Student_Gender_ID']) . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Gender_ID'])) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Register number:</label>
-                                    <span>" . htmlspecialchars($row['Student_Register_Numbe']) . "</span>
+                                    <span>9131" . htmlspecialchars($row['Student_Register_Numbe']) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Mother Name:</label>
@@ -138,7 +139,7 @@
                                 </div>
                                 <div class='input-group'>
                                     <label>Mother's Occupation:</label>
-                                    <span>" . htmlspecialchars($row['Student_Mother_Occupation_ID']) . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Mother_Occupation_ID'])) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Father Name:</label>
@@ -150,7 +151,7 @@
                                 </div>
                                 <div class='input-group'>
                                     <label>Father's Occupation:</label>
-                                    <span>" . htmlspecialchars($row['Student_Father_Occupation_ID']) . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Father_Occupation_ID'])) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Annual Income:</label>
@@ -158,7 +159,7 @@
                                 </div>
                                 <div class='input-group'>
                                     <label>Mother Tongue:</label>
-                                    <span>" . htmlspecialchars($row['Student_Mother_Tongue_ID']) . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Mother_Tongue_ID'])). "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Languages Known:</label>
@@ -182,23 +183,23 @@
                                 </div>
                                 <div class='input-group'>
                                     <label>Mode of Study:</label>
-                                    <span>" . htmlspecialchars($row['Student_Mode_ID']) . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Mode_ID'])). "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Transport:</label>
-                                    <span>". htmlspecialchars($row['Student_Transport_ID']) ."</span>
+                                    <span>". getLookupValue($conn,htmlspecialchars($row['Student_Transport_ID'])) ."</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>First Graduate:</label>
-                                    <span>". htmlspecialchars($row['Student_First_Graduate_ID']) ."</span>
+                                    <span>". getLookupValue($conn,htmlspecialchars($row['Student_First_Graduate_ID'])) ."</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Quota:</label>
-                                    <span>". htmlspecialchars($row['Student_Quota_ID']) ."</span>
+                                    <span>". getLookupValue($conn,htmlspecialchars($row['Student_Quota_ID'])) ."</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Community:</label>
-                                    <span>" . htmlspecialchars($row['Student_Community_ID']) . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Community_ID'])) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Caste:</label>
@@ -210,15 +211,15 @@
                                 </div>
                                 <div class='input-group'>
                                     <label>Physically Challenged:</label>
-                                    <span>" . ($row['Student_PhysicallyChallenged_ID'] ? 'Yes' : 'No') . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_PhysicallyChallenged_ID'])) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Double Vaccinated:</label>
-                                    <span>" . ($row['Student_Vaccinated_ID'] ? 'Yes' : 'No') . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Vaccinated_ID'])) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Under any Treatment?</label>
-                                    <span>" . ($row['Student_Treatment_ID'] ? 'Yes' : 'No') . "</span>
+                                    <span>" . getLookupValue($conn,htmlspecialchars($row['Student_Treatment_ID'])). "</span>
                                 </div>
                             </div>
                         </section>";
@@ -232,24 +233,26 @@
         
             $stmt->close();
 
+        // academic details
         $stmt = $conn->prepare("SELECT Student_Rollno, Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID,
          Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark
             FROM student_academics WHERE Student_Rollno = ?");
 
         $stmt->bind_param("s", $rollno);
-
+        ?>
+        <section>
+        <div class='details'><h3>Academic</h3></div>
+        <?php
         if ($stmt->execute()) {
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "
-                    <section>
-                            <div class='details'><h3>Academic</h3></div>
                             <div class='det'>
                                 <div class='input-group'>
                                     <label>Academic Type:</label>
-                                    <span>". htmlspecialchars($row['Academic_Type_ID']) ."</span>
+                                    <span>". getLookupValue($conn,htmlspecialchars($row['Academic_Type_ID']))."</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Institution Name:</label>
@@ -257,25 +260,25 @@
                                 </div>
                                  <div class='input-group'>
                                     <label>Register Number:</label>
-                                    <span>". htmlspecialchars($row['Register_Number']) ."</span>
+                                    <span>". htmlspecialchars($row['Register_Number'])."</span>
                                 </div>
                                 
                                 <div class='input-group'>
                                     <label>Mode Of Study:</label>
-                                    <span>". htmlspecialchars($row['Mode_Of_Study_ID']) ."</span>
+                                    <span>". getLookupValue($conn,htmlspecialchars($row['Mode_Of_Study_ID']))  ."</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Mode Of Medium:</label>
-                                    <span>". htmlspecialchars($row['Mode_Of_Medium_ID']) ."</span>
-                                </div>Mode_Of_Medium_ID
+                                    <span>".getLookupValue($conn,htmlspecialchars($row['Mode_Of_Medium_ID']))  ."</span>
+                                </div>
                                 <div class='input-group'>
                                     <label>Board:</label>
-                                    <span>". htmlspecialchars($row['Board_ID']) ."</span>
+                                    <span>". getLookupValue($conn,htmlspecialchars($row['Board_ID'])) ."</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Marks Obtained:</label>
                                     <span>". htmlspecialchars($row['Mark']) ."</span>
-                                </div> /
+                                </div> 
                                  <div class='input-group'>
                                     <label>Marks Total:</label>
                                     <span>". htmlspecialchars($row['Mark_Total']) ."</span>
@@ -301,7 +304,7 @@
         
             $stmt->close();
 
-            
+        // extra-curricular
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Hobbies, Student_Programming_Language,
          Student_Others, Student_Interest, Student_DreamCompany,
          Student_Ambition FROM student_extracurriculars WHERE Student_Rollno = ?");
@@ -358,11 +361,48 @@
                             <button id='edit' onclick=\"window.location.href='Edit_Student.php?value=".$rollno."'\" style='margin-left: 20px;'>Edit</button>
                         </div>
                     </div>";
-        $conn->close();
+        $stmt->close();
+        //$conn->close();
     } else {
         echo "<span>No roll number provided</span>";
     }
+
+    function getLookupValue($conn,$lookUpId) {
+        $stmt = $conn->prepare("SELECT LookUpTypeValue FROM lookup where LookUpId = ?");
+        if (!$stmt) {
+            echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
+            return null;
+        }
+    
+        if (!$stmt->bind_param("s",$lookUpId)) {
+            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        if (!$stmt->execute()) {
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        $lookupValue = null;
+        if (!$stmt->bind_result($lookupValue)) {
+            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
+            return null;
+        }
+    
+        if (!$stmt->fetch()) {
+            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
+            // If fetch fails, it could mean no result was found.
+            // You might want to handle this case differently depending on your needs.
+            return null;
+        }
+    
+        $stmt->close();
+        return $lookupValue;
+    }
     ?>
+
+
 
     <script>
         function generatePDF() {
