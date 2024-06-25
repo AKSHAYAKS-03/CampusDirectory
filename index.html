@@ -29,7 +29,7 @@
         <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
     </header>
    
-    <form action="index.php" method="post" id="form">
+    <form action="personal.php" method="post" id="form">
     <div class="container">
         <section id="personal-info">
             <div class="details"><h3>Personal Details</h3></div>
@@ -255,8 +255,8 @@
                         <label for="acad_type">Academic Type:</label>
                         <select id="acad_type" name="acad_type" style="width: 250px" required>
                             <option selected disabled value="">Select any one</option>
-                            <option value="SSLC">SSLC</option>
-                            <option value="HSC">HSC</option>
+                            <option value="1">SSLC</option>
+                            <option value="2">HSC</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -273,24 +273,25 @@
                         <label for="mode_of_study">Mode Of Study:</label>
                         <select id="mode_of_study" name="mode_of_study" style="width: 180px" disabled required>
                             <option selected disabled value="">Select any one</option>
-                            <option value="Full-Time">Full-Time</option>
-                            <option value="Part-Time">Part-Time</option>
+                            <option value="1">Full-Time</option>
+                            <option value="2">Part-Time</option>
                         </select>
                         <label for="mode_of_medium" style="margin-left: 60px;">Mode Of Medium:</label>
                         <select id="mode_of_medium" name="mode_of_medium" style="width: 180px" disabled required>
                             <option selected disabled value="">Select any one</option>
-                            <option value="English">English</option>
-                            <option value="Tamil">Tamil</option>
+                            <option value="1">English</option>
+                            <option value="2">Tamil</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="board">Board:</label>
                         <select id="board" name="board" style="width: 200px" disabled required>
                             <option selected disabled value="">Select any one</option>
-                            <option value="CBSE">CBSE</option>
-                            <option value="State_Board">State Board</option>
-                            <option value="Matric">Matric</option>
-                            <option value="ICSE">ICSE</option>
+                            <option value="1">State Board</option>
+                            <option value="2">Matric</option>
+                            <option value="3">CBSE</option>
+                            <option value="4">ICSE</option>
+                            <option value="5">Others</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -304,14 +305,14 @@
                         <label for="cut_off" style="margin-left: 250px;">Cut-Off:</label>
                         <br>
                         <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01" disabled required>
-                        <input type="number" id="cut_off" name="cut_off" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
+                        <input type="number" id="cut_off" name="cut_off" value="-" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
                     </div>
                     <input type="hidden" id="storedData" name="storedData">
                     <button id="submitBtn" type="button">Done</button>
                     <br><br>
             </div>
         </section>
-        <br>    
+        <br>     
 
         <section id="extra-curr">
             <div class="details"><h3>Extra - Curricular</h3></div>
