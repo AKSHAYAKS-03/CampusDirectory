@@ -4,8 +4,8 @@
         echo "Received value: " . htmlspecialchars($value);
     }
         // Database connection
-       // $host = "localhost:3390";
-        $host = "localhost:3307";
+        $host = "localhost:3390";
+       // $host = "localhost:3307";
         $username = "root";
         $password = "";
         $dbname = "student_profile";
@@ -28,7 +28,7 @@
             $stmt->close();
             $conn->close();
             //echo 'found';
-            header("Location: Student_View.php?value=" . urlencode($roll_no)); 
+            header("Location: Student_view.php?value=" . urlencode($roll_no)); 
             exit();
         } else {
             // Roll number not found

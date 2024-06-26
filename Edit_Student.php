@@ -12,7 +12,8 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <script src="student.js"></script>
+    <script type="module" src="student.js"></script>
+
     <!-- Inline Styles -->
     <style>
         #generate-pdf, #edit {
@@ -44,6 +45,9 @@
             outline: none; /* Remove default focus outline */
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Custom focus outline */
         }
+
+        #sslc, #hsc, #FinalSubmit{display: none;}
+        
     </style>
 </head>
 <body>
@@ -255,7 +259,7 @@
 }
 
 
-    $hobbies = $proglang = $others = $interest = $dreamcomp = $ambition = ''; // Initialize variables
+    $hobbies = $proglangarray = $othersarray = $interest = $dreamarray = $ambition = ''; // Initialize variables
     $stmt = $conn->prepare("SELECT Student_Rollno, Student_Hobbies, Student_Programming_Language,
     Student_Others, Student_Interest, Student_DreamCompany,
     Student_Ambition FROM student_extracurriculars WHERE Student_Rollno = ?");
@@ -267,10 +271,10 @@
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $hobbies = $row['Student_Hobbies'];
-        $proglang = $row['Student_Programming_Language'];
-        $others = $row['Student_Others'];
+        $proglangarray =  explode(", ",$row['Student_Programming_Language']);
+        $othersarray  = explode(", ", $row['Student_Others']);
         $interest = $row['Student_Interest'];
-        $dreamcomp = $row['Student_DreamCompany'];
+        $dreamarray  =  explode(", ",$row['Student_DreamCompany']);
         $ambition = $row['Student_Ambition'];                    
     } else {
     echo "Error: " . $stmt->error;
@@ -583,57 +587,129 @@
         <br>    
         
         <section id="extra-curr">
-            <div class="details"><h3>Extra - Curricular</h3></div>
-            <div class="det">
-                <div class="input-group">
-                    <label for="Hobbies">Hobbies:</label><br>
-                    <textarea id="Hobbies" name="hobbies" rows="2" cols="30" style="width: 450px" ><?php echo htmlspecialchars($hobbies); ?></textarea>
-                </div>
-                <div class="input-group" style="display: -webkit-flex;">
-                    <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
-            
-                    <div class="input-row" >
-                        <label for="Programming_Language" style="width: 250px;font-size: 14px;margin-top: 40px;">Programming Language: </label>
-                        <div class="input-Programming_Language">
-                            <input type="text" id="Programming_Language" name="Programming_Language[]" placeholder="" style="width: 200px;display: flex;flex-direction: column;" value="<?php echo htmlspecialchars($proglang); ?>">
-                            <i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left:5px" ></i>
+                <div class="details"><h3>Extra - Curricular</h3></div>
+                <div class="det">
+                    <div class="input-group">
+                        <label for="Hobbies">Hobbies:</label><br>
+                        <textarea id="Hobbies" name="hobbies" rows="2" cols="30" style="width: 450px"><?php echo htmlspecialchars($hobbies); ?></textarea>
                     </div>
+                    <div class="input-group" style="display: -webkit-flex;">
+                        <label for="Certification_Courses" style="width: 250px">Certification Courses: </label><br>
+                        <div class="input-row">
+                            <label for="Programming_Language" style="width: 250px;font-size: 14px;margin-top: 40px;">Programming Language: </label>
+                            <div class="input-Programming_Language">                       
+                                    <?php
+                                    $i = 0;
+                                    foreach ($proglangarray as $lang):
+                                        echo '<div class="input-group">';
+                                        echo '<input type="text" class="inputtype" id="Programming_Language' . $i . '" name="Programming_Language[]" placeholder="" style="width: 200px;" value="' . htmlspecialchars(trim($lang)) . '">';
+                                        if ($i == 0) {
+                                            echo '<i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left: 5px"></i>';
+                                        } else {
+                                            echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px"></i>';
+                                        }
+                                        echo '</div>';
+                                        $i++;
+                                    endforeach;
+                                    ?>
+                                </div>
                     </div>
-                    
                     <div class="input-row">
                         <label for="Other_Courses" style="width: 250px;font-size: 14px;margin-left: 20px;margin-top: 40px;">Other Courses: </label>
-                        <div class="input-Other_Courses" >
-                            <input type="text" id="Other_Courses" name="Other_Courses[]" placeholder="" style="width: 200px;display: flex;flex-direction: column;" value="<?php echo htmlspecialchars($others); ?>">
-                            <i id="addOtherCourses" class="fas fa-plus icon" style="margin-left: 5px"></i>
+                        <div class="input-Other_Courses">
+                        <?php
+                        $i = 0;
+                        foreach ($othersarray as $lang):
+                            echo '<div class="input-group">';
+                            echo '<input type="text" class="inputtype" id="Other_Courses' . $i . '" name="Other_Courses[]" placeholder="" style="width: 200px;" value="' . htmlspecialchars(trim($lang)) . '">';
+                            if ($i == 0) {
+                                echo '<i class="fas fa-plus icon addOtherCourses" style="margin-left: 5px"></i>';
+                            } else {
+                                echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px"></i>';
+                            }
+                            echo '</div>';
+                            $i++;
+                        endforeach;
+                        ?>
+                        </div>
                         </div>
                     </div>
-                </div>
+                    
+                    <div class="input-group">
+                        <label for="Interest">Interests:</label><br>
+                        <textarea id="Interest" name="interests" rows="4" cols="30" style="width: 450px" required><?php echo htmlspecialchars($interest); ?></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="Dream_Company" style="width: 200px">Dream Company:</label><br>
+                    
+              
+                    <div class="input-Dream_Company" style="display: flex; flex-direction: column;">
+                        <?php
+                        $i = 0;
+                        foreach ($dreamarray as $lang):
+                            echo '<div class="input-group">';
+                            echo '<input type="text" class="inputtype" id="Dream_Company' . $i . '" name="Dream_Company[]" placeholder="" style="width: 200px;" value="' . htmlspecialchars(trim($lang)) . '">';
+                            if ($i == 0) {
+                                echo '<i id="addDream_Company" class="fas fa-plus icon" style="margin-left: 5px"></i>';
+                            } else {
+                                echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px"></i>';
+                            }
+                            echo '</div>';
+                            $i++;
+                        endforeach;
+                        ?>
+                    </div>
 
-                <div class="input-group">
-                    <label for="Interest">Interests:</label><br>
-                    <textarea id="Interest" name="interests" rows="4" cols="30" style="width: 450px"  required><?php echo htmlspecialchars($interest); ?></textarea>
-                </div>
-                <div class="input-group">
-                    <label for="Dream_Company" style="width: 200px"> Dream Company: </label><br>
-                    <div class="input-Dream_Company" style="display: flex;flex-direction: column;">
-                    <input type="text" id="Dream_Company" name="Dream_Company[]" placeholder="" style="width: 200px" value="<?php echo htmlspecialchars($dreamcomp); ?>"><i id="addDream_Company" class="fas fa-plus icon" style="margin-left: 5px"></i>              
+                    </div>
+                    <div class="input-group">
+                        <label for="Ambition">Ambition:</label><br>
+                        <textarea id="Ambition" name="ambition" rows="4" cols="30" style="width: 450px" required><?php echo htmlspecialchars($ambition); ?></textarea>
                     </div>
                 </div>
-
-                <div class="input-group">
-                    <label for="Ambition">Ambition:</label><br>
-                    <textarea id="Ambition" name="ambition" rows="4" cols="30" style="width: 450px" required><?php echo htmlspecialchars($ambition); ?></textarea>
-                </div>
-            </div>
+            </section><br>
         </section><br>
-        <center><input type="submit" value="Update" id="FinalSubmit" class="submit-button"></center>                <!--      // modified -->
-         <input type="hidden" id="roll_no" name="roll_no" value="<?php echo htmlspecialchars($rollno);?>">           <!--      // modified -->
+
+        <center><input type="submit" value="Update" id="EditSubmit" class="submit-button"></center>                
+         <input type="hidden" id="roll_no" name="roll_no" value="<?php echo htmlspecialchars($rollno);?>">          
     </div>
     </form>
+    
+    <div id="sslc"></div>
+    <div id="hsc"></div>
+    <div id="FinalSubmit"></div>
 
     <script>
+
         // JavaScript for handling dynamic form field updates
         document.addEventListener('DOMContentLoaded', function() {
+            var acadTypeSelect = document.getElementById('acad_type');
+
+            // Event listener for acad_type select change
+            acadTypeSelect.addEventListener('change', function() {
+                var selectedIndex = acadTypeSelect.selectedIndex;
+                console.log("Selected index:", selectedIndex); // Get selected index
+                updateFormFields(selectedIndex); // Call update function
+            });
+        // Remove the field when the minus icon is clicked
+        $(document).on('click', '.removeField', function() {
+            $(this).closest('.input-group').remove();
+        });
+
+        // Add more fields functionality (if needed)
+        $('#addProgrammingLanguage').click(function() {
+            $('.input-Programming_Language').append('<div class="input-group"><input type="text" class="inputtype" name="Programming_Language[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px"></i></div>');
+        });
+
+        $('.addOtherCourses').click(function() {
+            $('.input-Other_Courses').append('<div class="input-group"><input type="text" class="inputtype" name="Other_Courses[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px"></i></div>');
+        });
+
+        $('#addDream_Company').click(function() {
+            $('.input-Dream_Company').append('<div class="input-group"><input type="text" class="inputtype" name="Dream_Company[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeDreamCompany" style="margin-left: 5px"></i></div>');
+        });
+
+
+        // JavaScript for handling dynamic form field update
             var acadTypeSelect = document.getElementById('acad_type');
 
             // Event listener for acad_type select change
@@ -646,7 +722,7 @@
             // Function to update form fields based on index
             function updateFormFields(index) {
                 var data = <?php echo json_encode($data); ?>;
-                var selectedData = data[index]; // Get data for the selected index
+            var selectedData = data[index]; // Get data for the selected index
 
                 // Update Institution Name
                 document.getElementById('inst_name').value = selectedData['instname'];
