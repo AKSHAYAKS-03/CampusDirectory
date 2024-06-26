@@ -77,6 +77,7 @@ header img {
 
 .form-section {
     margin-bottom: 30px;
+    page-break-inside: avoid;
 }
 
 .input-group {

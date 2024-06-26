@@ -12,6 +12,7 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
     <!-- Inline Styles -->
     <style>
@@ -103,7 +104,7 @@
                             <div class='det'>
                                 <div class='input-group'>
                                     <label>Name:</label>
-                                    <span>" . htmlspecialchars($row['Student_Name']) . "</span>
+                                    <span>" . htmlspecialchars($row['Student_Name']) . "</span>>
                                 </div>
                                 <div class='input-group'>
                                     <label>Aadhar:</label>
@@ -155,7 +156,7 @@
                                 </div>
                                 <div class='input-group'>
                                     <label>Annual Income:</label>
-                                    <span>" . htmlspecialchars($row['Student_Father_AnnualIncome']) . "</span>
+                                    <span>" . number_format(htmlspecialchars($row['Student_Father_AnnualIncome'])) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Mother Tongue:</label>
@@ -291,10 +292,10 @@
                                     <label>Cut-Off:</label>
                                     <span>". htmlspecialchars($row['Cut_Of_Mark']) ."</span>
                                 </div>
-                            </div>
-                        </section>";
+                            </div>";
                         
                     }
+                    echo "</section>";
                 } else {
                     echo "<span>No academic data found</span>";
                 }
@@ -360,7 +361,7 @@
                             <button id='generate-pdf' onclick='generatePDF()' style='margin-left: 20px;'>Generate PDF</button>
                             <button id='edit' onclick=\"window.location.href='Edit_Student.php?value=".$rollno."'\" style='margin-left: 20px;'>Edit</button>
                         </div>
-                    </div>";
+            </div>";
         $stmt->close();
         //$conn->close();
     } else {
@@ -400,18 +401,60 @@
         $stmt->close();
         return $lookupValue;
     }
+
+    echo "<script>
+            var rollno = '" . htmlspecialchars($rollno, ENT_QUOTES, 'UTF-8') . "';
+          </script>";
     ?>
-
-
+    
 
     <script>
         function generatePDF() {
-            const element = document.getElementById('content');
+            // Select all <section> tags
+            const sections = document.querySelectorAll('section');
+            
+            // Debugging: log the number of sections found
+            console.log(`Found ${sections.length} sections.`);
+
+            // Create a new div to hold the sections
+            const element = document.createElement('div');
+
+            const heading = document.createElement('h2');
+            heading.style.textAlign = 'center';
+            heading.style.color = '#000';
+            heading.textContent = `${rollno.toUpperCase()} - Profile`;
+            element.appendChild(heading);
+
+            // Append each section to the new div
+            sections.forEach((section, index) => {
+                console.log(`Appending section ${index + 1}`);
+                element.appendChild(section.cloneNode(true));
+            });
+
+            // Debugging: log the HTML of the new div
+            console.log('Generated HTML for PDF:', element.innerHTML);
+    
+            console.log(rollno);
+            const opt = {
+                margin: 0.30,
+                filename: rollno + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
 
             html2pdf()
                 .from(element)
-                .save();
-        }
+                .set(opt)
+                .save()
+                .then(() => {
+                    console.log('PDF generated successfully.');
+                })
+                .catch(err => {
+                    console.error('Error generating PDF:', err);
+                });
+    }
+        
     </script>
 </body>
 </html>
