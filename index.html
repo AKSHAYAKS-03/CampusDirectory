@@ -22,6 +22,10 @@
             }
         });
     </script>
+     <style>
+        #sslc, #hsc, #EditSubmit{display: none;}
+    </style>
+
     <script src="student.js"></script>
 </head>
 <body>
@@ -29,7 +33,7 @@
         <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
     </header>
    
-    <form action="personal.php" method="post" id="form">
+    <form action="index.php" method="post" id="form">
     <div class="container">
         <section id="personal-info">
             <div class="details"><h3>Personal Details</h3></div>
@@ -363,6 +367,9 @@
     </div>
     </form>
 
+    <div id="sslc"></div>
+    <div id="hsc"></div>
+    <div id="EditSubmit"></div>
     
     <script>$(document).ready(function() {    
         $(".details").click(function() {

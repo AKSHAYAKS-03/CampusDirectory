@@ -325,7 +325,7 @@
                                     <span>". htmlspecialchars($row['Student_Hobbies'])."</span>
                                 </div>
                                 <div class='input-group'>
-                                    <label>Certification Courses:</label>
+                                    <label>Programming Courses:</label>
                                     <span>". htmlspecialchars($row['Student_Programming_Language'])."</span>
                                 </div>
                                 <div class='input-group'>

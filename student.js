@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    console.log(" fully loaded and parsed");
     var form = document.getElementById("form");
     var finalSubmitBtn = document.getElementById("FinalSubmit");
+    var editSubmitBtn = document.getElementById("EditSubmit");
 
      //personal validation
     // (address, radio, doj, dob, income, native)--> required* schlrship--> optional
@@ -38,9 +40,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var mm = month < 10 ? '0' + month : month;
     var dd = day < 10 ? '0' + day : day;
 
-    var maxDate_dob = (year - 15) + '-' + mm + '-' + dd;
+    var maxDate_dob = (year-15) + '-' + mm + '-' + dd;
     document.getElementsByName("dob")[0].setAttribute('max', maxDate_dob);
-
 
     var maxDate_doj = year + '-' + mm + '-' + dd;
     document.getElementsByName("doj")[0].setAttribute('max', maxDate_doj);
@@ -116,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Mother's phone number changed:", m_ph.value);
     });
 
-    f_name.addEventListener("submit", function() {
+    f_name.addEventListener("change", function() {
         var f_name_value = f_name.value.trim();
         if(!f_name_value.match(pattern_name)) 
             f_name.style.borderColor = "red";
@@ -152,19 +153,6 @@ document.addEventListener("DOMContentLoaded", function() {
     doj.addEventListener("change", function() {
         console.log("Date of Join changed:", doj.value);
     });
-
-
-    caste.addEventListener("change", function() {
-        var caste_value = caste.value.trim();
-        if (caste_value !== '') {
-            caste.style.borderColor = "";
-            console.log("Caste changed:", caste.value);
-        } else {
-            caste.style.borderColor = "red";
-        }
-    });
-    
-
 
     function validate_personal() {
         var flag = true;
@@ -366,9 +354,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('errr').innerHTML = ""; 
             }
 
-            return flag;           
+            return flag;
     }
-
 
 
     //ACademic validation
@@ -437,6 +424,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         function storeData() {
             var selectedValue = academictype.value;
+            console.log(selectedValue);
             if (selectedValue) {
                 var allFilled = true;
     
@@ -517,6 +505,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         cutOff: cutOff.value
                     };
                     console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
+                    console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
+                    if(selectedValue === '1')
+                        document.getElementById('sslc').innerText = '1';
+                    else
+                        document.getElementById('hsc').innerText = '1';
                     return true;
                 } 
                 else {
@@ -525,8 +518,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     return false;
                 }
             }
-
-
         }
     
         submitBtn.addEventListener("click", function(event) {
@@ -557,28 +548,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
             }
         });
-        function validate_academic() {
-                    
-            let accd_validate = true;
-            
-            var isBothAcademicTypesFilled = academicData.SSLC.institution && academicData.HSC.institution;
-    
-            if (isBothAcademicTypesFilled) {
-                accd_validate = true;
-            } else {
-                accd_validate = false;
-                console.log("Please ensure both SSLC and HSC academic details are filled in.");
-            }
-            return accd_validate;
-        }
-        
-            function disableType() {
-                var selectedType = academictype.options[academictype.selectedIndex];
-                selectedType.disabled = true;
-            }
-    
-    
-    
 
     
         function disableType() {
@@ -586,11 +555,21 @@ document.addEventListener("DOMContentLoaded", function() {
             selectedType.disabled = true;
         }
 
-
-       
+        function validate_acad(){
+            var flag = true;
+            var f1 = document.getElementById('sslc').innerText;
+            var f2 = document.getElementById('hsc').innerText;
+            console.log("ssls"+f1);
+            console.log("hsc"+f2);
+            if( f1 == '1' && f2 == '1' )
+                flag = true;
+            else
+                flag = false;
+            return flag;
+        }
+    
 
         // extracurriculars
-
         const MaxDreamCompanyCount = 3;
 
         function validate_extracurricular() {
@@ -618,19 +597,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log("Ambition: " + ambition.value);
             }
 
-            document.querySelectorAll('.input-Programming_Language input').forEach(function(input) {
-                if (!validateField(input)) isValid = false;
-                else {
-                    console.log("Programming Language: " + input.value);
-                }
-            });
+            const Programming_LanguageInputs = document.querySelectorAll('.input-Programming_Language input');
+            if (Programming_LanguageInputs.length > 1) {
+                Programming_LanguageInputs.forEach(function(input) {
+                    if (!validateField(input)) {
+                        isValid = false;
+                    } else {
+                        console.log("Programming Language: " + input.value);
+                    }
+                });
+            }
 
-            document.querySelectorAll('.input-Other_Courses input').forEach(function(input) {
-                if (!validateField(input)) isValid = false;
-                else {
-                    console.log("Other Courses: " + input.value);
-                }
-            });
+            const otherCoursesInputs = document.querySelectorAll('.input-Other_Courses input');
+            if (otherCoursesInputs.length > 1) {
+                otherCoursesInputs.forEach(function(input) {
+                    if (!validateField(input)) {
+                        isValid = false;
+                    } else {
+                        console.log("Other Courses: " + input.value);
+                    }
+                });
+            }
 
             document.querySelectorAll('.input-Dream_Company input').forEach(function(input) {
                 if (!validateField(input)) isValid = false;
@@ -691,27 +678,56 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             container.appendChild(removeIcon);
         }
-        
 
-        // final check
-
+        // final check -> index.html
+                
         finalSubmitBtn.addEventListener("click", function(event) {
             event.preventDefault();
             storeData();
             storedDataField.value = JSON.stringify(academicData);
+            
+            var f = validate_personal();
+            console.log(f);
     
-            var isAccademicValid = validate_academic();
-            var isPersonalValid = validate_personal();
+            var acad_f = validate_acad()
+            console.log(acad_f);
+    
             var isExtraValid = validate_extracurricular();
-
-            if (isAccademicValid && isPersonalValid && isExtraValid) {
+            console.log(isExtraValid);
+    
+            if(f == true && acad_f == true && isExtraValid == true)
                 form.submit();
-            } else if (!isAccademicValid) {
-                document.getElementById('academic-details').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else if (!isPersonalValid) {
+            else if(f==false)
                 document.getElementById('personal-info').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
+            else if(acad_f==false)
+                document.getElementById('academic-details').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else
                 document.getElementById('extra-curr').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    
+
+        // final check -> edit
+        editSubmitBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (typeof window.storeData === 'function') {
+                window.storeData(); // Call storeData function
+            } else {
+                console.error("storeData function is not defined");
             }
-       });
+            storedDataField.value = JSON.stringify(academicData);
+            
+            var f = validate_personal();
+            console.log(f);
+    
+            var isExtraValid = validate_extracurricular();
+            console.log(isExtraValid);
+    
+            if(f == true && isExtraValid == true)
+                form.submit();
+            else if(f==false)
+                document.getElementById('personal-info').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else
+                document.getElementById('extra-curr').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    
 });
