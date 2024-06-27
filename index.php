@@ -1,13 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Database connection
-<<<<<<< HEAD
    $host = "localhost:3307";
     //$host = "localhost:3390";
-=======
-   // $host = "localhost:3307";
-    $host = "localhost:3390";
->>>>>>> 08d0b5af37cbb7b422cd309dab9e2b22c8aa1ed5
     $username = "root";
     $password = "";
     $dbname = "student_profile";
