@@ -87,8 +87,10 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Aadhar number changed:", aadhar.value);
     });
 
-    dob.addEventListener("change", function() {
+    dob.addEventListener("change", function() {        
         console.log("Date of Birth changed:", dob.value);
+        dob.style.borderColor = "";
+
     });
 
     reg.addEventListener("change", function() {
@@ -135,10 +137,12 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     income.addEventListener("change", function() {
+        income.style.borderColor="";
         console.log("Annual income changed:", income.value);
     });
 
     native.addEventListener("change", function() {
+        native.style.borderColor="";
         console.log("Native place changed:", native.value);
     });
 
@@ -151,8 +155,67 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     doj.addEventListener("change", function() {
+        doj.style.borderColor = "";
         console.log("Date of Join changed:", doj.value);
     });
+
+    m_occ.addEventListener("change", function() {
+        m_occ.style.borderColor = "";
+        console.log("Mother's occupation changed:", m_occ.value);
+    });
+
+    f_occ.addEventListener("change", function() {
+        f_occ.style.borderColor = "";
+        console.log("Father's occupation changed:", f_occ.value);
+    });
+
+
+    tongue.addEventListener("change", function() {
+        tongue.style.borderColor = "";
+        console.log("Mother's Tongue changed:", tongue.value);
+    });
+
+    trans.addEventListener("change", function() {
+        trans.style.borderColor = "";
+        console.log("trans's  changed:", trans.value);
+    });
+
+
+    addr.addEventListener("change", function() {
+        addr.style.borderColor = "";
+        console.log("addr's  changed:", addr.value);
+    });
+    community.addEventListener("change", function() {
+        community.style.borderColor = "";
+        console.log("community  changed:", community.value);
+    });
+    caste.addEventListener("change", function() {
+        caste.style.borderColor = "";
+        console.log("caste  changed:", caste.value);
+    });
+    var checked = false;
+    for (var i = 0; i < lang.length; i++) {
+        lang[i].addEventListener("change", function() {
+            // Reset error message
+            document.getElementById('errr').innerHTML = "";
+            
+            // Check if at least one language is checked
+            checked = false;
+            for (var j = 0; j < lang.length; j++) {
+                if (lang[j].checked) {
+                    checked = true;
+                    break;
+                }
+            }            
+            // Display error message if no language is checked
+            if (!checked) {
+                document.getElementById('errr').innerHTML = "Please select at least one language.";
+                flag = false; // Assuming flag is declared somewhere else
+            }
+        });
+    }
+
+
 
     function validate_personal() {
         var flag = true;
@@ -340,8 +403,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 community.style.borderColor = "";
             console.log("Community changed:", community.value);
     
+
+
+
+
             var checked = false;
             for (var i = 0; i < lang.length; i++) {
+                
                if (lang[i].checked) {
                     checked = true;
                     break;
@@ -355,6 +423,10 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             return flag;
+
+
+
+           
     }
 
 
@@ -400,9 +472,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
         function validateAndEnableNext(inputElement, nextElement) {
-            inputElement.addEventListener("focusout", function() {
+            inputElement.addEventListener("change", function() {
                 var inputValue = this.value;
-                if (inputValue === "" || (this.id === "total_marks" && inputValue> 600) || (this.id === "marks_obtained" && inputValue > totalMarks.value) || (this.id === "percentage" && inputValue > 100)) {
+                if (inputValue === "" || (this.id === "total_marks" && inputValue> 600) || (this.id === "marks_obtained" && inputValue > totalMarks.value) || (this.id === "percentage" && inputValue > 100) || (this.id === "cut_off" && inputValue > 200)) {
                     console.log("Please enter the valid " + this.name);
                     this.style.border = "1px solid red";
                 } else {
@@ -421,6 +493,8 @@ document.addEventListener("DOMContentLoaded", function() {
         validateAndEnableNext(totalMarks, marksObtained);
         validateAndEnableNext(marksObtained, percentage);
         validateAndEnableNext(percentage, cutOff);
+        validateAndEnableNext(cutOff, cutOff);
+
     
         function storeData() {
             var selectedValue = academictype.value;
@@ -542,8 +616,7 @@ document.addEventListener("DOMContentLoaded", function() {
             totalMarks.disabled = true;
             marksObtained.disabled = true;
             percentage.disabled = true;
-            cutOff.disabled = true;
-            
+            cutOff.disabled = true;            
             submitBtn.disabled=true;
     
             }
@@ -569,8 +642,54 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
 
+
+
+
+
         // extracurriculars
         const MaxDreamCompanyCount = 3;
+        var hobbies = document.getElementById('Hobbies');
+        var interest = document.getElementById('Interest');
+        var ambition = document.getElementById('Ambition');
+        var Programming_LanguageInputs = document.querySelectorAll('.input-Programming_Language input');
+        var otherCoursesInputs = document.querySelectorAll('.input-Other_Courses input');
+        var DreamCoursesInputs = document.querySelectorAll('.input-Dream_Company input');
+
+
+        hobbies.addEventListener("change", function() {
+            hobbies.style.borderColor = "";
+            console.log("hobbies changed:", hobbies.value);
+        });
+        interest.addEventListener("change", function() {
+            interest.style.borderColor = "";
+            console.log("interest changed:", interest.value);
+        });
+        ambition.addEventListener("change", function() {
+            ambition.style.borderColor = "";
+            console.log("ambition changed:", ambition.value);
+        });
+
+        Programming_LanguageInputs.forEach(function(input) {
+            input.addEventListener('change', function() {                
+                input.style.borderColor = ''; // Reset to default
+                console.log("Programming Language changed:", input.value);
+                });        
+        });
+
+        otherCoursesInputs.forEach(function(input) {
+            input.addEventListener('change', function() {                
+                input.style.borderColor = ''; // Reset to default
+                console.log("otherCoursesInputs changed:", input.value);
+                });        
+        });
+
+        DreamCoursesInputs.forEach(function(input) {
+            input.addEventListener('change', function() {                
+                input.style.borderColor = ''; // Reset to default
+                console.log("DreamCourses changed:", input.value);
+                });        
+        });
+
 
         function validate_extracurricular() {
             let isValid = true;
@@ -598,7 +717,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             const Programming_LanguageInputs = document.querySelectorAll('.input-Programming_Language input');
-            if (Programming_LanguageInputs.length > 1) {
                 Programming_LanguageInputs.forEach(function(input) {
                     if (!validateField(input)) {
                         isValid = false;
@@ -606,10 +724,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.log("Programming Language: " + input.value);
                     }
                 });
-            }
+            
 
             const otherCoursesInputs = document.querySelectorAll('.input-Other_Courses input');
-            if (otherCoursesInputs.length > 1) {
                 otherCoursesInputs.forEach(function(input) {
                     if (!validateField(input)) {
                         isValid = false;
@@ -617,7 +734,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.log("Other Courses: " + input.value);
                     }
                 });
-            }
+            
 
             document.querySelectorAll('.input-Dream_Company input').forEach(function(input) {
                 if (!validateField(input)) isValid = false;
@@ -657,6 +774,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Function to add a dynamic field
         function addDynamicField(container) {
+
+
+            const wrapper = document.createElement('div');
+            wrapper.style.display = 'flex';
+            wrapper.style.alignItems = 'center';
+            wrapper.style.marginBottom = '5px';
+
+
             const input = document.createElement('input');
             input.type = 'text';
             input.name = container.classList.contains('input-Programming_Language') ? 'Programming_Language[]' :
@@ -664,21 +789,36 @@ document.addEventListener("DOMContentLoaded", function() {
                          'Dream_Company[]';
             input.placeholder = '';
             input.style.width = '200px';
-            input.style.display= 'flex';
-            input.style.flexDirection = 'column';
+            input.style.marginRight = '5px';
 
-            container.appendChild(input);
+            input.addEventListener('change', function() {
+                if (!validateField(input)) {
+                    input.style.borderColor = 'red';
+                } else {
+                    input.style.borderColor = ''; // Reset to default
+                    console.log(" changed:", input.value);
+                }
+            });
         
+                    
             const removeIcon = document.createElement('i');
             removeIcon.className = 'fas fa-minus icon';
-            removeIcon.style.marginLeft = '10px';
+            removeIcon.style.cursor = 'pointer';
+            removeIcon.style.color = 'red';
+            removeIcon.style.marginLeft = '5px';
             removeIcon.addEventListener('click', function() {
-                container.removeChild(input);
-                container.removeChild(removeIcon);
+                container.removeChild(wrapper);
             });
-            container.appendChild(removeIcon);
+
+            wrapper.appendChild(input);
+            wrapper.appendChild(removeIcon);
+            container.appendChild(wrapper);
         }
 
+
+
+
+        
         // final check -> index.html
                 
         finalSubmitBtn.addEventListener("click", function(event) {

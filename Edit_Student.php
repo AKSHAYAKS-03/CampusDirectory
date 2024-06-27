@@ -64,8 +64,8 @@
     ini_set('display_errors', 1);
 
 // Database connection parameters
-      // $host = "localhost:3307";
-    $host = "localhost:3390";
+    $host = "localhost:3307";
+    //$host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -604,15 +604,15 @@
                                         echo '<div class="input-group">';
                                         echo '<input type="text" class="inputtype" id="Programming_Language' . $i . '" name="Programming_Language[]" placeholder="" style="width: 200px;" value="' . htmlspecialchars(trim($lang)) . '">';
                                         if ($i == 0) {
-                                            echo '<i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left: 5px"></i>';
+                                            echo '<i id="addProgrammingLanguage" class="fas fa-plus icon" style="margin-left: 5px;color: rgb(77, 147, 3)"></i>';
                                         } else {
-                                            echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px"></i>';
+                                            echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i>';
                                         }
                                         echo '</div>';
                                         $i++;
                                     endforeach;
                                     ?>
-                                </div>
+                            </div>
                     </div>
                     <div class="input-row">
                         <label for="Other_Courses" style="width: 250px;font-size: 14px;margin-left: 20px;margin-top: 40px;">Other Courses: </label>
@@ -623,9 +623,9 @@
                             echo '<div class="input-group">';
                             echo '<input type="text" class="inputtype" id="Other_Courses' . $i . '" name="Other_Courses[]" placeholder="" style="width: 200px;" value="' . htmlspecialchars(trim($lang)) . '">';
                             if ($i == 0) {
-                                echo '<i class="fas fa-plus icon addOtherCourses" style="margin-left: 5px"></i>';
+                                echo '<i class="fas fa-plus icon addOtherCourses" style="margin-left: 5px;color: rgb(77, 147, 3)"></i>';
                             } else {
-                                echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px"></i>';
+                                echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i>';
                             }
                             echo '</div>';
                             $i++;
@@ -640,19 +640,20 @@
                         <textarea id="Interest" name="interests" rows="4" cols="30" style="width: 450px" required><?php echo htmlspecialchars($interest); ?></textarea>
                     </div>
                     <div class="input-group">
-                        <label for="Dream_Company" style="width: 200px">Dream Company:</label><br>
+                    <label for="Dream_Company" style="width: 200px">Dream Company:</label><br>
                     
               
                     <div class="input-Dream_Company" style="display: flex; flex-direction: column;">
                         <?php
                         $i = 0;
                         foreach ($dreamarray as $lang):
-                            echo '<div class="input-group">';
+                            echo '<div class="input-group dream-group">';
+                            
                             echo '<input type="text" class="inputtype" id="Dream_Company' . $i . '" name="Dream_Company[]" placeholder="" style="width: 200px;" value="' . htmlspecialchars(trim($lang)) . '">';
                             if ($i == 0) {
-                                echo '<i id="addDream_Company" class="fas fa-plus icon" style="margin-left: 5px"></i>';
+                                echo '<i id="addDream_Company" class="fas fa-plus icon" style="margin-left: 5px;color: rgb(77, 147, 3)"></i>';
                             } else {
-                                echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px"></i>';
+                                echo '<i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i>';
                             }
                             echo '</div>';
                             $i++;
@@ -697,15 +698,18 @@
 
         // Add more fields functionality (if needed)
         $('#addProgrammingLanguage').click(function() {
-            $('.input-Programming_Language').append('<div class="input-group"><input type="text" class="inputtype" name="Programming_Language[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px"></i></div>');
+            $('.input-Programming_Language').append('<div class="input-group"><input type="text" class="inputtype" name="Programming_Language[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
         });
 
         $('.addOtherCourses').click(function() {
-            $('.input-Other_Courses').append('<div class="input-group"><input type="text" class="inputtype" name="Other_Courses[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px"></i></div>');
+            $('.input-Other_Courses').append('<div class="input-group"><input type="text" class="inputtype" name="Other_Courses[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
         });
-
         $('#addDream_Company').click(function() {
-            $('.input-Dream_Company').append('<div class="input-group"><input type="text" class="inputtype" name="Dream_Company[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeDreamCompany" style="margin-left: 5px"></i></div>');
+            if ($('.dream-group').length < 3) {
+                $('.input-Dream_Company').append('<div class="input-group dream-group"><input type="text" class="inputtype" name="Dream_Company[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
+            } else {
+                console.log('You can only add up to 3 Dream Company fields.');
+            }
         });
 
 

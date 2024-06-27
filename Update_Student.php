@@ -5,8 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ini_set('display_errors', 1);
 
     // Database connection parameters
-    // $host = "localhost:3307";
-    $host = "localhost:3390";
+     $host = "localhost:3307";
+   // $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name

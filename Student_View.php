@@ -60,8 +60,8 @@
     ini_set('display_errors', 1);
 
     // Database connection parameters
-    // $host = "localhost:3307";
-    $host = "localhost:3390";
+    $host = "localhost:3307";
+    //$host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -104,7 +104,7 @@
                             <div class='det'>
                                 <div class='input-group'>
                                     <label>Name:</label>
-                                    <span>" . htmlspecialchars($row['Student_Name']) . "</span>>
+                                    <span>" . htmlspecialchars($row['Student_Name']) . "</span>
                                 </div>
                                 <div class='input-group'>
                                     <label>Aadhar:</label>
