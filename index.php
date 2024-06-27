@@ -1,8 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Database connection
-    $host = "localhost:3390";
    // $host = "localhost:3307";
+    $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile";
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // personal
-    $roll_no = $_POST['roll_no'];;
+    $roll_no = $_POST['roll_no'];
     $name = $_POST['name'];
     $aadhar = $_POST['aadhar'];
     $email = $_POST['email'];
@@ -142,10 +142,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $percentage = $data['percentage'];
             $cutOff = $data['cutOff'];
     
-            $acad_type_id = getLookupId($conn, 'Yes or No', $first_graduate);
-            $modeOfStudy_id = getLookupId($conn, 'Yes or No', $first_graduate);
-            $modeOfMedium_id = getLookupId($conn, 'Yes or No', $first_graduate);
-            $board_id = getLookupId($conn, 'Yes or No', $first_graduate);
+            $acad_type_id = getLookupId($conn, 'Academic Type', $acad_type);
+            $modeOfStudy_id = getLookupId($conn, 'Acad Mode', $modeOfStudy);
+            $modeOfMedium_id = getLookupId($conn, 'Medium', $modeOfMedium);
+            $board_id = getLookupId($conn, 'Board', $board);
 
 
             // Insert data into database
