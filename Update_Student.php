@@ -5,8 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ini_set('display_errors', 1);
 
     // Database connection parameters
-     $host = "localhost:3307";
-   // $host = "localhost:3390";
+    //  $host = "localhost:3307";
+   $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -52,6 +52,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $double_vaccinated = $_POST['vaccinated'];
     $under_treatment = $_POST['under_any_treatment'];
     $currentDate = date('Y-m-d');
+
+    $img = $_FILES['newImage']['name'];
+
+    $existingImg = null;
+    $stmt = $conn->prepare("SELECT Student_Profile_Pic FROM student_personal WHERE Student_Rollno = ?");
+    $stmt->bind_param("s", $roll_no);
+    $stmt->execute();
+    $stmt->bind_result($existingImg);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($img && $img != $existingImg) {
+        // If the uploaded image is the same as the existing image, do not update the image
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . basename($img);
+    
+        // Delete the old image if it exists
+        if ($existingImg && file_exists($targetDir . $existingImg)) {
+            unlink($targetDir . $existingImg);
+        }
+
+    }       
+    
 
     function getLookupId($mysqli, $category, $value) {
         $stmt = $mysqli->prepare("SELECT LookUpId FROM lookUp WHERE LookUpTypeName = ? AND LookUpTypeId = ?");
@@ -109,9 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         Student_Mother_Tongue_ID = ?, Student_Languages_Known = ?, Student_Address = ?, Student_Pincode = ?, 
         Student_Native = ?, Student_Date_Of_Join = ?, Student_Mode_ID = ?, Student_Transport_ID = ?, Student_Aadhar = ?, Student_First_Graduate_ID = ?, 
         Student_Community_ID = ?, Student_Caste = ?, Student_Quota_ID = ?, Student_Scholarship_Name = ?, Student_PhysicallyChallenged_ID = ?, 
-        Student_Treatment_ID = ?, Student_Vaccinated_ID = ?, Student_Modified_By = ? WHERE Student_Rollno = ?");
+        Student_Treatment_ID = ?, Student_Vaccinated_ID = ?, Student_Modified_By = ? , Student_Profile_Pic = ? WHERE Student_Rollno = ?");
 
-    $stmt->bind_param("ssiissiiiiisiiisssssiisiisisiiiss", 
+    $stmt->bind_param("ssiissiiiiisiiisssssiisiisisiiisss", 
          $email, $name, $mentor, $gender_id, $dob, 
         $f_name, $f_phone, $f_occupation_id, $income, $phone, 
         $reg_number, $m_name, $m_phone, $m_occupation_id, 
@@ -119,10 +142,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $native, $date_of_join, $mode_of_study_id, $transport_id, 
         $aadhar, $first_graduate_id, $community_id, $caste, $quota_id, 
         $scholarship_name, $physically_challenged_id, $under_treatment_id, 
-        $double_vaccinated_id, $roll_no, $roll_no
+        $double_vaccinated_id, $roll_no, $img ,$roll_no
     );
 
     if ($stmt->execute()) {
+        move_uploaded_file($_FILES['newImage']['tmp_name'], 'uploads/' . $img);
         echo "<center><p>Personal information updated successfully for $roll_no.</p><br><br></center>";
     } else {
         echo "<p>Error: " . $stmt->error . "</p><br>";

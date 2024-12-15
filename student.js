@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
      //personal validation
     // (address, radio, doj, dob, income, native)--> required* schlrship--> optional
-
+    var profilepic = document.getElementById("profile-pic")[0];
     var name = document.getElementsByName("name")[0];
     var email = document.getElementsByName("email")[0];
     var ph = document.getElementsByName("ph")[0];
@@ -47,13 +47,18 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementsByName("doj")[0].setAttribute('max', maxDate_doj);
 
 
-
+    errorMessage.style.color = 'red';
+    errorMessage.style.display = 'none';  // Initially hide the error message
+    document.getElementById('preview-container').appendChild(errorMessage);
+    
     var pattern_name = /^[A-Za-z]{2,}(?: [A-Za-z ]+)? [A-Za-z]{1}(?:[ .]?[A-Za-z]{1})?$/;    
     var pattern_ph = /^[0-9]{10}$/;
     var pattern_email = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
     var pattern_aadhar = /^[0-9]{4} [0-9]{4} [0-9]{4}$/;
     var pattern_pin = /^[0-9]{6}$/;
 
+    
+   
     name.addEventListener("change", function() {
         var name_value = name.value.trim();
         if(!name_value.match(pattern_name)) 
@@ -215,6 +220,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    
+    
 
 
     function validate_personal() {
@@ -579,7 +586,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         percentage: percentage.value,
                         cutOff: cutOff.value
                     };
-                    // console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
                     console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
                     if(selectedValue === '1')
                         document.getElementById('sslc').innerText = '1';

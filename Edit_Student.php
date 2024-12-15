@@ -64,8 +64,8 @@
     ini_set('display_errors', 1);
 
 // Database connection parameters
-    $host = "localhost:3307";
-    //$host = "localhost:3390";
+    // $host = "localhost:3307";
+    $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -162,7 +162,7 @@
         Student_Address, Student_Pincode, Student_Native, Student_Date_Of_Join, Student_Mode_ID, 
         Student_Transport_ID, Student_Aadhar, Student_First_Graduate_ID, Student_Community_ID, 
         Student_Caste, Student_Quota_ID, Student_Scholarship_Name, Student_PhysicallyChallenged_ID, 
-        Student_Treatment_ID, Student_Vaccinated_ID
+        Student_Treatment_ID, Student_Vaccinated_ID,Student_Profile_Pic
         FROM student_personal WHERE Student_Rollno = ?");
         
         $stmt->bind_param("s", $rollno);
@@ -172,6 +172,7 @@
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $name = $row['Student_Name'];
+            $img = $row['Student_Profile_Pic'];
             $mailid = $row['Student_Mailid'];
             $mentorid = $row['Student_Mentor_ID'];
             $genderid = $row['Student_Gender_ID'];
@@ -291,11 +292,20 @@
     ?>
 
 
-    <form id="form" action="Update_Student.php" method="post">                                  <!--      // modified -->
+    <form id="form" action="Update_Student.php" method="post" enctype="multipart/form-data">                                  <!--      // modified -->
     <div class="container">
         <section id="personal-info">
             <div class="details"><h3>Personal Details</h3></div>
             <div class="det">
+                    <img src="uploads/<?php echo htmlspecialchars($img); ?>" alt="Profile Picture" width="100" height="100"><br>  
+                    <div class="input-group-pic">
+                    <h2>Profile Picture</h2>                    
+                    <label for="newImage">Upload New Image:</label>
+                    <input type="file" id="newImage" name="newImage" accept="image/*" onchange="previewImage(event)">
+                    <div id="preview-container">
+                        <img id="preview" src="" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
+                    </div>
+                </div>
                 <div class="input-group">
                     <label for="name">Name:</label><label for="aadhar" style="margin-left: 300px;">Aadhar:</label>
                     <br> 
@@ -680,6 +690,24 @@
     <div id="FinalSubmit"></div>
 
     <script>
+        function previewImage(event) {
+        const previewContainer = document.getElementById("preview-container");
+        const previewImage = document.getElementById("preview");
+
+        const file = event.target.files[0]; // Get the selected file
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;  // Set the preview image
+                previewImage.style.display = "block"; // Show the preview
+            }
+
+            reader.readAsDataURL(file);  // Read the file as a data URL
+        } else {
+            previewImage.style.display = "none"; // Hide the preview if no file is selected
+        }
+    }
 
         // JavaScript for handling dynamic form field updates
         document.addEventListener('DOMContentLoaded', function() {

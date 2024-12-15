@@ -95,12 +95,12 @@
     <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Database connection
-           // $host = "localhost:3390";
-            $host = "localhost:3307";
+           $host = "localhost:3390";
+            // $host = "localhost:3307";
             $username = "root";
             $password = "";
-            $dbname = "harsha";
-          //   $dbname = "test";
+            // $dbname = "harsha";
+            $dbname = "test";
                         
             $conn = new mysqli($host, $username, $password, $dbname);
 

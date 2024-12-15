@@ -60,8 +60,8 @@
     ini_set('display_errors', 1);
 
     // Database connection parameters
-    $host = "localhost:3307";
-    //$host = "localhost:3390";
+    // $host = "localhost:3307";
+    $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile"; // Replace with your actual database name
@@ -87,7 +87,7 @@
             Student_Address, Student_Pincode, Student_Native, Student_Date_Of_Join, Student_Mode_ID, 
             Student_Transport_ID, Student_Aadhar, Student_First_Graduate_ID, Student_Community_ID, 
             Student_Caste, Student_Quota_ID, Student_Scholarship_Name, Student_PhysicallyChallenged_ID, 
-            Student_Treatment_ID, Student_Vaccinated_ID
+            Student_Treatment_ID, Student_Vaccinated_ID,Student_Profile_Pic
             FROM student_personal WHERE Student_Rollno = ?");
 
         $stmt->bind_param("s", $rollno);
@@ -97,11 +97,24 @@
     
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
+
                     echo "
                     <div class='container' id='content'>
                         <section>
                             <div class='details'><h3>Personal Details</h3></div>
                             <div class='det'>
+                                <div class='input-group'>
+                                    <label>Profile Picture:</label>";
+
+                                    $profilePicPath = htmlspecialchars($row['Student_Profile_Pic']);
+                                            if ($profilePicPath) {
+                                                echo "<img src='uploads/".$profilePicPath . "' alt='Profile Picture' style='max-width: 150px; max-height: 150px;'>";
+                                            } else {
+                                                echo "<p>No profile picture available.</p>";
+                                            }            
+                             echo "
+                                </div>                             
+        
                                 <div class='input-group'>
                                     <label>Name:</label>
                                     <span>" . htmlspecialchars($row['Student_Name']) . "</span>

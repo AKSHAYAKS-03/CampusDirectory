@@ -1,8 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Database connection
-   $host = "localhost:3307";
-    //$host = "localhost:3390";
+//    $host = "localhost:3307";
+    $host = "localhost:3390";
     $username = "root";
     $password = "";
     $dbname = "student_profile";
@@ -101,23 +101,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $quota_id = getLookupId($conn, 'Quota', $quota);
 
     
+    $img = $_FILES['profile-pic']['name'];
+
+
+
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO student_personal (Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
     Student_Gender_ID,Student_DOB, Student_FatherName, Student_Father_PH, Student_Father_Occupation_ID, Student_Father_AnnualIncome, 
     Student_PH, Student_Register_Numbe, Student_MotherName, Student_Mother_PH, Student_Mother_Occupation_ID, Student_Mother_Tongue_ID, 
     Student_Languages_Known, Student_Address, Student_Pincode, Student_Native, Student_Date_Of_Join, Student_Mode_ID, Student_Transport_ID,
     Student_Aadhar, Student_First_Graduate_ID, Student_Community_ID, Student_Caste, Student_Quota_ID, Student_Scholarship_Name, 
-    Student_PhysicallyChallenged_ID, Student_Treatment_ID, Student_Vaccinated_ID, Student_Created_By, Student_Modified_By)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    Student_PhysicallyChallenged_ID, Student_Treatment_ID, Student_Vaccinated_ID, Student_Created_By, Student_Modified_By,Student_Profile_Pic)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     //echo $caste;
 
-    $stmt->bind_param("sssiisssiissssiisssssiisiisisiiiss", $roll_no, $email, $name, $mentor, $gender_id, $dob, $f_name, $f_phone, $f_occupation_id,
+    $stmt->bind_param("sssiisssiissssiisssssiisiisisiiisss", $roll_no, $email, $name, $mentor, $gender_id, $dob, $f_name, $f_phone, $f_occupation_id,
     $income, $phone, $reg_number, $m_name, $m_phone, $m_occupation_id, $mother_tongue_id, $languages, $address,  $pin_code,  $native, $date_of_join,
     $mode_of_study_id, $transport_id, $aadhar, $first_graduate_id, $community_id, $caste, $quota_id, $scholarship_name, $physically_challenged_id,
-    $under_treatment_id, $double_vaccinated_id, $roll_no, $roll_no);
+    $under_treatment_id, $double_vaccinated_id, $roll_no, $roll_no,$img);
 
     if ($stmt->execute()) {
+        move_uploaded_file($_FILES['profile-pic']['tmp_name'], 'uploads/' . $img);
         echo "New record created successfully";
     } else {
         echo "Error: " . $stmt->error;
@@ -149,9 +154,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
             // Insert data into database
-            $sql = "INSERT INTO student_academics ( Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID, Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark,
-            Academics_Created_By, Academics_Modified_By ,Student_Rollno)
-                    VALUES ($acad_type_id, '$institution', '$regno', $modeOfStudy_id, $modeOfMedium_id, $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, '$roll_no', '$roll_no','$roll_no')";
+            $sql = "INSERT INTO student_academics (Student_Rollno, Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID, Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark,
+            Academics_Created_By, Academics_Modified_By)
+                    VALUES ('$roll_no',$acad_type_id, '$institution', '$regno', $modeOfStudy_id, $modeOfMedium_id, $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, '$roll_no', '$roll_no')";
     
             if ($conn->query($sql) === TRUE) {
                 echo "<center><p>Data inserted successfully for $acad_type.</p><br><br></center>";

@@ -8,19 +8,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
+    <script>
+        // This will run when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
-            const r_no = params.get('value');
+            const r_no = params.get('value'); // Get 'value' from URL query parameters
+            window.r_no = r_no;
 
             if (r_no) {
-                // Display the value on the page
+                // Display the roll number on the page
                 document.getElementById('roll_no').innerText = r_no;
                 document.getElementById('roll_no').value = r_no;
             } else {
                 document.getElementById('roll_no').innerText = 'No value received.';
             }
         });
+
+        // Function to preview the image and display file info
+    function previewImage(event) {
+        const previewContainer = document.getElementById("preview-container");
+        const previewImage = document.getElementById("preview");
+
+        const file = event.target.files[0]; // Get the selected file
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;  // Set the preview image
+                previewImage.style.display = "block"; // Show the preview
+            }
+
+            reader.readAsDataURL(file);  // Read the file as a data URL
+        } else {
+            previewImage.style.display = "none"; // Hide the preview if no file is selected
+        }
+    }
+</script>
+
     </script>
      <style>
         #sslc, #hsc,#diploma, #EditSubmit{display: none;}
@@ -33,11 +57,21 @@
         <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
     </header>
    
-    <form action="index.php" method="post" id="form">
+    <form action="index.php" method="post" id="form" enctype="multipart/form-data">
     <div class="container">
         <section id="personal-info">
             <div class="details"><h3>Personal Details</h3></div>
             <div class="det">
+                <div class="input-group-pic">
+                    <h2>Profile Picture</h2>
+                    <label for="profile-pic" class="upload-label">Choose File</label>
+                    <input type="file" id="profile-pic" name="profile-pic" accept="image/*" onchange="previewImage(event)">
+                    <input type="hidden" id="new-file-name" name="new-file-name" value="">
+                    <div id="preview-container">
+                        <img id="preview" src="" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
+                    </div>
+                </div>
+                <br>                
                 <div class="input-group">
                     <label for="name">Name:</label><label for="aadhar" style="margin-left: 300px;">Aadhar:</label>
                     <br> 
