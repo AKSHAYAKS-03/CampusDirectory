@@ -447,7 +447,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
         var academicData = {
             SSLC: {},
-            HSC: {}
+            HSC: {},
+            Diploma: {}
         };
     
         academictype.addEventListener("change", function() {
@@ -578,12 +579,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         percentage: percentage.value,
                         cutOff: cutOff.value
                     };
-                    console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
+                    // console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
                     console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
                     if(selectedValue === '1')
                         document.getElementById('sslc').innerText = '1';
-                    else
+                    else if(selectedValue === '2')
                         document.getElementById('hsc').innerText = '1';
+                    else if(selectedValue === '3')
+                        document.getElementById('diploma').innerText = '1';
                     return true;
                 } 
                 else {
@@ -632,20 +635,20 @@ document.addEventListener("DOMContentLoaded", function() {
             var flag = true;
             var f1 = document.getElementById('sslc').innerText;
             var f2 = document.getElementById('hsc').innerText;
+            var f3 = document.getElementById('diploma').innerText;
             console.log("ssls"+f1);
             console.log("hsc"+f2);
-            if( f1 == '1' && f2 == '1' )
+            console.log("diploma"+f3);
+            
+            if ((f1 == '1' && f2 == '1') || (f1 == '1' && f3 == '1')) {
                 flag = true;
-            else
+            } 
+            else{
                 flag = false;
+            }
             return flag;
         }
     
-
-
-
-
-
         // extracurriculars
         const MaxDreamCompanyCount = 3;
         var hobbies = document.getElementById('Hobbies');

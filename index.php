@@ -149,9 +149,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
             // Insert data into database
-            $sql = "INSERT INTO student_academics (Student_Rollno, Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID, Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark,
-            Academics_Created_By, Academics_Modified_By)
-                    VALUES ('$roll_no',$acad_type_id, '$institution', '$regno', $modeOfStudy_id, $modeOfMedium_id, $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, '$roll_no', '$roll_no')";
+            $sql = "INSERT INTO student_academics ( Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID, Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark,
+            Academics_Created_By, Academics_Modified_By ,Student_Rollno)
+                    VALUES ($acad_type_id, '$institution', '$regno', $modeOfStudy_id, $modeOfMedium_id, $board_id, $marksObtained, $totalMarks, $percentage, $cutOff, '$roll_no', '$roll_no','$roll_no')";
     
             if ($conn->query($sql) === TRUE) {
                 echo "<center><p>Data inserted successfully for $acad_type.</p><br><br></center>";
