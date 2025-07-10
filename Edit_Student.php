@@ -1,85 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Edit</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="Student.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <script type="module" src="student.js"></script>
-
-    <!-- Inline Styles -->
-    <style>
-        #generate-pdf, #edit {
-            background-color: rgb(95, 158, 164); /* Button background color */
-            color: #fff; /* Text color */
-            border: none; /* Remove default border */
-            padding: 15px 30px; /* Button padding */
-            font-size: 16px; /* Font size */
-            font-weight: bold; /* Bold text */
-            border-radius: 5px; /* Rounded corners */
-            cursor: pointer; /* Pointer cursor on hover */
-            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
-            margin-top: 20px; /* Space above the button */
-            display: inline-block; /* Inline-block display */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        }
-
-        #generate-pdf:hover, #edit:hover {
-            background-color: #2980b9; /* Darker background on hover */
-            transform: translateY(-2px); /* Slight lift on hover */
-        }
-
-        #generate-pdf:active, #edit:active {
-            background-color: #1a5a79; 
-            transform: translateY(0); 
-        }
-
-        #generate-pdf:focus, #edit:focus {
-            outline: none; /* Remove default focus outline */
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Custom focus outline */
-        }
-
-        #sslc, #hsc, #FinalSubmit{display: none;}
-        
-    </style>
-</head>
-<body>
-    <header>
-        <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
-    </header>
-    <h2>Submitted Data</h2>
-
-
 <?php
+    include('db_connect.php');
 
-    // Enable error reporting for debugging
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
 
-// Database connection parameters
-    // $host = "localhost:3307";
-    $host = "localhost:3390";
-    $username = "root";
-    $password = "";
-    $dbname = "student_profile"; // Replace with your actual database name
-
-    // Create connection
-    $conn = new mysqli($host, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+if (!isset($_SESSION['login_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
     // to fetch LookUpTypeID
-    function getLookupValue($conn,$lookUpId) {
+    function getLookup($conn,$lookUpId) {
         $stmt = $conn->prepare("SELECT lookUpTypeId FROM lookup where LookUpId = ?");
         if (!$stmt) {
             echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
@@ -112,8 +41,9 @@
     }
     
     // to fetch values
-    function getLookup($conn,$lookUpId) {
+    function getLookupValue($conn,$lookUpId) {
         $stmt = $conn->prepare("SELECT LookUpTypeValue FROM lookup where LookUpId = ?");
+        
         if (!$stmt) {
             echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
             return null;
@@ -152,7 +82,7 @@
     // Retrieve data from the database
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
-        echo $rollno;
+        // echo $rollno;
 
         $name = $mailid = $mentorid = $genderid = $dob =$fname =$fph = $foccup = $fannum= $phn = $regno = $mname = $mph = $moccup = $mtongue = $langid = $addr = $pin = $native = $doj = $modeid = $transid = $aadhar = $firstgradid = $commid = $caste = $quotaid = $scholar = $physicid = $treatmentid = $vaccinateid = ''; // Initialize variables
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
@@ -260,7 +190,7 @@
 }
 
 
-    $hobbies = $proglangarray = $othersarray = $interest = $dreamarray = $ambition = ''; // Initialize variables
+    $hobbies = $proglangarray = $othersarray = $interest = $dreamarray = $ambition = ''; 
     $stmt = $conn->prepare("SELECT Student_Rollno, Student_Hobbies, Student_Programming_Language,
     Student_Others, Student_Interest, Student_DreamCompany,
     Student_Ambition FROM student_extracurriculars WHERE Student_Rollno = ?");
@@ -289,21 +219,44 @@
     echo "No rollno provided.";
     exit();
     }
-    ?>
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Edit</title>
+
+    <link rel="stylesheet" href="css/Student.css">
+    <link rel="stylesheet" href="css/edit_student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script type="module" src="student.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
+    </header>
+    <h2>Submitted Data</h2>
 
 
     <form id="form" action="Update_Student.php" method="post" enctype="multipart/form-data">                                  <!--      // modified -->
     <div class="container">
         <section id="personal-info">
             <div class="details"><h3>Personal Details</h3></div>
-            <div class="det">
+            <div class="det">                   
                     <img src="uploads/<?php echo htmlspecialchars($img); ?>" alt="Profile Picture" width="100" height="100"><br>  
                     <div class="input-group-pic">
-                    <h2>Profile Picture</h2>                    
+                    <h2>Profile Picture</h2>      
                     <label for="newImage">Upload New Image:</label>
                     <input type="file" id="newImage" name="newImage" accept="image/*" onchange="previewImage(event)">
                     <div id="preview-container">
-                        <img id="preview" src="" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
+                        <img id="preview" src="uploads/<?php echo htmlspecialchars($img); ?>" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
                     </div>
                 </div>
                 <div class="input-group">
@@ -326,7 +279,7 @@
                     <label for="dob">Date of Birth:</label> <label for="gender" style="margin-left: 295px;">Gender:</label><br>
                     <input type="date" name="dob" style="width: 200px;" value="<?php echo htmlspecialchars($dob); ?>" required> 
                 
-                    <?php $gen_value = getLookupValue($conn,htmlspecialchars($genderid))?>
+                    <?php $gen_value = getLookup($conn,htmlspecialchars($genderid))?>
                     <input type="radio" name="gender" value="2"  id="gender-female" style="margin-left: 228px;" required <?php echo ($gen_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="gender">Female</label>
                     <input type="radio" name="gender" value="1" id="gender-male" style="margin-left: -30px;" required <?php echo ($gen_value == '1') ? 'checked' : '';?>>
@@ -433,7 +386,7 @@
                     <label for="doj">Date of Join:</label><label for="mode" style="margin-left: 295px;">Mode of Study:</label><br>
                      <input type="date" name="doj" style="width: 150px;" value="<?php echo htmlspecialchars($dob); ?>" required>              <!--        //modified -->
            
-                    <?php $mode_value = getLookupValue($conn,htmlspecialchars($modeid))?>
+                    <?php $mode_value = getLookup($conn,htmlspecialchars($modeid))?>
                     <input type="radio" name="mode" value="1" required style="margin-left: 270px;" <?php echo ($mode_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="mode">Day-Scholar</label>
                     <input type="radio" name="mode" value="2" required style="margin-left: -30px;" <?php echo ($mode_value == '2') ? 'checked' : '';?>>
@@ -456,13 +409,13 @@
                 <div class="input-group">
                     <label for="first_graduate">First Graduate:</label><label for="quota" style="margin-left: 295px;">Quota:</label><br>
 
-                    <?php $f_grad_value = getLookupValue($conn,htmlspecialchars($firstgradid))?>
+                    <?php $f_grad_value = getLookup($conn,htmlspecialchars($firstgradid))?>
                     <input type="radio" name="first_graduate" value="1" style="margin-left: -1px;" required <?php echo ($f_grad_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="first_graduate">Yes</label>
                     <input type="radio" name="first_graduate" value="2" style="margin-left: -80px;" required <?php echo ($f_grad_value == '2') ? 'checked' : '';?>>
                     <label class="radio-label" for="first_graduate">No</label>
               
-                    <?php $quota_value = getLookupValue($conn,htmlspecialchars($quotaid))?>
+                    <?php $quota_value = getLookup($conn,htmlspecialchars($quotaid))?>
                     <input type="radio" name="quota" value="1" style="margin-left: 180px;" required <?php echo ($quota_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="quota">General</label>
                     <input type="radio" name="quota" value="2" style="margin-left: -50px;" required <?php echo ($quota_value == '2') ? 'checked' : '';?>>
@@ -494,7 +447,7 @@
                 <br>
                 <div class="input-group">
                     <label for="physically_challenged" style="width: 250px;">Physically Challenged:</label>
-                    <?php $p_chl_value = getLookupValue($conn,htmlspecialchars($physicid))?>
+                    <?php $p_chl_value = getLookup($conn,htmlspecialchars($physicid))?>
 
                     <input type="radio" name="physically_challenged" value="1" required style="margin-left: -1px" <?php echo ($p_chl_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="physically_challenged">Yes</label>
@@ -505,7 +458,7 @@
 
                 <div class="input-group">
                     <label for="vaccinated" style="width: 250px;">Double Vaccinated:</label>
-                    <?php $vacc_value = getLookupValue($conn,htmlspecialchars($vaccinateid))?>
+                    <?php $vacc_value = getLookup($conn,htmlspecialchars($vaccinateid))?>
                     <input type="radio" name="vaccinated" value="1" required style="margin-left: -1px" <?php echo ($vacc_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="vaccinated">Yes</label>
                     <input type="radio" name="vaccinated" value="2" required style="margin-left: -50px" <?php echo ($vacc_value == '2') ? 'checked' : '';?>>
@@ -515,7 +468,7 @@
 
                 <div class="input-group" >
                     <label for="under_any_treatment" style="width: 250px;">Under any Treatment?</label>
-                    <?php $t_value = getLookupValue($conn,htmlspecialchars($treatid))?>
+                    <?php $t_value = getLookup($conn,htmlspecialchars($treatid))?>
                     <input type="radio" name="under_any_treatment" value="1" required style="margin-left: -1px" <?php echo ($t_value == '1') ? 'checked' : '';?>>
                     <label class="radio-label" for="under_any_treatment">Yes</label>
                     <input type="radio" name="under_any_treatment" value="2" required style="margin-left: -50px" <?php echo ($t_value == '2') ? 'checked' : '';?>>
@@ -531,11 +484,12 @@
                     <div class="input-group">
                         <label for="acad_type">Academic Type:</label>
                         <select id="acad_type" name="acad_type" style="width: 250px" required>
-                        <?php 
+                        <?php                      
+                            ?><script>console.log(<?php echo json_encode($data); ?>) </script><?php
                              $i=0;
-                            foreach ($data as $index => $item) { 
-                                $lookupValue = getLookup($conn, $item['acdtype']);
-                                $lookupId = getLookupValue($conn, $item['acdtype']);
+                            foreach ($data as $index => $item) {                                 
+                                $lookupId = getLookup($conn, $item['acdtype']);
+                                $lookupValue = getLookupValue($conn, $item['acdtype']);
                             ?>
                             <option value="<?php echo $lookupId; ?>"><?php echo $lookupValue; ?></option>
                         <?php } ?>        
@@ -690,112 +644,124 @@
     <div id="FinalSubmit"></div>
 
     <script>
-        function previewImage(event) {
-        const previewContainer = document.getElementById("preview-container");
-        const previewImage = document.getElementById("preview");
 
-        const file = event.target.files[0]; // Get the selected file
-        if (file) {
-            const reader = new FileReader();
+        let academicData = {};
 
-            reader.onload = function (e) {
-                previewImage.src = e.target.result;  // Set the preview image
-                previewImage.style.display = "block"; // Show the preview
-            }
+        let phpData = <?php echo json_encode($data); ?>;
+        console.log("Fetched from PHP:", phpData);
 
-            reader.readAsDataURL(file);  // Read the file as a data URL
-        } else {
-            previewImage.style.display = "none"; // Hide the preview if no file is selected
-        }
-    }
+        phpData.forEach(item => {
+            let type = item.acdtype;
+            academicData[type] = {
+                institution: item.instname,
+                regno: item.acd_regno,
+                modeOfStudy: item.modeOfStudy,
+                modeOfMedium: item.modeOfMedium,
+                board: item.board,
+                marksObtained: item.Mark,
+                totalMarks: item.totalMarks,
+                percentage: item.percentage,
+                cutOff: item.cutOff
+            };
+        });
+        document.getElementById("submitBtn").addEventListener("click", function () {
+            const selectedType = document.getElementById("acad_type").value;
 
-        // JavaScript for handling dynamic form field updates
+            academicData[selectedType] = {
+                institution: document.getElementById('inst_name').value,
+                regno: document.getElementById('acd_reg_no').value,
+                modeOfStudy: document.getElementById('mode_of_study').value,
+                modeOfMedium: document.getElementById('mode_of_medium').value,
+                board: document.getElementById('board').value,
+                marksObtained: document.getElementById('marks_obtained').value,
+                totalMarks: document.getElementById('total_marks').value,
+                percentage: document.getElementById('percentage').value,
+                cutOff: document.getElementById('cut_off').value
+            };
+
+            document.getElementById("storedData").value = JSON.stringify(academicData);
+            console.log("Updated storedData:", academicData);
+        });
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
             var acadTypeSelect = document.getElementById('acad_type');
 
-            // Event listener for acad_type select change
             acadTypeSelect.addEventListener('change', function() {
                 var selectedIndex = acadTypeSelect.selectedIndex;
-                console.log("Selected index:", selectedIndex); // Get selected index
-                updateFormFields(selectedIndex); // Call update function
+                console.log("Selected index:", selectedIndex); 
+                updateFormFields(selectedIndex); 
             });
-        // Remove the field when the minus icon is clicked
-        $(document).on('click', '.removeField', function() {
-            $(this).closest('.input-group').remove();
-        });
 
-        // Add more fields functionality (if needed)
-        $('#addProgrammingLanguage').click(function() {
-            $('.input-Programming_Language').append('<div class="input-group"><input type="text" class="inputtype" name="Programming_Language[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
-        });
+            $(document).on('click', '.removeField', function() {
+                $(this).closest('.input-group').remove();
+            });
 
-        $('.addOtherCourses').click(function() {
-            $('.input-Other_Courses').append('<div class="input-group"><input type="text" class="inputtype" name="Other_Courses[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
-        });
-        $('#addDream_Company').click(function() {
-            if ($('.dream-group').length < 3) {
-                $('.input-Dream_Company').append('<div class="input-group dream-group"><input type="text" class="inputtype" name="Dream_Company[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
-            } else {
-                console.log('You can only add up to 3 Dream Company fields.');
-            }
-        });
+            $('#addProgrammingLanguage').click(function() {
+                $('.input-Programming_Language').append('<div class="input-group"><input type="text" class="inputtype" name="Programming_Language[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
+            });
+
+            $('.addOtherCourses').click(function() {
+                $('.input-Other_Courses').append('<div class="input-group"><input type="text" class="inputtype" name="Other_Courses[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
+            });
+            $('#addDream_Company').click(function() {
+                if ($('.dream-group').length < 3) {
+                    $('.input-Dream_Company').append('<div class="input-group dream-group"><input type="text" class="inputtype" name="Dream_Company[]" placeholder="" style="width: 200px;"><i class="fas fa-minus icon removeField" style="margin-left: 5px;color:red"></i></div>');
+                } else {
+                    console.log('You can only add up to 3 Dream Company fields.');
+                }
+            });
 
 
-        // JavaScript for handling dynamic form field update
+            // JavaScript for handling dynamic form field update
+
             var acadTypeSelect = document.getElementById('acad_type');
 
-            // Event listener for acad_type select change
             acadTypeSelect.addEventListener('change', function() {
                 var selectedIndex = acadTypeSelect.selectedIndex;
-                console.log("Selected index:", selectedIndex); // Get selected index
-                updateFormFields(selectedIndex); // Call update function
+                console.log("Selected index:", selectedIndex); 
+                updateFormFields(selectedIndex);
             });
 
-            // Function to update form fields based on index
             function updateFormFields(index) {
                 var data = <?php echo json_encode($data); ?>;
-            var selectedData = data[index]; // Get data for the selected index
+                var selectedData = data[index]; 
 
-                // Update Institution Name
                 document.getElementById('inst_name').value = selectedData['instname'];
-
-                // Update Register Number
                 document.getElementById('acd_reg_no').value = selectedData['acd_regno'];
-
-                // Update Mode of Study
                 var modeOfStudySelect = document.getElementById('mode_of_study');
                 setSelectedIndexByValue(modeOfStudySelect, selectedData['modeOfStudy']);
-
-                // Update Mode of Medium
 
                 // work aagala inga.. inga irunthu php function call panni fetch pananum... but aaga maatinguthu inga..
                 var modeOfMediumSelect = document.getElementById('mode_of_medium');  
                 setSelectedIndexByValue(modeOfMediumSelect, selectedData['modeOfMedium']);
 
-                // Update Board
                 var boardSelect = document.getElementById('board');
                 setSelectedIndexByValue(boardSelect, selectedData['board']);
 
-                // Update Marks Obtained and Total Marks
                 document.getElementById('marks_obtained').value = selectedData['Mark'];
                 document.getElementById('total_marks').value = selectedData['totalMarks'];
 
-                // Update Percentage and Cut-Off
                 document.getElementById('percentage').value = selectedData['percentage'];
                 document.getElementById('cut_off').value = selectedData['cutOff'];
             }
 
-            // Function to set selected index of a <select> element based on value
             function setSelectedIndexByValue(selectElement, value) {
                 for (var i = 0; i < selectElement.options.length; i++) {
-                    if (selectElement.options[i].value === value.toString()) { // Ensure value comparison is correct
+                    if (selectElement.options[i].value === value.toString()) { 
                         selectElement.selectedIndex = i;
                         break;
                     }
                 }
-            }
-
+            }    
         });
+        document.getElementById("form").addEventListener("submit", function () {
+            document.getElementById("storedData").value = JSON.stringify(academicData);
+        });
+
+        
+
     </script>
 </body>
 </html>

@@ -47,9 +47,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementsByName("doj")[0].setAttribute('max', maxDate_doj);
 
 
-    errorMessage.style.color = 'red';
-    errorMessage.style.display = 'none';  // Initially hide the error message
-    document.getElementById('preview-container').appendChild(errorMessage);
+    // errorMessage.style.color = 'red';
+    // errorMessage.style.display = 'none';  // Initially hide the error message
+    // document.getElementById('preview-container').appendChild(errorMessage);
     
     var pattern_name = /^[A-Za-z]{2,}(?: [A-Za-z ]+)? [A-Za-z]{1}(?:[ .]?[A-Za-z]{1})?$/;    
     var pattern_ph = /^[0-9]{10}$/;
@@ -586,6 +586,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         percentage: percentage.value,
                         cutOff: cutOff.value
                     };
+                    storedDataField.value = JSON.stringify(academicData);
+                    console.log("Updated JSON:", storedDataField.value);
+
                     console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
                     if(selectedValue === '1')
                         document.getElementById('sslc').innerText = '1';
@@ -859,11 +862,12 @@ document.addEventListener("DOMContentLoaded", function() {
         editSubmitBtn.addEventListener("click", function(event) {
             event.preventDefault();
             if (typeof window.storeData === 'function') {
-                window.storeData(); // Call storeData function
+                window.storeData(); 
             } else {
                 console.error("storeData function is not defined");
             }
             storedDataField.value = JSON.stringify(academicData);
+            console.log("storedDataField.value:", storedDataField.value);
             
             var f = validate_personal();
             console.log(f);
@@ -879,4 +883,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('extra-curr').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     
-});
+});        function previewImage(event) {
+            const previewContainer = document.getElementById("preview-container");
+            const previewImage = document.getElementById("preview");
+
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;  
+                    previewImage.style.display = "block"; 
+                }
+                reader.readAsDataURL(file);  
+            } else {
+                previewImage.style.display = "none"; 
+            }
+        }

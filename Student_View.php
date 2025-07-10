@@ -1,3 +1,13 @@
+   
+<?php 
+ include 'db_connect.php';  
+
+    if (!isset($_SESSION['login_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,47 +15,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student View</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="view.css">
+    <link rel="stylesheet" href="css/view.css">
+    <link rel="stylesheet" href="css/student_view.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-
-    <!-- Inline Styles -->
-    <style>
-        #generate-pdf, #edit {
-            background-color: rgb(95, 158, 164); /* Button background color */
-            color: #fff; /* Text color */
-            border: none; /* Remove default border */
-            padding: 15px 30px; /* Button padding */
-            font-size: 16px; /* Font size */
-            font-weight: bold; /* Bold text */
-            border-radius: 5px; /* Rounded corners */
-            cursor: pointer; /* Pointer cursor on hover */
-            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
-            margin-top: 20px; /* Space above the button */
-            display: inline-block; /* Inline-block display */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        }
-
-        #generate-pdf:hover, #edit:hover {
-            background-color: #2980b9; /* Darker background on hover */
-            transform: translateY(-2px); /* Slight lift on hover */
-        }
-
-        #generate-pdf:active, #edit:active {
-            background-color: #1a5a79; /* Even darker background on click */
-            transform: translateY(0); /* Remove lift on click */
-        }
-
-        #generate-pdf:focus, #edit:focus {
-            outline: none; /* Remove default focus outline */
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Custom focus outline */
-        }
-    </style>
+    
 </head>
 <body>
     <header>
@@ -53,31 +30,16 @@
     </header>
     <h2>Submitted Data</h2>
 
+<?php       
 
-    <?php
-    // Enable error reporting for debugging
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
-    // Database connection parameters
-    // $host = "localhost:3307";
-    $host = "localhost:3390";
-    $username = "root";
-    $password = "";
-    $dbname = "student_profile"; // Replace with your actual database name
-
-    // Create connection
-    $conn = new mysqli($host, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    if (isset($_SESSION['update_success'])) {
+        echo "<p class='success'>" . $_SESSION['update_success'] . "</p>";
+        unset($_SESSION['update_success']);
     }
 
-    // Retrieve data from the database
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
-        echo $rollno;
+        // echo $rollno;
 
         //Personal details
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
@@ -107,14 +69,14 @@
                                     <label>Profile Picture:</label>";
 
                                     $profilePicPath = htmlspecialchars($row['Student_Profile_Pic']);
+                                    // echo $profilePicPath;
                                             if ($profilePicPath) {
                                                 echo "<img src='uploads/".$profilePicPath . "' alt='Profile Picture' style='max-width: 150px; max-height: 150px;'>";
                                             } else {
                                                 echo "<p>No profile picture available.</p>";
                                             }            
                              echo "
-                                </div>                             
-        
+                                </div>                
                                 <div class='input-group'>
                                     <label>Name:</label>
                                     <span>" . htmlspecialchars($row['Student_Name']) . "</span>
@@ -419,7 +381,7 @@
             var rollno = '" . htmlspecialchars($rollno, ENT_QUOTES, 'UTF-8') . "';
           </script>";
     ?>
-    
+ 
 
     <script>
         function generatePDF() {
@@ -468,6 +430,13 @@
                 });
     }
         
+      $(document).ready(function() {    
+        $(".details").click(function() {
+            $(this).next(".det").slideToggle("slow");
+        });
+    });
+
+
     </script>
 </body>
 </html>

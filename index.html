@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
-    <link rel="stylesheet" href="Student.css">
+    <link rel="stylesheet" href="css/Student.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="student.js"></script>
+
     <script>
         // This will run when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function() {
@@ -24,33 +26,9 @@
             }
         });
 
-        // Function to preview the image and display file info
-    function previewImage(event) {
-        const previewContainer = document.getElementById("preview-container");
-        const previewImage = document.getElementById("preview");
+        
+</script>    
 
-        const file = event.target.files[0]; // Get the selected file
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                previewImage.src = e.target.result;  // Set the preview image
-                previewImage.style.display = "block"; // Show the preview
-            }
-
-            reader.readAsDataURL(file);  // Read the file as a data URL
-        } else {
-            previewImage.style.display = "none"; // Hide the preview if no file is selected
-        }
-    }
-</script>
-
-    </script>
-     <style>
-        #sslc, #hsc,#diploma, #EditSubmit{display: none;}
-    </style>
-
-    <script src="student.js"></script>
 </head>
 <body>
     <header>
@@ -67,8 +45,8 @@
                     <label for="profile-pic" class="upload-label">Choose File</label>
                     <input type="file" id="profile-pic" name="profile-pic" accept="image/*" onchange="previewImage(event)">
                     <input type="hidden" id="new-file-name" name="new-file-name" value="">
-                    <div id="preview-container">
-                        <img id="preview" src="" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
+                    <div id="preview-container" style="display: none;max-width: 150px;max-height: 150px;margin-top: 10px">
+                        <img id="preview" src="" alt="Preview will appear here">
                     </div>
                 </div>
                 <br>                
@@ -94,9 +72,9 @@
                 
                   
                     <input type="radio" name="gender" value="2"  id="gender-female" style="margin-left: 228px;" required>
-                    <label class="radio-label" for="gender">Female</label>
+                    <label class="radio-label" for="gender-female">Female</label>
                     <input type="radio" name="gender" value="1" id="gender-male" style="margin-left: -30px;" required>
-                    <label class="radio-label" for="gender">Male</label>
+                    <label class="radio-label" for="gender-male">Male</label>
                 </div>
                 <br>
 
@@ -128,7 +106,7 @@
                 <br>
              
                 <br>
-                <div class="input-group" required>
+                <div class="input-group">
                     <label for="f_name">Father Name:</label>  <label for="f_ph" style="margin-left: 130px;">Phone number:</label> <label for="f_occ" style="width: 250px;margin-left: 120px;">Father's Occupation:</label>
 
                     <br>
@@ -344,7 +322,7 @@
                         <label for="cut_off" style="margin-left: 250px;">Cut-Off:</label>
                         <br>
                         <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01" disabled required>
-                        <input type="number" id="cut_off" name="cut_off" value="-" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
+                        <input type="number" id="cut_off" name="cut_off" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
                     </div>
                     <input type="hidden" id="storedData" name="storedData">
                     <button id="submitBtn" type="button">Done</button>
@@ -403,17 +381,36 @@
     </div>
     </form>
 
-    <div id="sslc"></div>
-    <div id="hsc"></div>
-    <div id="diploma"></div>
-    <div id="EditSubmit"></div>
+    <script>
     
-    <script>$(document).ready(function() {    
+    $(document).ready(function() {    
         $(".details").click(function() {
-            // Toggle the corresponding details-content
             $(this).next(".det").slideToggle("slow");
         });
     });
+
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     // Get all elements with class 'details'
+    //     const detailHeaders = document.querySelectorAll(".details");
+
+    //     detailHeaders.forEach(header => {
+    //         header.addEventListener("click", function () {
+    //             // Find the next sibling with class 'det'
+    //             const nextSection = this.nextElementSibling;
+
+    //             // Toggle the display
+    //             if (nextSection && nextSection.classList.contains("det")) {
+    //                 if (nextSection.style.display === "none" || nextSection.style.display === "") {
+    //                     nextSection.style.display = "block";
+    //                 } else {
+    //                     nextSection.style.display = "none";
+    //                 }
+    //             }
+    //         });
+    //     });
+    // });
+
     
     </script>
 </body>

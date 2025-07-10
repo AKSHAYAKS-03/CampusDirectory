@@ -1,20 +1,16 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Database connection
-//    $host = "localhost:3307";
-    $host = "localhost:3390";
-    $username = "root";
-    $password = "";
-    $dbname = "student_profile";
-        
-    $conn = new mysqli($host, $username, $password, $dbname);
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+include('db_connect.php');
+
+if (!isset($_SESSION['login_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {   
 
     // personal
-    $roll_no = $_POST['roll_no'];
+    $roll_no =  $_POST['roll_no'];
     $name = $_POST['name'];
     $aadhar = $_POST['aadhar'];
     $email = $_POST['email'];
@@ -103,8 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $img = $_FILES['profile-pic']['name'];
 
-
-
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO student_personal (Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
     Student_Gender_ID,Student_DOB, Student_FatherName, Student_Father_PH, Student_Father_Occupation_ID, Student_Father_AnnualIncome, 
@@ -113,14 +107,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     Student_Aadhar, Student_First_Graduate_ID, Student_Community_ID, Student_Caste, Student_Quota_ID, Student_Scholarship_Name, 
     Student_PhysicallyChallenged_ID, Student_Treatment_ID, Student_Vaccinated_ID, Student_Created_By, Student_Modified_By,Student_Profile_Pic)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-    //echo $caste;
-
+    
     $stmt->bind_param("sssiisssiissssiisssssiisiisisiiisss", $roll_no, $email, $name, $mentor, $gender_id, $dob, $f_name, $f_phone, $f_occupation_id,
     $income, $phone, $reg_number, $m_name, $m_phone, $m_occupation_id, $mother_tongue_id, $languages, $address,  $pin_code,  $native, $date_of_join,
     $mode_of_study_id, $transport_id, $aadhar, $first_graduate_id, $community_id, $caste, $quota_id, $scholarship_name, $physically_challenged_id,
     $under_treatment_id, $double_vaccinated_id, $roll_no, $roll_no,$img);
-
+  
     if ($stmt->execute()) {
         move_uploaded_file($_FILES['profile-pic']['tmp_name'], 'uploads/' . $img);
         echo "New record created successfully";

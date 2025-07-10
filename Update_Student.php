@@ -1,23 +1,13 @@
 <?php
+include('db_connect.php');
+
+if (!isset($_SESSION['login_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Enable error reporting for debugging
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
-    // Database connection parameters
-    //  $host = "localhost:3307";
-   $host = "localhost:3390";
-    $username = "root";
-    $password = "";
-    $dbname = "student_profile"; // Replace with your actual database name
-
-    // Create connection
-    $conn = new mysqli($host, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+      
 
     // Personal Information
     $roll_no = $_POST['roll_no'];
@@ -63,17 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->fetch();
     $stmt->close();
 
-    if ($img && $img != $existingImg) {
-        // If the uploaded image is the same as the existing image, do not update the image
-        $targetDir = "uploads/";
-        $targetFile = $targetDir . basename($img);
+    if (!empty($_FILES['newImage']['name'])) {
+         $img = $_FILES['newImage']['name'];
+         $targetDir = "uploads/";
+         $targetFile = $targetDir . basename($img);
     
         // Delete the old image if it exists
         if ($existingImg && file_exists($targetDir . $existingImg)) {
             unlink($targetDir . $existingImg);
         }
-
-    }       
+         move_uploaded_file($_FILES['newImage']['tmp_name'], $targetFile);
+    } else {
+        // No new image uploaded, keep existing one
+        $img = $existingImg;
+    }    
     
 
     function getLookupId($mysqli, $category, $value) {
@@ -218,6 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         echo "successfully updated";
+        $_SESSION['update_success'] = "Details updated successfully!";
         header("Location: Student_View.php?value=" . urlencode($roll_no));
         exit();
     } else {
