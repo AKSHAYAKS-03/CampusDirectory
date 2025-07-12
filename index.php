@@ -1,9 +1,9 @@
 <?php
 
-include('db_connect.php');
+include_once 'config/db_connect.php';
 
 if (!isset($_SESSION['login_id'])) {
-    header("Location: login.php");
+    header("Location: auth/Login.php");
     exit();
 }
 
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Execute the statement
         if ($stmt->execute()) {
-            header("Location: Student_View.php?value=" . urlencode($roll_no)); 
+            header("Location: student/Student_View.php?value=" . urlencode($roll_no)); 
             exit();
         } else {
             echo "Error: " . $stmt->error;

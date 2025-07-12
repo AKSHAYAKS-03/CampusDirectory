@@ -587,15 +587,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         cutOff: cutOff.value
                     };
                     storedDataField.value = JSON.stringify(academicData);
-                    console.log("Updated JSON:", storedDataField.value);
-
-                    console.log("Stored Data for " + selectedValue + ": ", academicData[selectedValue]);
-                    if(selectedValue === '1')
-                        document.getElementById('sslc').innerText = '1';
-                    else if(selectedValue === '2')
-                        document.getElementById('hsc').innerText = '1';
-                    else if(selectedValue === '3')
-                        document.getElementById('diploma').innerText = '1';
+                    console.log("Updated JSON:", storedDataField.value);                   
                     return true;
                 } 
                 else {
@@ -883,7 +875,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('extra-curr').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     
-});        function previewImage(event) {
+});        
+
+    function previewImage(event) {
             const previewContainer = document.getElementById("preview-container");
             const previewImage = document.getElementById("preview");
 
@@ -899,4 +893,4 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 previewImage.style.display = "none"; 
             }
-        }
+    }

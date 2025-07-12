@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,13 +27,33 @@
             }
         });
 
+        function previewImage(event) {
+            const previewContainer = document.getElementById("preview-container");
+            const previewImage = document.getElementById("preview");
+
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;  
+                    previewImage.style.display = "block"; 
+                }
+                reader.readAsDataURL(file);  
+            } else {
+                previewImage.style.display = "none"; 
+            }
+        }
+
         
 </script>    
+
 
 </head>
 <body>
     <header>
         <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
+        <a href="auth/logout.php" >Logout</a>
     </header>
    
     <form action="index.php" method="post" id="form" enctype="multipart/form-data">
