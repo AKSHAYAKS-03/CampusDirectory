@@ -1,5 +1,5 @@
 # 🎓 Campus Directory
----
+
 **Campus Directory**   
 By using a secure, validated form in place of manual Excel handling, this system sim
 plifies the management of student information. While administrators generate PDFs,
@@ -45,6 +45,7 @@ plifies the management of student information. While administrators generate PDF
 
 ## 📄 License
 This project is intended solely for academic demonstration purposes. It is not licensed for commercial use, redistribution, or modification. Unauthorized use, reproduction, or distribution of any part of this project is prohibited.
+
 ---
 
 ## 📬 Contact
