@@ -12,47 +12,44 @@
     <script src="student.js"></script>
 
     <script>
-        // This will run when the DOM is fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
-            const r_no = params.get('value'); // Get 'value' from URL query parameters
+            const r_no = params.get('value'); 
             window.r_no = r_no;
 
             if (r_no) {
-                // Display the roll number on the page
                 document.getElementById('roll_no').innerText = r_no;
                 document.getElementById('roll_no').value = r_no;
             } else {
                 document.getElementById('roll_no').innerText = 'No value received.';
-            }
-        });
-
-        function previewImage(event) {
-            const previewContainer = document.getElementById("preview-container");
-            const previewImage = document.getElementById("preview");
-
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    previewImage.src = e.target.result;  
-                    previewImage.style.display = "block"; 
-                }
-                reader.readAsDataURL(file);  
-            } else {
-                previewImage.style.display = "none"; 
-            }
-        }
-
+                }                    
+    });
         
+        function previewImage(event) {
+                const previewContainer = document.getElementById("preview-container");
+                const previewImage = document.getElementById("preview");
+
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        previewImage.src = e.target.result;  
+                        previewImage.style.display = "block"; 
+                    }
+                    reader.readAsDataURL(file);  
+                } else {
+                    previewImage.style.display = "none"; 
+                }
+            }
 </script>    
 
 
 </head>
 <body>
     <header>
-        <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
+        <h1><b>Velammal College of Engineering & Technology</b> <img src="assets/logo.jpeg" alt="College Logo" width="60" height="60"></h1>
         <a href="auth/logout.php" >Logout</a>
     </header>
    
@@ -292,30 +289,30 @@
                         <label for="acad_type">Academic Type:</label>
                         <select id="acad_type" name="acad_type" style="width: 250px" required>
                             <option selected disabled value="">Select any one</option>
-                            <option value="1">SSLC</option>
-                            <option value="2">HSC</option>
-                            <option value="3">Diploma</option>
+                            <option value="1" id="sslc">SSLC</option>
+                            <option value="2" id="hsc">HSC</option>
+                            <option value="3" id="diploma">Diploma</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label for="inst_name">Institution Name:</label>
-                        <input type="text" id="inst_name" name="inst_name" placeholder="Name" disabled required>
+                        <input type="text" id="inst_name" name="inst_name" placeholder="Name" required>
                     </div>
                     
                     <div class="input-group">
                         <label for="acd_reg_no">Register Number:</label>
-                        <input type="text" id="acd_reg_no" name="acd_reg_no" placeholder="" style="width: 180px" disabled required>
+                        <input type="text" id="acd_reg_no" name="acd_reg_no" placeholder="" style="width: 180px" required>
                     </div>
 
                     <div class="input-group">
                         <label for="mode_of_study">Mode Of Study:</label>
-                        <select id="mode_of_study" name="mode_of_study" style="width: 180px" disabled required>
+                        <select id="mode_of_study" name="mode_of_study" style="width: 180px" required>
                             <option selected disabled value="">Select any one</option>
                             <option value="1">Full-Time</option>
                             <option value="2">Part-Time</option>
                         </select>
                         <label for="mode_of_medium" style="margin-left: 60px;">Mode Of Medium:</label>
-                        <select id="mode_of_medium" name="mode_of_medium" style="width: 180px" disabled required>
+                        <select id="mode_of_medium" name="mode_of_medium" style="width: 180px" required>
                             <option selected disabled value="">Select any one</option>
                             <option value="1">English</option>
                             <option value="2">Tamil</option>
@@ -323,7 +320,7 @@
                     </div>
                     <div class="input-group">
                         <label for="board">Board:</label>
-                        <select id="board" name="board" style="width: 200px" disabled required>
+                        <select id="board" name="board" style="width: 200px" required>
                             <option selected disabled value="">Select any one</option>
                             <option value="1">State Board</option>
                             <option value="2">Matric</option>
@@ -334,16 +331,16 @@
                     </div>
                     <div class="input-group">
                         <label for="marks_obtained">Marks Obtained:</label>
-                        <input type="number" id="marks_obtained" name="marks_obtained" placeholder="ex.400" style="width: 90px" min="0" disabled required>
+                        <input type="number" id="marks_obtained" name="marks_obtained" placeholder="ex.400" style="width: 90px" min="0"  required>
                         /
-                        <input type="number" id="total_marks" name="total_marks" placeholder="ex.500" style="width: 90px;" min="0" disabled required>
+                        <input type="number" id="total_marks" name="total_marks" placeholder="ex.500" style="width: 90px;" min="0"  required>
                     </div>
                     <div class="input-group">
                         <label for="percentage">Percentage:</label>
                         <label for="cut_off" style="margin-left: 250px;">Cut-Off:</label>
                         <br>
-                        <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01" disabled required>
-                        <input type="number" id="cut_off" name="cut_off" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200" disabled required>
+                        <input type="number" id="percentage" name="percentage" placeholder="ex.90.05" style="width: 120px" min="0" max="100" step="0.01"  required>
+                        <input type="number" id="cut_off" name="cut_off" placeholder="ex.150.7" style="width: 120px;margin-left: 265px;" min="0" max="200"  required>
                     </div>
                     <input type="hidden" id="storedData" name="storedData">
                     <button id="submitBtn" type="button">Done</button>

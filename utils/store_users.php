@@ -30,12 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("sss", $loginId, $password, $role);
 
             if ($stmt->execute()) {
-                echo "<p style='color:green;'>User '$loginId' added successfully.</p>";
+                // echo "<p style='color:green;'>User '$loginId' added successfully.</p>";
                 //refresh the page
                 header("Refresh:0");
             
             } else {
-                echo "<p style='color:red;'>Error: " . $stmt->error . "</p>";
+                // echo "<p style='color:red;'>Error: " . $stmt->error . "</p>";
                  header("Refresh:0");
             }
 
@@ -89,12 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        echo "<p style='color:green;'>$added users added successfully.</p>";
+        // echo "<p style='color:green;'>$added users added successfully.</p>";
          header("Refresh:0");
         
         if ($skipped > 0) {
-            echo "<p style='color:orange;'>$skipped users were skipped (already exist).</p>";
-             header("Refresh:0");
+            // echo "<p style='color:blue;'>$skipped users skipped (already exists).</p>";
+         header("Refresh:0");
         }
     }
 }

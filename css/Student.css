@@ -237,15 +237,3 @@
     .input-group-pic{
         margin: 20px 0;
     }
-    
-  
-    
-    #preview-container {
-        margin-top: 10px;        
-    }
-    #preview img{
-        display: none;
-        max-width: 150px;
-        max-height: 150px; 
-        margin-top: 10px
-    }

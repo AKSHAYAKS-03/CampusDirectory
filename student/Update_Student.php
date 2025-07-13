@@ -1,6 +1,7 @@
 <?php
 
 include_once '../config/db_connect.php';
+include_once '../utils/lookup_helpers.php'; 
 
 if (!isset($_SESSION['login_id'])) {
     header("Location: ../auth/login.php");
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $f_occupation = $_POST['f_occ'];
     $income = $_POST['income'];
     $mother_tongue = $_POST['tongue'];
-    $languages = implode(", ", $_POST['lang']); // Assuming languages are submitted as an array
+    $languages = implode(", ", $_POST['lang']); 
     $address = $_POST['addr'];
     $native = $_POST['native'];
     $pin_code = $_POST['pin'];
@@ -55,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!empty($_FILES['newImage']['name'])) {
          $img = $_FILES['newImage']['name'];
-         $targetDir = "uploads/";
+         $targetDir = "../uploads/";
          $targetFile = $targetDir . basename($img);
     
         // Delete the old image if it exists
@@ -69,37 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }    
     
 
-    function getLookupId($mysqli, $category, $value) {
-        $stmt = $mysqli->prepare("SELECT LookUpId FROM lookUp WHERE LookUpTypeName = ? AND LookUpTypeId = ?");
-        if (!$stmt) {
-            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-            return null;
-        }
-    
-        if (!$stmt->bind_param("ss", $category, $value)) {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->execute()) {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $lookupid = null;
-        if (!$stmt->bind_result($lookupid)) {
-            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->fetch()) {
-            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $stmt->close();
-        return $lookupid;
-    }
+
     
     $mentor = 1;
 
@@ -139,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     );
 
     if ($stmt->execute()) {
-        move_uploaded_file($_FILES['newImage']['tmp_name'], 'uploads/' . $img);
+        move_uploaded_file($_FILES['newImage']['tmp_name'], '../uploads/' . $img);
         echo "<center><p>Personal information updated successfully for $roll_no.</p><br><br></center>";
     } else {
         echo "<p>Error: " . $stmt->error . "</p><br>";

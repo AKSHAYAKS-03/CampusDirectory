@@ -1,6 +1,8 @@
 <?php
 
 include_once 'config/db_connect.php';
+include_once 'utils/lookup_helpers.php'; 
+
 
 if (!isset($_SESSION['login_id'])) {
     header("Location: auth/Login.php");
@@ -45,41 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $currentDate = date('Y-m-d');
     //echo $currentDate;
 
-  
-    function getLookupId($mysqli, $category, $value) {
-        $stmt = $mysqli->prepare("SELECT LookUpId FROM lookUp WHERE LookUpTypeName like ? AND LookUpTypeId = ?");
-        if (!$stmt) {
-            echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-            return null;
-        }
-    
-        if (!$stmt->bind_param("ss", $category, $value)) {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->execute()) {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $lookupid = null;
-        if (!$stmt->bind_result($lookupid)) {
-            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->fetch()) {
-            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            // If fetch fails, it could mean no result was found.
-            // You might want to handle this case differently depending on your needs.
-            return null;
-        }
-    
-        $stmt->close();
-        return $lookupid;
-    }
-    
+     
     $mentor=1;
 
     // Get lookupids

@@ -1,464 +1,230 @@
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("fully loaded and parsed");
 
-    console.log(" fully loaded and parsed");
-    var form = document.getElementById("form");
-    var finalSubmitBtn = document.getElementById("FinalSubmit");
-    var editSubmitBtn = document.getElementById("EditSubmit");
+    const form = document.getElementById("form");
+    const finalSubmitBtn = document.getElementById("FinalSubmit");
+    const editSubmitBtn = document.getElementById("EditSubmit");
 
-     //personal validation
-    // (address, radio, doj, dob, income, native)--> required* schlrship--> optional
-    var profilepic = document.getElementById("profile-pic")[0];
-    var name = document.getElementsByName("name")[0];
-    var email = document.getElementsByName("email")[0];
-    var ph = document.getElementsByName("ph")[0];
-    var aadhar = document.getElementsByName("aadhar")[0];
-    var dob = document.getElementsByName("dob")[0];
-    var reg = document.getElementsByName("reg")[0];
-    var m_name = document.getElementsByName("m_name")[0];
-    var m_ph = document.getElementsByName("m_ph")[0];
-    var m_occ = document.getElementsByName("m_occ")[0];
-    var f_name = document.getElementsByName("f_name")[0];
-    var f_ph = document.getElementsByName("f_ph")[0];
-    var f_occ = document.getElementsByName("f_occ")[0];
-    var income = document.getElementsByName("income")[0];
-    var tongue = document.getElementsByName("tongue")[0];
-    var lang = document.getElementsByName('lang[]');
-    var addr = document.getElementsByName("addr")[0];
-    var native = document.getElementsByName("native")[0];
-    var pin = document.getElementsByName("pin")[0];
-    var doj = document.getElementsByName("doj")[0];
-    var mode = document.getElementsByName("mode")[0];
-    var trans = document.getElementsByName("trans")[0];
-    var community = document.getElementsByName("community")[0];
-    var caste = document.getElementsByName("caste")[0];
+    // === Personal fields ===
+    const profilepic = document.getElementById("profile-pic");
+    const name = document.getElementsByName("name")[0];
+    const email = document.getElementsByName("email")[0];
+    const ph = document.getElementsByName("ph")[0];
+    const aadhar = document.getElementsByName("aadhar")[0];
+    const dob = document.getElementsByName("dob")[0];
+    const reg = document.getElementsByName("reg")[0];
+    const m_name = document.getElementsByName("m_name")[0];
+    const m_ph = document.getElementsByName("m_ph")[0];
+    const m_occ = document.getElementsByName("m_occ")[0];
+    const f_name = document.getElementsByName("f_name")[0];
+    const f_ph = document.getElementsByName("f_ph")[0];
+    const f_occ = document.getElementsByName("f_occ")[0];
+    const income = document.getElementsByName("income")[0];
+    const tongue = document.getElementsByName("tongue")[0];
+    const lang = document.getElementsByName("lang[]");
+    const addr = document.getElementsByName("addr")[0];
+    const native = document.getElementsByName("native")[0];
+    const pin = document.getElementsByName("pin")[0];
+    const doj = document.getElementsByName("doj")[0];
+    const mode = document.getElementsByName("mode")[0];
+    const trans = document.getElementsByName("trans")[0];
+    const community = document.getElementsByName("community")[0];
+    const caste = document.getElementsByName("caste")[0];
 
+    // === Patterns ===
+    const patterns = {
+        name: /^[A-Za-z]{2,}(?: [A-Za-z ]+)? [A-Za-z]{1}(?:[ .]?[A-Za-z]{1})?$/,
+        ph: /^[0-9]{10}$/,
+        email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/,
+        aadhar: /^[0-9]{4} [0-9]{4} [0-9]{4}$/,
+        pin: /^[0-9]{6}$/,
+        reg: /^[0-9A-Za-z]{8}$/,
+    };
 
-    var today = new Date(); //max date -> 15 yrs ago from tdy (refer)
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1; 
-    var day = today.getDate();
-    var mm = month < 10 ? '0' + month : month;
-    var dd = day < 10 ? '0' + day : day;
+    // === Helpers ===
+    const isEmpty = (value) => value.trim() === "";
 
-    var maxDate_dob = (year-15) + '-' + mm + '-' + dd;
-    document.getElementsByName("dob")[0].setAttribute('max', maxDate_dob);
+    const validateBasic = (element, condition) => {
+        if (!condition) {
+            element.style.borderColor = "red";
+            flag = false;
+        } else {
+            element.style.borderColor = "";
+        }
+    };
 
-    var maxDate_doj = year + '-' + mm + '-' + dd;
-    document.getElementsByName("doj")[0].setAttribute('max', maxDate_doj);
+    const validatePattern = (element, pattern) => {
+        validateBasic(element, pattern.test(element.value.trim()));
+    };
 
+    const validateSelect = (element) => {
+        validateBasic(element, element.value !== "" && element.value !== "Select any one");
+    };
 
-    // errorMessage.style.color = 'red';
-    // errorMessage.style.display = 'none';  // Initially hide the error message
-    // document.getElementById('preview-container').appendChild(errorMessage);
-    
-    var pattern_name = /^[A-Za-z]{2,}(?: [A-Za-z ]+)? [A-Za-z]{1}(?:[ .]?[A-Za-z]{1})?$/;    
-    var pattern_ph = /^[0-9]{10}$/;
-    var pattern_email = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
-    var pattern_aadhar = /^[0-9]{4} [0-9]{4} [0-9]{4}$/;
-    var pattern_pin = /^[0-9]{6}$/;
-
-    
-   
-    name.addEventListener("change", function() {
-        var name_value = name.value.trim();
-        if(!name_value.match(pattern_name)) 
-            name.style.borderColor = "red";
-        else 
-            name.style.borderColor = ""; 
-        console.log("Name changed:", name.value);
-    });
-
-    email.addEventListener("change", function() {
-        if(!pattern_email.test(email.value))
-            email.style.borderColor = "red";
-        else
-            email.style.borderColor = "";
-        console.log("Email changed:", email.value);
-    });
-
-    ph.addEventListener("change", function() {
-        if(!ph.value.match(pattern_ph))
-            ph.style.borderColor = "red";
-        else
-            ph.style.borderColor = "";
-        console.log("Phone number changed:", ph.value);
-    });
-
-    aadhar.addEventListener("change", function() {
-        if(!pattern_aadhar.test(aadhar.value))
-            aadhar.style.borderColor = "red";
-        else
-            aadhar.style.borderColor = "";
-        console.log("Aadhar number changed:", aadhar.value);
-    });
-
-    dob.addEventListener("change", function() {        
-        console.log("Date of Birth changed:", dob.value);
-        dob.style.borderColor = "";
-
-    });
-
-    reg.addEventListener("change", function() {
-        var reg_value = reg.value.trim();
-        if(reg_value.length!==8 && reg_value!=='') 
-            reg.style.borderColor = "red";
-        else 
-            reg.style.borderColor = "";
-        console.log("Register number changed:", reg.value);
-    });
-
-    m_name.addEventListener("change", function() {
-        var m_name_value = m_name.value.trim();
-        if(!m_name_value.match(pattern_name)) 
-            m_name.style.borderColor = "red";
-        else 
-            m_name.style.borderColor = ""; 
-        console.log("Mother's name changed:", m_name.value);
-    });
-
-    m_ph.addEventListener("change", function() {
-        if(!m_ph.value.match(pattern_ph))
-            m_ph.style.borderColor = "red";
-        else
-            m_ph.style.borderColor = "";
-        console.log("Mother's phone number changed:", m_ph.value);
-    });
-
-    f_name.addEventListener("change", function() {
-        var f_name_value = f_name.value.trim();
-        if(!f_name_value.match(pattern_name)) 
-            f_name.style.borderColor = "red";
-        else 
-            f_name.style.borderColor = ""; 
-        console.log("Father's name changed:", f_name.value);
-    });
-
-    f_ph.addEventListener("change", function() {
-        if(!f_ph.value.match(pattern_ph))
-            f_ph.style.borderColor = "red";
-        else
-            f_ph.style.borderColor = "";
-        console.log("Father's phone number changed:", f_ph.value);
-    });
-
-    income.addEventListener("change", function() {
-        income.style.borderColor="";
-        console.log("Annual income changed:", income.value);
-    });
-
-    native.addEventListener("change", function() {
-        native.style.borderColor="";
-        console.log("Native place changed:", native.value);
-    });
-
-    pin.addEventListener("change", function() {
-        if(!pattern_pin.test(pin.value))
-            pin.style.borderColor = "red";
-        else
-            pin.style.borderColor = "";
-        console.log("Pin code changed:", pin.value);
-    });
-
-    doj.addEventListener("change", function() {
-        doj.style.borderColor = "";
-        console.log("Date of Join changed:", doj.value);
-    });
-
-    m_occ.addEventListener("change", function() {
-        m_occ.style.borderColor = "";
-        console.log("Mother's occupation changed:", m_occ.value);
-    });
-
-    f_occ.addEventListener("change", function() {
-        f_occ.style.borderColor = "";
-        console.log("Father's occupation changed:", f_occ.value);
-    });
-
-
-    tongue.addEventListener("change", function() {
-        tongue.style.borderColor = "";
-        console.log("Mother's Tongue changed:", tongue.value);
-    });
-
-    trans.addEventListener("change", function() {
-        trans.style.borderColor = "";
-        console.log("trans's  changed:", trans.value);
-    });
-
-
-    addr.addEventListener("change", function() {
-        addr.style.borderColor = "";
-        console.log("addr's  changed:", addr.value);
-    });
-    community.addEventListener("change", function() {
-        community.style.borderColor = "";
-        console.log("community  changed:", community.value);
-    });
-    caste.addEventListener("change", function() {
-        caste.style.borderColor = "";
-        console.log("caste  changed:", caste.value);
-    });
-    var checked = false;
-    for (var i = 0; i < lang.length; i++) {
-        lang[i].addEventListener("change", function() {
-            // Reset error message
-            document.getElementById('errr').innerHTML = "";
-            
-            // Check if at least one language is checked
-            checked = false;
-            for (var j = 0; j < lang.length; j++) {
-                if (lang[j].checked) {
-                    checked = true;
-                    break;
-                }
-            }            
-            // Display error message if no language is checked
-            if (!checked) {
-                document.getElementById('errr').innerHTML = "Please select at least one language.";
-                flag = false; // Assuming flag is declared somewhere else
-            }
-        });
+    function validateField(field, pattern = null) {
+        const value = field.value.trim();
+        const isValid = pattern ? pattern.test(value) : value !== '';
+        field.style.borderColor = isValid ? '' : 'red';
+        return isValid;
     }
 
-    
-    
+
+    const checkAadharDuplicate = (field) => {
+        fetch("utils/check_aadhar.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "aadhar=" + encodeURIComponent(field.value)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                alert("Aadhaar number already exists!");
+                field.style.borderColor = "red";
+                field.value = "";
+                field.focus();
+            }
+        })
+        .catch(err => console.error("Error checking Aadhaar:", err));
+    };
+
+    const checkRegnoDuplicate = (field) => {
+        fetch("utils/check_regno.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "regno=" + encodeURIComponent(field.value)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                alert("Register Number number already exists!");
+                field.style.borderColor = "red";
+                field.value = "";
+                field.focus();
+            }
+        })
+        .catch(err => console.error("Error checking Register Number:", err));
+    };
 
 
-    function validate_personal() {
-        var flag = true;
+    const setMaxDate = (field, yearDiff = 0) => {
+        const today = new Date();
+        const year = today.getFullYear() - yearDiff;
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        field.setAttribute("max", `${year}-${month}-${day}`);
+    };
+    setMaxDate(dob, 15);
+    setMaxDate(doj);
 
-        var name_value = document.getElementsByName("name")[0].value.trim();
-        if ((!name_value.match(pattern_name)) || (name_value === '')) {
-            name.style.borderColor = "red";
-            flag = false;
-        } else {
-            name.style.borderColor = "";
-        }
-    
-        if ((!pattern_email.test(email.value)) || (email.value === '')) {
-            email.style.borderColor = "red";
-            flag = false;
-        } else {
-            email.style.borderColor = "";
-        }
-    
-        var ph_value = document.getElementsByName("ph")[0].value.trim();
-        if ((!ph_value.match(pattern_ph)) || (ph_value === '')) {
-            ph.style.borderColor = "red";
-            flag = false;
-        } else {
-            ph.style.borderColor = "";
-        }
-    
-        if ((!pattern_aadhar.test(aadhar.value)) || (aadhar.value === '')) {
-            aadhar.style.borderColor = "red";
-            flag = false;
-        } else {
-            aadhar.style.borderColor = "";
-        }
-    
-        var reg_value = reg.value.trim();
-        if (reg_value.length !== 8 || reg_value === '') {
-            reg.style.borderColor = "red";
-            flag = false;
-        } else {
-            reg.style.borderColor = "";
-        }
-    
-        var m_name_value = m_name.value.trim();
-        if ((!m_name_value.match(pattern_name)) || m_name_value === "") {
-            m_name.style.borderColor = "red";
-            flag = false;
-        } else {
-            m_name.style.borderColor = "";
-        }
-    
-        if ((!m_ph.value.match(pattern_ph)) || m_ph.value === "") {
-            m_ph.style.borderColor = "red";
-            flag = false;
-        } else {
-            m_ph.style.borderColor = "";
-        }
-    
-        var f_name_value = f_name.value.trim();
-        if ((!f_name_value.match(pattern_name)) || f_name_value === "") {
-            f_name.style.borderColor = "red";
-            flag = false;
-        } else {
-            f_name.style.borderColor = "";
-        }
-    
-        if ((!f_ph.value.match(pattern_ph)) || f_ph.value === "") {
-            f_ph.style.borderColor = "red";
-            flag = false;
-        } else {
-            f_ph.style.borderColor = "";
-        }
-    
-        var income_value = income.value.trim();
-        if (income_value==='') {
-            income.style.borderColor = "red";
-            flag = false;
-        } else {
-            income.style.borderColor = "";
-        }
-    
-        var native_value = native.value.trim();
-        if (native_value==='') {
-            native.style.borderColor = "red";
-            flag = false;
-        } else {
-            native.style.borderColor = "";
-        }
-    
-        if (dob.value==='') {
-            dob.style.borderColor = "red";
-            flag = false;
-        } else {
-            dob.style.borderColor = "";
-        }
-    
-        if ((!pattern_pin.test(pin.value)) || (pin.value === '')) {
-            pin.style.borderColor = "red";
-            flag = false;
-        } else {
-            pin.style.borderColor = "";
-        }
-    
-        if (doj.value==='') {
-            doj.style.borderColor = "red";
-            flag = false;
-        } else {
-            doj.style.borderColor = "";
-        }
-    
-        var addr_value = addr.value.trim();
-        if (addr_value==='') {
-            addr.style.borderColor = "red";
-            flag = false;
-        } else {
-            addr.style.borderColor = "";
-        }
-    
-        if (caste.value==='') {
-            caste.style.borderColor = "red";
-            flag = false;
-        } else {
-            caste.style.borderColor = "";
-        }
-
-            var radiosToValidate = ['gender', 'mode', 'first_graduate', 'quota', 'physically_challenged', 'vaccinated', 'under_any_treatment'];
-            radiosToValidate.forEach(function(radioName) {
-                var radios = document.getElementsByName(radioName);
-                var radioValid = false;
-                
-                for (var i = 0; i < radios.length; i++) {
-                    if (radios[i].checked) {
-                        radioValid = true;
-                        break;
-                    }
+    // === Add onchange pattern validation
+    const patternFields = { name, email, ph, aadhar, reg, m_name, m_ph, f_name, f_ph, pin };
+    for (const key in patternFields) {
+        if (patterns[key]) {
+            patternFields[key].addEventListener("change", () => {
+                validateField(patternFields[key], patterns[key]);
+                if (key === "aadhar" && aadhar.value.trim() !== "") {
+                    checkAadharDuplicate(aadhar);
                 }
-        
-                if (!radioValid) {
-                    flag = false;
-                    alert('Please select an option for ' + radioName);
+                if (key === "reg" && reg.value.trim() !== "") {
+                    checkRegnoDuplicate(reg);
                 }
             });
+        }
+    }
 
-            var m_occ_value = m_occ.value.trim();
-            if (m_occ_value === "" || m_occ_value === "Select any one"){
-                m_occ.style.borderColor = "red";
-                flag=false;
+    // === Main validation function ===
+    function validate_personal() {
+        let flag = true;
+
+        validatePattern(name, patterns.name);
+        validatePattern(email, patterns.email);
+        validatePattern(ph, patterns.ph);
+        validatePattern(aadhar, patterns.aadhar);
+        validatePattern(reg, patterns.reg);
+        validatePattern(m_name, patterns.name);
+        validatePattern(m_ph, patterns.ph);
+        validatePattern(f_name, patterns.name);
+        validatePattern(f_ph, patterns.ph);
+        validateBasic(income, !isEmpty(income.value));
+        validateBasic(native, !isEmpty(native.value));
+        validateBasic(dob, !isEmpty(dob.value));
+        validatePattern(pin, patterns.pin);
+        validateBasic(doj, !isEmpty(doj.value));
+        validateBasic(addr, !isEmpty(addr.value));
+        validateBasic(caste, !isEmpty(caste.value));
+
+        validateSelect(m_occ);
+        validateSelect(f_occ);
+        validateSelect(tongue);
+        validateSelect(trans);
+        validateSelect(community);
+
+        // Validate radio groups
+        const radioNames = ['gender', 'mode', 'first_graduate', 'quota', 'physically_challenged', 'vaccinated', 'under_any_treatment'];
+        radioNames.forEach(radioName => {
+            const radios = document.getElementsByName(radioName);
+            const selected = Array.from(radios).some(r => r.checked);
+            if (!selected) {
+                alert(`Please select an option for ${radioName}`);
+                flag = false;
             }
-            else 
-                m_occ.style.borderColor = "";
-            console.log("Mother's occupation changed:", m_occ.value);
-            
-            var f_occ_value = f_occ.value.trim();
-            if (f_occ_value === "" || f_occ_value === "Select any one"){
-                f_occ.style.borderColor = "red";
-                flag=false;
-            }
-            else 
-                f_occ.style.borderColor = "";
-            console.log("Father's occupation changed:", f_occ.value);
-    
-            var tongue_value = tongue.value.trim();
-            if (tongue_value === "" || tongue_value === "Select any one"){ 
-                tongue.style.borderColor = "red";
-                flag=false;
-            }
-            else 
-                tongue.style.borderColor = "";
-            console.log("Mother's Tongue changed:", tongue.value);
-    
-            var trans_value = trans.value.trim();
-            if (trans_value === "" || trans_value === "Select any one") {
-                trans.style.borderColor = "red";
-                flag=false;
-            }
-            else 
-                trans.style.borderColor = "";
-            console.log("transport changed:", trans.value);
+        });
 
-            var community_value = community.value.trim();
-            if (community_value === "" || community_value === "Select any one"){
-                community.style.borderColor = "red";
-                flag=false;
-            }
-            else 
-                community.style.borderColor = "";
-            console.log("Community changed:", community.value);
-    
+        // Validate languages
+        const langChecked = Array.from(lang).some(cb => cb.checked);
+        lang.forEach(cb => {
+            cb.addEventListener("change", () => {
+                document.getElementById('errr').innerHTML = "";
+            });
+        });
+        if (!langChecked) {
+            document.getElementById('errr').innerHTML = "Please select at least one language.";
+            flag = false;
+        }
 
-
-
-
-            var checked = false;
-            for (var i = 0; i < lang.length; i++) {
-                
-               if (lang[i].checked) {
-                    checked = true;
-                    break;
-                }
-            }
-            if (!checked) {
-                document.getElementById('errr').innerHTML = "Please select at least one language.";
-                flag=false;
-            } else {
-                document.getElementById('errr').innerHTML = ""; 
-            }
-
-            return flag;
-
-
-
-           
+        return flag;
     }
 
 
-    //ACademic validation
-    
-        var academictype = document.getElementById("acad_type");
-        var institution = document.getElementById("inst_name");
-        var regno = document.getElementById("acd_reg_no");
-        var modeOfStudy = document.getElementById("mode_of_study");
-        var modeOfMedium = document.getElementById("mode_of_medium");
-        var board = document.getElementById("board");
-        var totalMarks = document.getElementById("total_marks");
-        var marksObtained = document.getElementById("marks_obtained");
-        var percentage = document.getElementById("percentage");
-        var cutOff = document.getElementById("cut_off");
-        var submitBtn = document.getElementById("submitBtn");
-        var storedDataField = document.getElementById("storedData");
-    
-        var academicData = {
-            SSLC: {},
-            HSC: {},
-            Diploma: {}
-        };
-    
-        academictype.addEventListener("change", function() {
+
+
+
+    //Academic validation
+    const academictype = document.getElementById("acad_type");
+    const institution = document.getElementById("inst_name");
+    const regno = document.getElementById("acd_reg_no");
+    const modeOfStudy = document.getElementById("mode_of_study");
+    const modeOfMedium = document.getElementById("mode_of_medium");
+    const board = document.getElementById("board");
+    const totalMarks = document.getElementById("total_marks");
+    const marksObtained = document.getElementById("marks_obtained");
+    const percentage = document.getElementById("percentage");
+    const cutOff = document.getElementById("cut_off");
+    const submitBtn = document.getElementById("submitBtn");
+    const storedDataField = document.getElementById("storedData");
+
+    const academicFields = [
+        institution,
+        regno,
+        modeOfStudy,
+        modeOfMedium,
+        board,
+        totalMarks,
+        marksObtained,
+        percentage,
+        cutOff,
+    ];
+
+    const academicData = {
+        SSLC: {},
+        HSC: {}
+    };
+
+   academictype.addEventListener("change", function() {
             var selectedValue = academictype.value;
             
             if (selectedValue) {
@@ -477,188 +243,108 @@ document.addEventListener("DOMContentLoaded", function() {
     
                 console.log('No academic type selected');
             }
+    });
+
+   function acc_validateField(field, type = "default") {
+        const value = field.value.trim();
+        let isValid = value !== "";
+
+        if (type === "marks") isValid = isValid && Number(value) > 400;
+        if (type === "obtained") isValid = isValid && Number(value) <= Number(totalMarks.value);
+        if (type === "percentage") isValid = isValid && Number(value) <= 100;
+        if (type === "cutoff") isValid = isValid && Number(value) <= 200;
+
+        field.style.border = isValid ? "1px solid black" : "1px solid red";
+        return isValid;
+    }
+    function storeData() {
+        const selectedValue = academictype.value;
+        if (!selectedValue) return false;
+
+        let allFilled = true;
+
+        if (!acc_validateField(institution)) allFilled = false;
+        if (!acc_validateField(regno)) allFilled = false;
+        if (!acc_validateField(modeOfStudy)) allFilled = false;
+        if (!acc_validateField(modeOfMedium)) allFilled = false;
+        if (!acc_validateField(board)) allFilled = false;
+        if (!acc_validateField(totalMarks, "marks")) allFilled = false;
+        if (!acc_validateField(marksObtained, "obtained")) allFilled = false;
+        if (!acc_validateField(percentage, "percentage")) allFilled = false;
+        if (!acc_validateField(cutOff, "cutoff")) allFilled = false;
+
+        if (allFilled) {
+            academicData[selectedValue] = {
+                institution: institution.value,
+                regno: regno.value,
+                modeOfStudy: modeOfStudy.value,
+                modeOfMedium: modeOfMedium.value,
+                board: board.value,
+                totalMarks: totalMarks.value,
+                marksObtained: marksObtained.value,
+                percentage: percentage.value,
+                cutOff: cutOff.value
+            };
+                storedDataField.value = JSON.stringify(academicData);
+                console.log("Updated JSON:", storedDataField.value);
+                return true; 
+            } else {
+                console.log("Please fill in all fields correctly.");
+                document.getElementById('academic-details').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return false;
+            }
+    }
+    submitBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (storeData()) {
+            disableType();
+            // academicFields.forEach(f => {
+            //     f.value = "";
+            //     f.disabled = true;
+            // });
+            submitBtn.disabled = true;
+        }
+    });
+    academicFields.forEach(field => {
+        field.addEventListener("input", () => {
+            let type = "default";
+            if (field === totalMarks) type = "marks";
+            else if (field === marksObtained) type = "obtained";
+            else if (field === percentage) type = "percentage";
+            else if (field === cutOff) type = "cutoff";
+
+            acc_validateField(field, type);
         });
-    
-        function validateAndEnableNext(inputElement, nextElement) {
-            inputElement.addEventListener("change", function() {
-                var inputValue = this.value;
-                if (inputValue === "" || (this.id === "total_marks" && inputValue> 600) || (this.id === "marks_obtained" && inputValue > totalMarks.value) || (this.id === "percentage" && inputValue > 100) || (this.id === "cut_off" && inputValue > 200)) {
-                    console.log("Please enter the valid " + this.name);
-                    this.style.border = "1px solid red";
-                } else {
-                    console.log("Entered " + this.name + ": " + inputValue);
-                    this.style.border = "1px solid black";
-                    nextElement.disabled = false;
-                }
-            });
+    });
+    function disableType() {
+        const selectedType = academictype.options[academictype.selectedIndex];
+        selectedType.disabled = true;
+    }
+    function validate_acad() {
+        let flag = true;
+
+        const f1 = document.getElementById('sslc').innerText;
+        const f2 = document.getElementById('hsc').innerText;
+        console.log("ssls"+f1);
+        console.log("hsc"+f2);
+
+        if (f1 == 'SSLC' && f2 == 'HSC') {
+            flag = true;
+        } 
+        else{
+            flag = false;
         }
-    
-        validateAndEnableNext(institution, regno);
-        validateAndEnableNext(regno, modeOfStudy);
-        validateAndEnableNext(modeOfStudy, modeOfMedium);
-        validateAndEnableNext(modeOfMedium, board);
-        validateAndEnableNext(board, totalMarks);
-        validateAndEnableNext(totalMarks, marksObtained);
-        validateAndEnableNext(marksObtained, percentage);
-        validateAndEnableNext(percentage, cutOff);
-        validateAndEnableNext(cutOff, cutOff);
+        return flag;
+    }
 
-    
-        function storeData() {
-            var selectedValue = academictype.value;
-            console.log(selectedValue);
-            if (selectedValue) {
-                var allFilled = true;
-    
-                // Validate all required fields
-                if (!institution.value) {
-                    allFilled = false;
-                    institution.style.border = "1px solid red";
-                } else {
-                    institution.style.border = "1px solid black";
-                }
-    
-                if (!regno.value) {
-                    allFilled = false;
-                    regno.style.border = "1px solid red";
-                } else {
-                    regno.style.border = "1px solid black";
-                }
-    
-                if (!modeOfStudy.value) {
-                    allFilled = false;
-                    modeOfStudy.style.border = "1px solid red";
-                } else {
-                    modeOfStudy.style.border = "1px solid black";
-                }
-    
-                if (!modeOfMedium.value) {
-                    allFilled = false;
-                    modeOfMedium.style.border = "1px solid red";
-                } else {
-                    modeOfMedium.style.border = "1px solid black";
-                }
-    
-                if (!board.value) {
-                    allFilled = false;
-                    board.style.border = "1px solid red";
-                } else {
-                    board.style.border = "1px solid black";
-                }
-    
-                if (!totalMarks.value || totalMarks.value <= 400) {
-                    allFilled = false;
-                    totalMarks.style.border = "1px solid red";
-                } else {
-                    totalMarks.style.border = "1px solid black";
-                }
-    
-                if (!marksObtained.value || marksObtained.value > totalMarks.value) {
-                    allFilled = false;
-                    marksObtained.style.border = "1px solid red";
-                } else {
-                    marksObtained.style.border = "1px solid black";
-                }
-    
-                if (!percentage.value || percentage.value > 100) {
-                    allFilled = false;
-                    percentage.style.border = "1px solid red";
-                } else {
-                    percentage.style.border = "1px solid black";
-                }
-    
-                if (!cutOff.value || cutOff.value > 200) {
-                    allFilled = false;
-                    cutOff.style.border = "1px solid red";
-                } else {
-                    cutOff.style.border = "1px solid black";
-                }
 
-                if (allFilled) {
-                    academicData[selectedValue] = {
-                        institution: institution.value,
-                        regno: regno.value,
-                        modeOfStudy: modeOfStudy.value,
-                        modeOfMedium: modeOfMedium.value,
-                        board: board.value,
-                        totalMarks: totalMarks.value,
-                        marksObtained: marksObtained.value,
-                        percentage: percentage.value,
-                        cutOff: cutOff.value
-                    };
-                    storedDataField.value = JSON.stringify(academicData);
-                    console.log("Updated JSON:", storedDataField.value);                   
-                    return true;
-                } 
-                else {
-                    console.log("Please fill in all fields correctly.");
-                    document.getElementById('academic-details').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    return false;
-                }
-            }
-        }
-    
-        submitBtn.addEventListener("click", function(event) {
-            event.preventDefault();
-            if (storeData()) {
-                disableType();
-            institution.value = "";
-            regno.value = "";
-            modeOfStudy.value = "";
-            modeOfMedium.value = "";
-            board.value = "";
-            totalMarks.value = "";
-            marksObtained.value = "";
-            percentage.value = "";
-            cutOff.value = "";
-    
-            institution.disabled = true;
-            regno.disabled = true;
-            modeOfStudy.disabled = true;
-            modeOfMedium.disabled = true;
-            board.disabled = true;
-            totalMarks.disabled = true;
-            marksObtained.disabled = true;
-            percentage.disabled = true;
-            cutOff.disabled = true;            
-            submitBtn.disabled=true;
-    
-            }
-        });
+//extracurriculars
 
-    
-        function disableType() {
-            var selectedType = academictype.options[academictype.selectedIndex];
-            selectedType.disabled = true;
-        }
-
-        function validate_acad(){
-            var flag = true;
-            var f1 = document.getElementById('sslc').innerText;
-            var f2 = document.getElementById('hsc').innerText;
-            var f3 = document.getElementById('diploma').innerText;
-            console.log("ssls"+f1);
-            console.log("hsc"+f2);
-            console.log("diploma"+f3);
-            
-            if ((f1 == '1' && f2 == '1') || (f1 == '1' && f3 == '1')) {
-                flag = true;
-            } 
-            else{
-                flag = false;
-            }
-            return flag;
-        }
-    
-        // extracurriculars
-        const MaxDreamCompanyCount = 3;
-        var hobbies = document.getElementById('Hobbies');
-        var interest = document.getElementById('Interest');
-        var ambition = document.getElementById('Ambition');
-        var Programming_LanguageInputs = document.querySelectorAll('.input-Programming_Language input');
-        var otherCoursesInputs = document.querySelectorAll('.input-Other_Courses input');
-        var DreamCoursesInputs = document.querySelectorAll('.input-Dream_Company input');
-
+     const MaxDreamCompanyCount = 3;
+        const hobbies = document.getElementById('Hobbies');
+        const interest = document.getElementById('Interest');
+        const ambition = document.getElementById('Ambition');
+        
 
         hobbies.addEventListener("change", function() {
             hobbies.style.borderColor = "";
@@ -672,97 +358,60 @@ document.addEventListener("DOMContentLoaded", function() {
             ambition.style.borderColor = "";
             console.log("ambition changed:", ambition.value);
         });
-
-        Programming_LanguageInputs.forEach(function(input) {
-            input.addEventListener('change', function() {                
-                input.style.borderColor = ''; // Reset to default
-                console.log("Programming Language changed:", input.value);
-                });        
-        });
-
-        otherCoursesInputs.forEach(function(input) {
-            input.addEventListener('change', function() {                
-                input.style.borderColor = ''; // Reset to default
-                console.log("otherCoursesInputs changed:", input.value);
-                });        
-        });
-
-        DreamCoursesInputs.forEach(function(input) {
-            input.addEventListener('change', function() {                
-                input.style.borderColor = ''; // Reset to default
-                console.log("DreamCourses changed:", input.value);
-                });        
-        });
-
-
+    
         function validate_extracurricular() {
-            let isValid = true;
+            const Programming_LanguageInputs = document.querySelectorAll('.input-Programming_Language input');
+            const otherCoursesInputs = document.querySelectorAll('.input-Other_Courses input');
+            const DreamCoursesInputs = document.querySelectorAll('.input-Dream_Company input');
 
-            // Validate each field
-            const hobbies = document.getElementById('Hobbies');
+
+            let flag = true;
+
             if (hobbies && !validateField(hobbies)) 
-                isValid = false;
+                flag = false;
             else if (hobbies) {
                 console.log("Hobbies: " + hobbies.value);
             }
 
-            const interest = document.getElementById('Interest');
             if (interest && !validateField(interest)) 
-                isValid = false;
+                flag = false;
             else if (interest) {
                 console.log("Interest: " + interest.value);
             }
 
-            const ambition = document.getElementById('Ambition');
             if (ambition && !validateField(ambition)) 
-                isValid = false;
+                flag = false;
             else if (ambition) {
                 console.log("Ambition: " + ambition.value);
             }
 
-            const Programming_LanguageInputs = document.querySelectorAll('.input-Programming_Language input');
-                Programming_LanguageInputs.forEach(function(input) {
+            Programming_LanguageInputs.forEach(function(input) {
                     if (!validateField(input)) {
-                        isValid = false;
+                        flag = false;
                     } else {
                         console.log("Programming Language: " + input.value);
                     }
-                });
+            });
             
 
-            const otherCoursesInputs = document.querySelectorAll('.input-Other_Courses input');
-                otherCoursesInputs.forEach(function(input) {
+            otherCoursesInputs.forEach(function(input) {
                     if (!validateField(input)) {
-                        isValid = false;
+                        flag = false;
                     } else {
                         console.log("Other Courses: " + input.value);
                     }
                 });
             
 
-            document.querySelectorAll('.input-Dream_Company input').forEach(function(input) {
-                if (!validateField(input)) isValid = false;
+            DreamCoursesInputs.forEach(function(input) {
+                if (!validateField(input)) flag = false;
                 else {
                     console.log("Dream Company: " + input.value);
                 }
             });
 
-            return isValid;
+            return flag;
         }
-
-        // Function to validate a field
-        function validateField(field) {
-            if (field.value.trim() === '') {
-                field.style.borderColor = 'red';
-                return false;
-            } else {
-                field.style.borderColor = '';
-            }
-            return true;
-        }
-
-        // Add dynamic fields
-
         form.addEventListener('click', function(event) {
             if (event.target.id === 'addProgrammingLanguage') {
                 addDynamicField(event.target.closest('.input-group').querySelector('.input-Programming_Language'));
@@ -772,11 +421,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (document.querySelectorAll('.input-Dream_Company input').length < MaxDreamCompanyCount) {
                     addDynamicField(event.target.closest('.input-group').querySelector('.input-Dream_Company'));
                 }
-            }
+            }            
         });
-        
 
-        // Function to add a dynamic field
         function addDynamicField(container) {
 
 
@@ -820,9 +467,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
 
-
-
-        
+  
         // final check -> index.html
                 
         finalSubmitBtn.addEventListener("click", function(event) {
@@ -853,11 +498,15 @@ document.addEventListener("DOMContentLoaded", function() {
         // final check -> edit
         editSubmitBtn.addEventListener("click", function(event) {
             event.preventDefault();
-            if (typeof window.storeData === 'function') {
-                window.storeData(); 
-            } else {
-                console.error("storeData function is not defined");
+            const saved = storeData();
+
+            
+            if (!saved) {
+                alert("Please fill in academic section correctly.");
+                document.getElementById('academic-details').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
             }
+
             storedDataField.value = JSON.stringify(academicData);
             console.log("storedDataField.value:", storedDataField.value);
             
@@ -874,9 +523,8 @@ document.addEventListener("DOMContentLoaded", function() {
             else
                 document.getElementById('extra-curr').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
-    
-});        
 
+        
     function previewImage(event) {
             const previewContainer = document.getElementById("preview-container");
             const previewImage = document.getElementById("preview");
@@ -893,4 +541,6 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 previewImage.style.display = "none"; 
             }
-    }
+    }            
+
+});

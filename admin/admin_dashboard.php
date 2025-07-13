@@ -48,108 +48,108 @@ function getAcademicYear($year) {
     <link rel="stylesheet" href="../css/admin_dashboard.css">
     <style>
 
-   body {
-    background-color: #f3f4f6;
-    margin: 0;
-    padding: 0;
-}
+        body {
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
 
-.sidebar {
-    height: 100vh;
-    width: 250px;
-    background-color:  rgb(95, 158, 164);
-    color: white;
-    padding: 20px;
-    position: fixed;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-}
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            background-color:  rgb(95, 158, 164);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
 
-.sidebar h3, .sidebar h2 {
-    margin-bottom: 15px;
-}
-.sidebar a {
-    display: block;
-    color: black;
-    padding: 10px;
-    background:  rgba(255, 255, 255, 1);
-    margin-bottom: 10px;
-    border-radius: 6px;
-    text-align: center;
-    text-decoration: none;
-    transition: 0.3s;
-}
+        .sidebar h3, .sidebar h2 {
+            margin-bottom: 15px;
+        }
+        .sidebar a {
+            display: block;
+            color: black;
+            padding: 10px;
+            background:  rgba(255, 255, 255, 1);
+            margin-bottom: 10px;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            transition: 0.3s;
+        }
 
-.sidebar select,
-.sidebar button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-}
+        .sidebar select,
+        .sidebar button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
 
-.sidebar select {
-    background: white;
-    color: #333;
-    font-weight: bold;
-}
+        .sidebar select {
+            background: white;
+            color: #333;
+            font-weight: bold;
+        }
 
-button {
-    cursor: pointer;
-    transition: background 0.3s;
-}
+        button {
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-button:hover {
-    background: #d1d5db;
-}
+        button:hover {
+            background: #d1d5db;
+        }
 
-.content {
-    margin-left: 270px;
-    padding: 30px;
-}
+        .content {
+            margin-left: 270px;
+            padding: 30px;
+        }
 
 
-input[type="text"] {
-    padding: 8px;
-    border: 1px solid #d1d5db;
-    border-radius: 5px;
-    width: 100%;
-}
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            width: 100%;
+        }
 
-.logout a {
-    background: #dc2626;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-}
+        .logout a {
+            background: #dc2626;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
 
-.logout a:hover {
-    background: #b91c1c;
-}
+        .logout a:hover {
+            background: #b91c1c;
+        }
 
-.edit-btn,
-.delete-btn{
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-weight: bold;
-    font-size: 13px;
-    transition: 0.2s;
-}
+        .edit-btn,
+        .delete-btn{
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.2s;
+        }
 
-.edit-btn:hover,
-.delete-btn:hover {
-    opacity: 0.9;
-}
+        .edit-btn:hover,
+        .delete-btn:hover {
+            opacity: 0.9;
+        }
 
-img {
-    max-width: 60px;
-    max-height: 60px;
-}
+        img {
+            max-width: 60px;
+            max-height: 60px;
+        }
 
-  .content {
+        .content {
             margin-left: 300px;
             padding-top: 120px;
             
@@ -199,6 +199,12 @@ img {
             align-items: center;
             gap: 30px;
         }
+        .delete-student{
+            background-color:rgb(95, 158, 164);
+            color: white;
+            padding: 12px;
+            border : none;
+        }
     </style>
 </head>
 <body>
@@ -239,8 +245,7 @@ img {
         </div>
         <br>        
         <div class="bulkdel">
-            <button id="deletesheet">Delete Sheet</button>
-
+            <button id="deletesheet">Delete All</button>            
         </div>  
         <div class="logout">
             <button onclick="window.location.href='../auth/logout.php'">Logout</button>
@@ -253,19 +258,18 @@ img {
         <table class="table">
             <thead class="tabledark">
                 <tr>
-                    <!-- <th><input type="checkbox" id="selectAll" /></th>  -->
                     <th>Photo</th>
                     <th>RollNo</th>
                     <th>Name</th>
                     <th>Department</th>
                     <th>Section</th>
                     <th>Year</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="studentTable">
                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                 <tr data-regno="<?= $row['RegNo']; ?>" onclick = "window.location='../student/Student_View.php?value=<?= $row['RegNo']; ?>'">
-                    <!-- <td><input type="checkbox" name="select" value="<?= $row['RegNo']; ?>"></td> -->
                     <td><img src = "../uploads/<?= $row['Photo']; ?>" alt="Profile Picture" style="max-width: 150px; max-height: 150px;"></td>
                     <td class="editable regNo"><?= $row['RegNo']; ?></td>
                     <td class="editable name"><?= $row['Name']; ?></td>
@@ -273,6 +277,7 @@ img {
                     <td class="editable section"><?= $row['Section']; ?></td>
                     <?php $academicYear = getAcademicYear($row['Year']); ?>                          
                     <td class="editable year"><?= $academicYear ?></td>                  
+                    <td><button class="delete-student" onclick="event.stopPropagation(); deleteStudent(this);">Delete</button></td>
                 </tr>
                 <?php } ?>
             </tbody>
@@ -287,12 +292,11 @@ img {
             const input = document.getElementById("searchInput").value.toLowerCase();
             const rows = table.getElementsByTagName("tr");
 
-            for (let i = 1; i < rows.length; i++) {
+            for (let i = 0; i < rows.length; i++) {
                 let row = rows[i];
                 const cells = row.getElementsByTagName("td");
                 let found = false;
 
-                // Loop through all cells (ID, Name, Age, Class)
                 for (let j = 0; j < cells.length; j++) {
                 const cell = cells[j];
                     if (cell) {
@@ -302,7 +306,6 @@ img {
                         }
                     }
                 }
-                // Show/hide row based on search match
                 if (found) {
                 row.style.display = "";
                 } else {
@@ -313,13 +316,11 @@ img {
 
 document.addEventListener("DOMContentLoaded", function () {
     
-
-        // Get filter dropdown elements
         const departmentFilter = document.getElementById("department");
         const sectionFilter = document.getElementById("section");
         const yearFilter = document.getElementById("year");
 
-                // Function to fetch and update the table
+        // Function to fetch and update the table
         function fetchFilteredData() {
             const department = departmentFilter.value;
             const section = sectionFilter.value;
@@ -335,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.getElementById("studentTable");
-                tableBody.innerHTML = ""; // Clear old rows
+                tableBody.innerHTML = ""; 
 
                 if (data.length === 0) {
                     tableBody.innerHTML = `<tr><td colspan="6">No students found</td></tr>`;
@@ -345,15 +346,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 data.forEach(student => {
                     const row = document.createElement("tr");
                     row.setAttribute("data-regno", student.RegNo);
-                    row.setAttribute("onclick", `window.location='Student_View.php?value=${student.RegNo}'`);
+                    row.setAttribute("onclick", `window.location='../student/Student_View.php?value=${student.RegNo}'`);
 
                     row.innerHTML = `
-                        <td><img src="uploads/${student.Photo}" alt="Profile Picture" style="max-width: 150px; max-height: 150px;"></td>
+                        <td><img src="../uploads/${student.Photo}" alt="Profile Picture" style="max-width: 150px; max-height: 150px;"></td>
                         <td class="editable regNo">${student.RegNo}</td>
                         <td class="editable name">${student.Name}</td>
                         <td class="editable department">${student.Department}</td>
                         <td class="editable section">${student.Section}</td>
                         <td class="editable year">${student.Year}</td>
+                        <td><button class="delete-student" onclick="event.stopPropagation(); deleteStudent(this);">Delete</button></td>
+
                     `;
                     tableBody.appendChild(row);
                 });
@@ -395,17 +398,43 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Error deleting sheet:", error);
             });
         });
-    
 
-        // Attach event listeners to dropdowns
+        
         departmentFilter.addEventListener("change", fetchFilteredData);
         sectionFilter.addEventListener("change", fetchFilteredData);
         yearFilter.addEventListener("change", fetchFilteredData);
-
-
-    });
+ 
+});
 
         
+        //delete one student
+       function deleteStudent(button) {
+            if (!confirm("Are you sure you want to delete this student?")) return;
+
+            const row = button.closest("tr");
+            const regno = row.getAttribute("data-regno");
+
+            fetch("../utils/Delete_Student.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `deletestudent=true&regno=${regno}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Student deleted successfully.");
+                    row.remove(); 
+                } else {
+                    alert("Failed to delete student.");
+                }
+            })
+            .catch(error => {
+                console.error("Error deleting student:", error);
+            });
+        }
+
 </script>
 
 </body>

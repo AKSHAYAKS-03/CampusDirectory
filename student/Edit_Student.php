@@ -1,5 +1,6 @@
 <?php
 include_once '../config/db_connect.php';
+include_once '../utils/lookup_helpers.php'; 
 
 
 if (!isset($_SESSION['login_id'])) {
@@ -7,82 +8,14 @@ if (!isset($_SESSION['login_id'])) {
     exit();
 }
 
-    // to fetch LookUpTypeID
-    function getLookup($conn,$lookUpId) {
-        $stmt = $conn->prepare("SELECT lookUpTypeId FROM lookup where LookUpId = ?");
-        if (!$stmt) {
-            echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-            return null;
-        }
     
-        if (!$stmt->bind_param("s",$lookUpId)) {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->execute()) {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $lookUpTypeId = null;
-        if (!$stmt->bind_result($lookUpTypeId)) {
-            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->fetch()) {
-            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $stmt->close();
-        return $lookUpTypeId;
-    }
-    
-    // to fetch values
-    function getLookupValue($conn,$lookUpId) {
-        $stmt = $conn->prepare("SELECT LookUpTypeValue FROM lookup where LookUpId = ?");
-        
-        if (!$stmt) {
-            echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-            return null;
-        }
-    
-        if (!$stmt->bind_param("s",$lookUpId)) {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->execute()) {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $lookupValue = null;
-        if (!$stmt->bind_result($lookupValue)) {
-            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->fetch()) {
-            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $stmt->close();
-        return $lookupValue;
-    }
-
     function isChecked($lang, $languages) {
         return in_array($lang, $languages) ? 'checked' : '';
     }
 
     
-    // Retrieve data from the database
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
-        // echo $rollno;
 
         $name = $mailid = $mentorid = $genderid = $dob =$fname =$fph = $foccup = $fannum= $phn = $regno = $mname = $mph = $moccup = $mtongue = $langid = $addr = $pin = $native = $doj = $modeid = $transid = $aadhar = $firstgradid = $commid = $caste = $quotaid = $scholar = $physicid = $treatmentid = $vaccinateid = ''; // Initialize variables
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
@@ -117,7 +50,7 @@ if (!isset($_SESSION['login_id'])) {
             $mph = $row['Student_Mother_PH'];
             $moccup = $row['Student_Mother_Occupation_ID'];
             $mtongue = $row['Student_Mother_Tongue_ID'];
-            $languages = explode(", ", $row['Student_Languages_Known']);              // modified
+            $languages = explode(", ", $row['Student_Languages_Known']);              
             $addr = $row['Student_Address'];
             $pin = $row['Student_Pincode'];
             $native = $row['Student_Native'];
@@ -141,7 +74,6 @@ if (!isset($_SESSION['login_id'])) {
             echo "No data found for Rollno: $rollno";
             exit();
         }
-         // Close statement and connection
     $stmt->close();
 }
 
@@ -155,7 +87,7 @@ if (!isset($_SESSION['login_id'])) {
     if ($stmt->execute()) {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $rows = $result->fetch_all(MYSQLI_ASSOC); // Fetch all rows as an associative array
+            $rows = $result->fetch_all(MYSQLI_ASSOC); 
             foreach ($rows as $row) {
                 $acdtype = $row['Academic_Type_ID'];
                 $instname = $row['Institution_Name'];
@@ -236,11 +168,12 @@ if (!isset($_SESSION['login_id'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script type="module" src="../student.js"></script>
+    
 
 </head>
 <body>
     <header>
-        <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
+        <h1><b>Velammal College of Engineering & Technology</b> <img src="../assets/logo.jpeg" alt="College Logo" width="60" height="60"></h1>
         <a href="auth/logout.php" >Logout</a>
 
     </header>
@@ -252,13 +185,13 @@ if (!isset($_SESSION['login_id'])) {
         <section id="personal-info">
             <div class="details"><h3>Personal Details</h3></div>
             <div class="det">                   
-                    <img src="uploads/<?php echo htmlspecialchars($img); ?>" alt="Profile Picture" width="100" height="100"><br>  
+                    <img src="../uploads/<?php echo htmlspecialchars($img); ?>" alt="Profile Picture" width="100" height="100"><br>  
                     <div class="input-group-pic">
                     <h2>Profile Picture</h2>      
                     <label for="newImage">Upload New Image:</label>
                     <input type="file" id="newImage" name="newImage" accept="image/*" onchange="previewImage(event)">
                     <div id="preview-container">
-                        <img id="preview" src="uploads/<?php echo htmlspecialchars($img); ?>" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
+                        <img id="preview" src="../uploads/<?php echo htmlspecialchars($img); ?>" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
                     </div>
                 </div>
                 <div class="input-group">
@@ -647,6 +580,24 @@ if (!isset($_SESSION['login_id'])) {
 
     <script>
 
+        function previewImage(event) {
+            const previewContainer = document.getElementById("preview-container");
+            const previewImage = document.getElementById("preview");
+
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;  
+                    previewImage.style.display = "block"; 
+                }
+                reader.readAsDataURL(file);  
+            } else {
+                previewImage.style.display = "none"; 
+            }
+    }
+
         let academicData = {};
 
         let phpData = <?php echo json_encode($data); ?>;
@@ -717,7 +668,6 @@ if (!isset($_SESSION['login_id'])) {
 
 
             // JavaScript for handling dynamic form field update
-
             var acadTypeSelect = document.getElementById('acad_type');
 
             acadTypeSelect.addEventListener('change', function() {
@@ -735,7 +685,6 @@ if (!isset($_SESSION['login_id'])) {
                 var modeOfStudySelect = document.getElementById('mode_of_study');
                 setSelectedIndexByValue(modeOfStudySelect, selectedData['modeOfStudy']);
 
-                // work aagala inga.. inga irunthu php function call panni fetch pananum... but aaga maatinguthu inga..
                 var modeOfMediumSelect = document.getElementById('mode_of_medium');  
                 setSelectedIndexByValue(modeOfMediumSelect, selectedData['modeOfMedium']);
 

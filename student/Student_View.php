@@ -1,6 +1,7 @@
    
 <?php 
 include_once '../config/db_connect.php';
+include_once '../utils/lookup_helpers.php'; 
 
 if (!isset($_SESSION['login_id'])) {
     header("Location: ../auth/login.php");
@@ -26,8 +27,8 @@ if (!isset($_SESSION['login_id'])) {
 </head>
 <body>
     <header>
-        <h1><b>Velammal College of Engineering & Technology</b> <img src="logo.jpeg" alt="College Logo" width="60" height="60"></h1>
-        <a href="auth/logout.php" >Logout</a>
+        <h1><b>Velammal College of Engineering & Technology</b> <img src="../assets/logo.jpeg" alt="College Logo" width="60" height="60"></h1>
+        <a href="../auth/logout.php" >Logout</a>
 
     </header>
     <h2>Submitted Data</h2>
@@ -41,7 +42,7 @@ if (!isset($_SESSION['login_id'])) {
 
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
-        // echo $rollno;
+
 
         //Personal details
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Mailid, Student_Name, Student_Mentor_ID, 
@@ -71,9 +72,8 @@ if (!isset($_SESSION['login_id'])) {
                                     <label>Profile Picture:</label>";
 
                                     $profilePicPath = htmlspecialchars($row['Student_Profile_Pic']);
-                                    // echo $profilePicPath;
                                             if ($profilePicPath) {
-                                                echo "<img src='uploads/".$profilePicPath . "' alt='Profile Picture' style='max-width: 150px; max-height: 150px;'>";
+                                                echo "<img src='../uploads/".$profilePicPath . "' alt='Profile Picture' style='max-width: 150px; max-height: 150px;'>";
                                             } else {
                                                 echo "<p>No profile picture available.</p>";
                                             }            
@@ -211,6 +211,7 @@ if (!isset($_SESSION['login_id'])) {
         
             $stmt->close();
 
+
         // academic details
         $stmt = $conn->prepare("SELECT Student_Rollno, Academic_Type_ID, Institution_Name, Register_Number, Mode_Of_Study_ID,
          Mode_Of_Medium_ID, Board_ID, Mark, Mark_Total, Mark_Percentage, Cut_Of_Mark
@@ -282,6 +283,7 @@ if (!isset($_SESSION['login_id'])) {
         
             $stmt->close();
 
+
         // extra-curricular
         $stmt = $conn->prepare("SELECT Student_Rollno, Student_Hobbies, Student_Programming_Language,
          Student_Others, Student_Interest, Student_DreamCompany,
@@ -337,48 +339,14 @@ if (!isset($_SESSION['login_id'])) {
             echo "<div id='buttons' style='text-align: center; padding: 20px;'>
                             <button id='generate-pdf' onclick='generatePDF()' style='margin-left: 20px;'>Generate PDF</button>
                             <button id='edit' onclick=\"window.location.href='Edit_Student.php?value=".$rollno."'\" style='margin-left: 20px;'>Edit</button>
-                            <button id ='logout' onclick=\"window.location.href='../auth/logout.php'\">Logout</button>        
                         </div>
             </div>";
         $stmt->close();
-        //$conn->close();
     } else {
         echo "<span>No roll number provided</span>";
     }
 
-    function getLookupValue($conn,$lookUpId) {
-        $stmt = $conn->prepare("SELECT LookUpTypeValue FROM lookup where LookUpId = ?");
-        if (!$stmt) {
-            echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-            return null;
-        }
-    
-        if (!$stmt->bind_param("s",$lookUpId)) {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->execute()) {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        $lookupValue = null;
-        if (!$stmt->bind_result($lookupValue)) {
-            echo "Binding result failed: (" . $stmt->errno . ") " . $stmt->error;
-            return null;
-        }
-    
-        if (!$stmt->fetch()) {
-            echo "Fetching result failed: (" . $stmt->errno . ") " . $stmt->error;
-            // If fetch fails, it could mean no result was found.
-            // You might want to handle this case differently depending on your needs.
-            return null;
-        }
-    
-        $stmt->close();
-        return $lookupValue;
-    }
+   
 
     echo "<script>
             var rollno = '" . htmlspecialchars($rollno, ENT_QUOTES, 'UTF-8') . "';
@@ -388,10 +356,9 @@ if (!isset($_SESSION['login_id'])) {
 
     <script>
         function generatePDF() {
-            // Select all <section> tags
             const sections = document.querySelectorAll('section');
             
-            // Debugging: log the number of sections found
+            //  number of sections found
             console.log(`Found ${sections.length} sections.`);
 
             // Create a new div to hold the sections
@@ -409,7 +376,7 @@ if (!isset($_SESSION['login_id'])) {
                 element.appendChild(section.cloneNode(true));
             });
 
-            // Debugging: log the HTML of the new div
+            // HTML of the new div
             console.log('Generated HTML for PDF:', element.innerHTML);
     
             console.log(rollno);
@@ -437,7 +404,7 @@ if (!isset($_SESSION['login_id'])) {
         $(".details").click(function() {
             $(this).next(".det").slideToggle("slow");
         });
-    });
+     });
 
 
     </script>
