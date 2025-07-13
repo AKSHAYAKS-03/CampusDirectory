@@ -1,10 +1,12 @@
 # 🎓 Campus Directory
-
-**Campus Directory**  By using a secure, validated form in place of manual Excel handling, this system sim
+---
+**Campus Directory**   
+By using a secure, validated form in place of manual Excel handling, this system sim
 plifies the management of student information. While administrators generate PDFs,
  manage data, and guarantee timely, accurate, and secure access which greatly lessens
  staff workload while students can effortlessly update records.
- 
+
+ ---
 ## ✨ Key Modules
 
  -  View, filter, and manage all student records including profile photos, academic scores (SSLC/HSC), and extracurricular activities from a centralized dashboard.
@@ -41,10 +43,11 @@ plifies the management of student information. While administrators generate PDF
 
 ---
 
-📄 License
+## 📄 License
 This project is intended solely for academic demonstration purposes. It is not licensed for commercial use, redistribution, or modification. Unauthorized use, reproduction, or distribution of any part of this project is prohibited.
+---
 
-📬 Contact
+## 📬 Contact
 For queries, feedback, or collaboration opportunities, feel free to reach out:
 
 Akshaya K S
