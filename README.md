@@ -1,6 +1,7 @@
 # 🎓 Campus Directory
 
 **Campus Directory**   
+
 By using a secure, validated form in place of manual Excel handling, this system sim
 plifies the management of student information. While administrators generate PDFs,
  manage data, and guarantee timely, accurate, and secure access which greatly lessens
