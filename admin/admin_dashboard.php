@@ -24,6 +24,8 @@ $query = "SELECT
 $result = mysqli_query($conn, $query);
 
 function getAcademicYear($year) {
+    //22CSEB03  - IV
+
     $admissionYear = intval("20" . substr($year, 0, 2));
     $currentYear = date("Y");
 

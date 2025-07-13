@@ -9,11 +9,6 @@ if (!isset($_SESSION['login_id'])) {
 }
 
     
-    function isChecked($lang, $languages) {
-        return in_array($lang, $languages) ? 'checked' : '';
-    }
-
-    
     if (isset($_GET['value'])) {
         $rollno = $_GET['value'];
 
@@ -104,9 +99,9 @@ if (!isset($_SESSION['login_id'])) {
                     'acdtype' => $acdtype,
                     'instname' => $instname,
                     'acd_regno' => $acd_regno,
-                    'modeOfStudy' => getLookupValue($conn,$modeOfStudy),
-                    'modeOfMedium' => getLookupValue($conn,$modeOfMedium),
-                    'board' => getLookupValue($conn,$board),
+                    'modeOfStudy' => getLookup($conn,$modeOfStudy),
+                    'modeOfMedium' => getLookup($conn,$modeOfMedium),
+                    'board' => getLookup($conn,$board),
                     'Mark' => $marksObtained,
                     'totalMarks' => $totalMarks,
                     'percentage' => $percentage,
@@ -151,6 +146,13 @@ if (!isset($_SESSION['login_id'])) {
     echo "No rollno provided.";
     exit();
     }
+
+    
+    function isChecked($lang, $languages) {
+        return in_array($lang, $languages) ? 'checked' : '';
+    }
+
+    
 ?>
 
 
@@ -174,7 +176,7 @@ if (!isset($_SESSION['login_id'])) {
 <body>
     <header>
         <h1><b>Velammal College of Engineering & Technology</b> <img src="../assets/logo.jpeg" alt="College Logo" width="60" height="60"></h1>
-        <a href="auth/logout.php" >Logout</a>
+        <a href="../auth/logout.php" >Logout</a>
 
     </header>
     <h2>Submitted Data</h2>
@@ -238,7 +240,11 @@ if (!isset($_SESSION['login_id'])) {
                 
                     <input type="tel" name="m_ph" placeholder="ex. 9123456789" style="width: 200px ;margin-left: 60px;" value="<?php echo htmlspecialchars($mph); ?>" required> 
                     <select name="m_occ" style="width: 200px;margin-left: 50px;" required>
-                        <?php $m_occ_val = getLookupValue($conn,htmlspecialchars($moccup))?>
+
+                    <!-- <script>
+                        console.log("<?php echo getLookup($conn, htmlspecialchars($moccup)); ?>");
+                    </script> -->
+                        <?php $m_occ_val = getLookup($conn,htmlspecialchars($moccup))?>
                         <option value="1" <?php echo ($m_occ_val == '1') ? 'selected' : ''; ?>>Government</option>
                         <option value="2" <?php echo ($m_occ_val == '2') ? 'selected' : ''; ?>>Business</option>
                         <option value="3" <?php echo ($m_occ_val == '3') ? 'selected' : ''; ?>>Private</option>
@@ -259,7 +265,7 @@ if (!isset($_SESSION['login_id'])) {
                     <input type="tel" name="f_ph" placeholder="ex. 9123456789" style="width: 200px ;margin-left: 60px;" value="<?php echo htmlspecialchars($fph); ?>" required>
               
                     <select name="f_occ" style="width: 200px;margin-left: 50px;" value="<?php echo htmlspecialchars($focc); ?>" required>
-                        <?php $f_occ_val = getLookupValue($conn,htmlspecialchars($foccup))?>
+                        <?php $f_occ_val = getLookup($conn,htmlspecialchars($foccup))?>
                         <option value="1" <?php echo ($f_occ_val == '1') ? 'selected' : ''; ?>>Government</option>
                         <option value="2" <?php echo ($f_occ_val == '2') ? 'selected' : ''; ?>>Business</option>
                         <option value="3" <?php echo ($f_occ_val == '3') ? 'selected' : ''; ?>>Private</option>
@@ -275,7 +281,7 @@ if (!isset($_SESSION['login_id'])) {
                     <input type="number" name="income" placeholder="" min=0 style="width: 150px ;" value="<?php echo htmlspecialchars($fannum); ?>" required>
                
                     <select name="tongue" style="width: 200px ;margin-left: 110px;" value="<?php echo htmlspecialchars($tongue); ?>">
-                        <?php $m_value = getLookupValue($conn,htmlspecialchars($mtongue))?>
+                        <?php $m_value = getLookup($conn,htmlspecialchars($mtongue))?>
                         <option value="1" <?php echo ($m_value == '1') ? 'selected' : ''; ?>>Tamil</option>
                         <option value="2" <?php echo ($m_value == '2') ? 'selected' : ''; ?>>Hindi</option>
                         <option value="3" <?php echo ($m_value == '3') ? 'selected' : ''; ?>>Malayalam</option>
@@ -332,7 +338,7 @@ if (!isset($_SESSION['login_id'])) {
                 <div class="input-group">
                     <label for="trans">Transport:</label>
                     <select name="trans" style="width: 250px ;" value="<?php echo htmlspecialchars($trans); ?>" required>
-                        <?php $trans_value = getLookupValue($conn,htmlspecialchars($transid))?>
+                        <?php $trans_value = getLookup($conn,htmlspecialchars($transid))?>
                         <option value="1" <?php echo ($trans_value == '1') ? 'selected' : '';?>>College Bus</option>
                         <option value="2" <?php echo ($trans_value == '2') ? 'selected' : '';?>>Self</option>
                         <option value="3" <?php echo ($trans_value == '3') ? 'selected' : '';?>>Others</option>
@@ -361,7 +367,7 @@ if (!isset($_SESSION['login_id'])) {
                     <label for="community">Community:</label>  <label for="caste"  style="width: 250px ;margin-left: 295px;">Caste:</label>
                      <br>
                     <select name="community" style="width: 250px" value="<?php echo htmlspecialchars($commid); ?>" required>
-                        <?php $comm_value = getLookupValue($conn,htmlspecialchars($commid))?>
+                        <?php $comm_value = getLookup($conn,htmlspecialchars($commid))?>
                         <option value="1" <?php echo ($comm_value == '1') ? 'selected' : '';?>>OC</option>
                         <option value="2" <?php echo ($comm_value == '2') ? 'selected' : '';?>>BC</option>
                         <option value="3" <?php echo ($comm_value == '3') ? 'selected' : '';?>>MBC</option>
@@ -443,13 +449,13 @@ if (!isset($_SESSION['login_id'])) {
                     <div class="input-group">
                         <label for="mode_of_study">Mode Of Study:</label>
                         <select id="mode_of_study" name="mode_of_study" style="width: 180px" value="<?php echo htmlspecialchars($modeOfStudy); ?>" required>
-                        <?php $a_mode_value = getLookupValue($conn,htmlspecialchars($data[$i]['modeOfStudy']))?>
+                        <?php $a_mode_value = getLookup($conn,htmlspecialchars($data[$i]['modeOfStudy']))?>
                             <option value="1" <?php echo ($a_mode_value == '1') ? 'selected' : '';?>>Full-Time</option>
                             <option value="2" <?php echo ($a_mode_value == '2') ? 'selected' : '';?>>Part-Time</option>
                         </select>
                         <label for="mode_of_medium" style="margin-left: 60px;">Mode Of Medium:</label>
                         <select id="mode_of_medium" name="mode_of_medium" style="width: 180px" value="<?php echo htmlspecialchars($modeOfMedium); ?>" required>
-                        <?php $medium_value = getLookupValue($conn,htmlspecialchars($data[$i]['modeOfMedium']))?>
+                        <?php $medium_value = getLookup($conn,htmlspecialchars($data[$i]['modeOfMedium']))?>
                             <option value="1" <?php echo ($medium_value == '1') ? 'selected' : '';?>>English</option>
                             <option value="2" <?php echo ($medium_value == '2') ? 'selected' : '';?>>Tamil</option>
                         </select>
@@ -457,7 +463,7 @@ if (!isset($_SESSION['login_id'])) {
                     <div class="input-group">
                         <label for="board">Board:</label>
                         <select id="board" name="board" style="width: 200px" value="<?php echo htmlspecialchars($board); ?>" required>
-                            <?php $board_value = getLookupValue($conn,htmlspecialchars($data[$i]['board']))?>
+                            <?php $board_value = getLookup($conn,htmlspecialchars($data[$i]['board']))?>
                             <option value="1" <?php echo ($board_value == '1') ? 'selected' : '';?>>State Board</option>
                             <option value="2" <?php echo ($board_value == '2') ? 'selected' : '';?>>Matric</option>
                             <option value="3" <?php echo ($board_value == '3') ? 'selected' : '';?>>CBSE</option>
@@ -706,9 +712,15 @@ if (!isset($_SESSION['login_id'])) {
                     }
                 }
             }    
+             
         });
         document.getElementById("form").addEventListener("submit", function () {
             document.getElementById("storedData").value = JSON.stringify(academicData);
+        });
+         $(document).ready(function() {    
+            $(".details").click(function() {
+                $(this).next(".det").slideToggle("slow");
+            });
         });
 
         

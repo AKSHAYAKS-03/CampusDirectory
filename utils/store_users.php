@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ✅ Upload via Excel/CSV
+    // Upload via Excel/CSV
     if (isset($_FILES['user_file']['name'])) {
         require '../vendor/autoload.php';
         $fileTmp = $_FILES['user_file']['tmp_name'];

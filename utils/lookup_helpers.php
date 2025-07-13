@@ -16,6 +16,8 @@ function getLookup($conn, $lookUpId) {
     );
 }
 
+
+
 function getLookupId($conn, $lookUpTypeName, $LookUpTypeId) {
     $lookUpId = fetchSingleColumn(
         $conn, 

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const finalSubmitBtn = document.getElementById("FinalSubmit");
     const editSubmitBtn = document.getElementById("EditSubmit");
 
-    // === Personal fields ===
+    // Personal fields
     const profilepic = document.getElementById("profile-pic");
     const name = document.getElementsByName("name")[0];
     const email = document.getElementsByName("email")[0];
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const community = document.getElementsByName("community")[0];
     const caste = document.getElementsByName("caste")[0];
 
-    // === Patterns ===
+    //  Patterns 
     const patterns = {
         name: /^[A-Za-z]{2,}(?: [A-Za-z ]+)? [A-Za-z]{1}(?:[ .]?[A-Za-z]{1})?$/,
         ph: /^[0-9]{10}$/,
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
         reg: /^[0-9A-Za-z]{8}$/,
     };
 
-    // === Helpers ===
+    //  Helpers 
     const isEmpty = (value) => value.trim() === "";
 
     const validateBasic = (element, condition) => {
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setMaxDate(dob, 15);
     setMaxDate(doj);
 
-    // === Add onchange pattern validation
+    //  Add onchange pattern validation
     const patternFields = { name, email, ph, aadhar, reg, m_name, m_ph, f_name, f_ph, pin };
     for (const key in patternFields) {
         if (patterns[key]) {
@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (!validateField(input)) {
                     input.style.borderColor = 'red';
                 } else {
-                    input.style.borderColor = ''; // Reset to default
+                    input.style.borderColor = ''; 
                     console.log(" changed:", input.value);
                 }
             });

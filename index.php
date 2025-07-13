@@ -128,28 +128,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //extracurriculars
         $hobbies = $_POST['hobbies'];
-        $Programming_Languages = implode(', ', $_POST['Programming_Language']); // Convert array to string
-        $Other_Courses = implode(', ', $_POST['Other_Courses']); // Convert array to string
+        $Programming_Languages = implode(', ', $_POST['Programming_Language']); 
+        $Other_Courses = implode(', ', $_POST['Other_Courses']); 
         $interests = $_POST['interests'];
-        $Dream_Companies = implode(', ', $_POST['Dream_Company']); // Convert array to string
+        $Dream_Companies = implode(', ', $_POST['Dream_Company']);
         $ambition = $_POST['ambition'];
         $created_by = $roll_no;
         $created_on = date('Y-m-d H:i:s');
         $modified_by = $roll_no;
         $modified_on = date('Y-m-d H:i:s');
 
-        // Prepare SQL statement
         $stmt = $conn->prepare("INSERT INTO student_extracurriculars (Student_Rollno, Student_Hobbies, Student_Programming_Language, Student_Others, Student_Interest, Student_DreamCompany, Student_Ambition, Extracurriculars_Created_By, Extracurriculars_Created_On, Extracurriculars_Modified_By, Extracurriculars_Modified_On) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        // Check if statement preparation was successful
         if ($stmt === false) {
             die("Error preparing the SQL statement: " . $conn->error);
         }
 
-        // Bind parameters
         $stmt->bind_param("sssssssssss", $roll_no, $hobbies, $Programming_Languages, $Other_Courses, $interests, $Dream_Companies, $ambition, $created_by, $created_on, $modified_by, $modified_on);
 
-        // Execute the statement
         if ($stmt->execute()) {
             header("Location: student/Student_View.php?value=" . urlencode($roll_no)); 
             exit();

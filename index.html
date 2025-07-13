@@ -8,42 +8,8 @@
     <link rel="stylesheet" href="css/Student.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="student.js"></script>
-
-    <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-            const params = new URLSearchParams(window.location.search);
-            const r_no = params.get('value'); 
-            window.r_no = r_no;
-
-            if (r_no) {
-                document.getElementById('roll_no').innerText = r_no;
-                document.getElementById('roll_no').value = r_no;
-            } else {
-                document.getElementById('roll_no').innerText = 'No value received.';
-                }                    
-    });
-        
-        function previewImage(event) {
-                const previewContainer = document.getElementById("preview-container");
-                const previewImage = document.getElementById("preview");
-
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        previewImage.src = e.target.result;  
-                        previewImage.style.display = "block"; 
-                    }
-                    reader.readAsDataURL(file);  
-                } else {
-                    previewImage.style.display = "none"; 
-                }
-            }
-</script>    
+ 
 
 
 </head>
@@ -63,9 +29,9 @@
                     <label for="profile-pic" class="upload-label">Choose File</label>
                     <input type="file" id="profile-pic" name="profile-pic" accept="image/*" onchange="previewImage(event)">
                     <input type="hidden" id="new-file-name" name="new-file-name" value="">
-                    <div id="preview-container" style="display: none;max-width: 150px;max-height: 150px;margin-top: 10px">
-                        <img id="preview" src="" alt="Preview will appear here">
-                    </div>
+                    <div id="preview-container">
+                        <img id="preview" src="" alt="Preview will appear here" style="display: none; max-width: 150px; max-height: 150px; margin-top: 10px;">
+                    </div>            
                 </div>
                 <br>                
                 <div class="input-group">
@@ -401,34 +367,42 @@
 
     <script>
     
-    $(document).ready(function() {    
+  document.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        const r_no = params.get('value'); 
+        window.r_no = r_no;
+
+        if (r_no) {
+            document.getElementById('roll_no').innerText = r_no;
+            document.getElementById('roll_no').value = r_no;
+        } else {
+            document.getElementById('roll_no').innerText = 'No value received.';
+        }                    
+           
+    });
+     $(document).ready(function() {    
         $(".details").click(function() {
             $(this).next(".det").slideToggle("slow");
         });
-    });
+     });
+        
+    function previewImage(event) {
+                const previewContainer = document.getElementById("preview-container");
+                const previewImage = document.getElementById("preview");
 
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
 
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     // Get all elements with class 'details'
-    //     const detailHeaders = document.querySelectorAll(".details");
-
-    //     detailHeaders.forEach(header => {
-    //         header.addEventListener("click", function () {
-    //             // Find the next sibling with class 'det'
-    //             const nextSection = this.nextElementSibling;
-
-    //             // Toggle the display
-    //             if (nextSection && nextSection.classList.contains("det")) {
-    //                 if (nextSection.style.display === "none" || nextSection.style.display === "") {
-    //                     nextSection.style.display = "block";
-    //                 } else {
-    //                     nextSection.style.display = "none";
-    //                 }
-    //             }
-    //         });
-    //     });
-    // });
-
+                    reader.onload = function (e) {
+                        previewImage.src = e.target.result;  
+                        previewImage.style.display = "block"; 
+                    }
+                    reader.readAsDataURL(file);  
+                } else {
+                    previewImage.style.display = "none"; 
+                }
+        }
     
     </script>
 </body>
