@@ -1,4 +1,4 @@
-# 🎓 Campus Directory
+#  Campus Directory
 
 **Campus Directory**   
 
@@ -8,7 +8,7 @@ plifies the management of student information. While administrators generate PDF
  staff workload while students can effortlessly update records.
 
  ---
-## ✨ Key Modules
+##  Key Modules
 
  -  View, filter, and manage all student records including profile photos, academic scores (SSLC/HSC), and extracurricular activities from a centralized dashboard.
  - Students can log in to enter, view, and update their personal, academic, and extracurricular details with real-time validation, and view a summary of their complete profile.
@@ -16,7 +16,7 @@ plifies the management of student information. While administrators generate PDF
 
 ---
 
-## 🚀 How to Run the Project
+##  How to Run the Project
 
 1. **Clone the repository**:
 
@@ -44,13 +44,13 @@ plifies the management of student information. While administrators generate PDF
 
 ---
 
-## 📄 License
+##  License
 This project is intended solely for academic demonstration purposes. It is not licensed for commercial use, redistribution, or modification. Unauthorized use, reproduction, or distribution of any part of this project is prohibited.
 
 ---
 
-## 📬 Contact
+##  Contact
 For queries, feedback, or collaboration opportunities, feel free to reach out:
 
 Akshaya K S
-📧 Email: akshayasenthilkumar12@gmail.com
+Email: akshayasenthilkumar12@gmail.com
