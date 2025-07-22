@@ -17,12 +17,14 @@ if (!isset($_SESSION['login_id'])) {
     <title>Student View</title>
 
     <link rel="stylesheet" href="../css/view.css">
-    <link rel="stylesheet" href="../css/student_view.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <!-- <style>
+ 
+    </style> -->
     
 </head>
 <body>
@@ -31,7 +33,6 @@ if (!isset($_SESSION['login_id'])) {
         <a href="../auth/logout.php" >Logout</a>
 
     </header>
-    <h2>Submitted Data</h2>
 
 <?php       
 

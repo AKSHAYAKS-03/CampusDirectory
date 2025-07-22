@@ -1,23 +1,24 @@
-body {
+       body {
     margin: 0;
     padding: 0;
-    background-color: #f2f2f2;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
 }
 
 header {
     background-color: rgb(95, 158, 164);
     box-shadow: 5px 5px 20px #a7a5a5;
     color: rgb(255, 255, 255);
-    padding: 10px 0;
+     padding: 20px;
     position: sticky;
     top: 0;
     text-align: center;
     z-index: 1;
+    box-shadow: 5px 5px 20px #7f7b7b;
 }
 
 header h1 {
@@ -27,19 +28,28 @@ header h1 {
 }
 
 header img {
-    vertical-align: middle;
-    margin-left: 10px;
-    border-radius: 70px;
+      position: absolute;
+
+  top: 10px;
+  right: 20px;
+  height: 50px;
+}
+
+header a {
+  color: #d1d1ff;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  text-decoration: none;
 }
 
 .container {
-    max-width: 900px;
-    width: auto;
-    margin: 40px auto;
+    width: 65%;
+    margin: 20px auto;
+    background-color: white;
     padding: 20px;
-    background-color: #fff;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
 }
 
 .details {
@@ -69,81 +79,49 @@ header img {
     padding-left: 50px;
 }
 
-label {
-    display: inline-block;
-    width: 150px;
-    margin-top: 20px;
-    font-size: 18px;
+.form-section {
+    margin-bottom: 30px;
+    page-break-inside: avoid;
 }
 
-input[type="text"]:active, input[type="tel"]:active, input[type="email"]:active, input[type="date"]:active, input[type="number"]:active, textarea:active {
-    transform: scale(1.2);
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    width: 300px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.field-value {
+    margin-left: 10px;
 }
 
 input[type="text"], input[type="tel"], input[type="email"], input[type="date"], input[type="number"], select, textarea {
-    width: calc(100% - 170px);
-    padding: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    width: 80%;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    display: inline-block;
-    transition: all 1.5s;
-}
-
-.bold-label {
-    margin-left: 50px;
-    font-size: 16px;
-    display: block;
-}
-
-input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-input[type="radio"] {
-    margin-left: 30px;
-}
-
-input[type="text"]:focus, input[type="tel"]:focus, input[type="email"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: rgb(95, 158, 164);
-}
-
-textarea {
-    width: calc(100% - 170px);
-    resize: vertical;
-}
-
-.fixed-input {
-    position: relative;
-    display: inline-block;
-    width: 200px;
-}
-
-.fixed-text {
-    position: absolute;
-    left: 20px;
-    top: 19px;
-    width: 20px;
-    text-align: center;
-    pointer-events: none;
-    color: black;
-    font-family: Arial, sans-serif;
-    font-size: 13.5px;
-}
-
-.fixed-input input {
-    width: calc(100% - 50px);
-    padding-left: 50px;
+    border-radius: 4px;
     box-sizing: border-box;
+    display: inline;
 }
 
-#errr {
-    color: red;
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-button[type="submit"], .submit-button {
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#generate-pdf, #edit {
     background-color: rgb(95, 158, 164);
     color: #fff;
     border: none;
@@ -158,77 +136,17 @@ button[type="submit"], .submit-button {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-button[type="submit"]:hover, .submit-button:hover {
+#generate-pdf:hover, #edit:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
 }
 
-button[type="submit"]:active, .submit-button:active {
+#generate-pdf:active, #edit:active {
     background-color: #1a5a79;
     transform: translateY(0);
 }
 
-button[type="submit"]:focus, .submit-button:focus {
+#generate-pdf:focus, #edit:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
-}
-
-#submitBtn {
-    background-color: rgb(95, 158, 164);
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 20px;
-    display: inline-block;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#submitBtn:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-}
-
-#submitBtn:active {
-    background-color: #1a5a79;
-    transform: translateY(0);
-}
-
-#submitBtn:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
-}
-
-.input-group .icon:hover {
-    color: rgb(95, 158, 164);
-    cursor: pointer;
-}
-
-.icon {
-    font-size: 10px;
-    cursor: pointer;
-}
-
-@media (max-width: 300px) {
-    header {
-        padding: 15px 0;
-    }
-
-    header h1 {
-        font-size: 20px;
-    }
-
-    label, input[type="text"], input[type="tel"], input[type="email"], input[type="date"], input[type="number"], select, textarea {
-        width: 100%;
-        display: block;
-        margin: 5px 0;
-    }
-}
-
-.input-group-pic {
-    margin: 20px 0;
 }
